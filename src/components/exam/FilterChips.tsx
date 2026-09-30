@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense, type ComponentProps } from "react";
 
 export interface ChipOption {
   value: string;
@@ -6,32 +10,31 @@ export interface ChipOption {
 }
 
 /**
- * Server-rendered filter chips driven by URL search params. Works without
- * JavaScript and every filtered view has a shareable URL.
+ * Filter chips driven by URL search params (?category=…). Each filtered view
+ * has a shareable URL. Filtering itself happens in <UrlFilter>, client-side,
+ * so pages stay fully static (works on any host, including GitHub Pages).
  */
-export function FilterChips({
+function FilterChipsInner({
   label,
   param,
   options,
-  current,
-  params,
-  basePath,
   allLabel,
 }: {
   label: string;
   param: string;
   options: ChipOption[];
-  current?: string;
-  params: Record<string, string | undefined>;
-  basePath: string;
   allLabel: string;
 }) {
+  const pathname = usePathname();
+  const sp = useSearchParams();
+  const current = sp.get(param) ?? undefined;
+
   const hrefFor = (value?: string) => {
-    const q = new URLSearchParams();
-    for (const [k, v] of Object.entries(params)) if (v && k !== param) q.set(k, v);
+    const q = new URLSearchParams(sp.toString());
+    q.delete(param);
     if (value) q.set(param, value);
     const s = q.toString();
-    return s ? `${basePath}?${s}` : basePath;
+    return s ? `${pathname}?${s}` : pathname;
   };
   const chip = (active: boolean) =>
     `inline-flex min-h-9 items-center rounded-full px-3.5 text-sm font-semibold transition-colors ${
@@ -55,5 +58,14 @@ export function FilterChips({
         ))}
       </ul>
     </div>
+  );
+}
+
+/** Suspense boundary is internal so pages can stay fully pre-rendered. */
+export function FilterChips(props: ComponentProps<typeof FilterChipsInner>) {
+  return (
+    <Suspense fallback={<div className="min-h-9" />}>
+      <FilterChipsInner {...props} />
+    </Suspense>
   );
 }

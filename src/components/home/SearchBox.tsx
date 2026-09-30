@@ -9,7 +9,7 @@ const examples = ["MP TET", "Police Constable", "MPPSC", "Group 2", "Group 3", "
 export function SearchBox({ lang, defaultValue = "", autoFocus = false }: { lang: Lang; defaultValue?: string; autoFocus?: boolean }) {
   return (
     <div>
-      <form action="/search" role="search" className="card flex items-center gap-2 p-2 shadow-[var(--shadow-lift)]">
+      <form action={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/search`} role="search" className="card flex items-center gap-2 p-2 shadow-[var(--shadow-lift)]">
         <label htmlFor="big-search" className="sr-only">
           {tr(dict.search.label, lang)}
         </label>

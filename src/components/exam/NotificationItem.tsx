@@ -20,9 +20,11 @@ export function NotificationTypeBadge({ type, lang }: { type: NotificationType; 
   return <span className={`chip ${typeStyle[type]}`}>{tr(dict.notificationType[type], lang)}</span>;
 }
 
-export function NotificationItem({ n, lang }: { n: ExamNotification; lang: Lang }) {
+export function NotificationItem({ n, lang, filterType }: { n: ExamNotification; lang: Lang; filterType?: string }) {
   return (
-    <li className="flex flex-col gap-2 border-b border-ink-100 px-5 py-4 last:border-0 sm:flex-row sm:items-center sm:gap-4">
+    <li
+      {...(filterType ? { "data-f-item": "", "data-f-type": filterType } : {})}
+      className="flex flex-col gap-2 border-b border-ink-100 px-5 py-4 last:border-0 sm:flex-row sm:items-center sm:gap-4">
       <div className="flex shrink-0 items-center gap-2 sm:w-44">
         <NotificationTypeBadge type={n.type} lang={lang} />
         <span className="chip bg-ink-100 text-ink-700">{n.organization}</span>

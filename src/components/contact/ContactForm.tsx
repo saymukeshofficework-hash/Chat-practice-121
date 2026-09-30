@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { validateContact, type ContactErrors, type ContactInput } from "@/lib/validation";
 import type { Lang } from "@/types";
@@ -21,11 +22,21 @@ const L = {
   rate: { hi: "बहुत अधिक प्रयास। कुछ देर बाद प्रयास करें।", en: "Too many attempts. Please try again later." },
 };
 
-export function ContactForm({ lang, defaultSubject = "" }: { lang: Lang; defaultSubject?: string }) {
-  const [values, setValues] = useState<ContactInput>({ name: "", email: "", phone: "", subject: defaultSubject, message: "" });
+/** Pre-fills the subject from ?subject= (used by "Notify me" buttons). */
+function SubjectFromUrl({ onSubject }: { onSubject: (s: string) => void }) {
+  const s = useSearchParams().get("subject");
+  useEffect(() => {
+    if (s) onSubject(s.slice(0, 150));
+  }, [s, onSubject]);
+  return null;
+}
+
+export function ContactForm({ lang }: { lang: Lang }) {
+  const [values, setValues] = useState<ContactInput>({ name: "", email: "", phone: "", subject: "", message: "" });
   const [errors, setErrors] = useState<ContactErrors>({});
   const [state, setState] = useState<"idle" | "sending" | "sent" | "notConfigured" | "failed" | "rate">("idle");
   const t = (k: keyof typeof L) => L[k][lang];
+  const [setSubject] = useState(() => (subject: string) => setValues((v) => (v.subject ? v : { ...v, subject })));
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,6 +48,7 @@ export function ContactForm({ lang, defaultSubject = "" }: { lang: Lang; default
       document.getElementById(`cf-${first}`)?.focus();
       return;
     }
+    if (process.env.NEXT_PUBLIC_STATIC_EXPORT === "1") return setState("notConfigured");
     setState("sending");
     try {
       const res = await fetch("/api/contact", {
@@ -100,6 +112,9 @@ export function ContactForm({ lang, defaultSubject = "" }: { lang: Lang; default
 
   return (
     <form onSubmit={onSubmit} noValidate className="card grid gap-5 p-6 sm:grid-cols-2">
+      <Suspense fallback={null}>
+        <SubjectFromUrl onSubject={setSubject} />
+      </Suspense>
       {field("name")}
       {field("email", "email")}
       {field("phone", "tel")}

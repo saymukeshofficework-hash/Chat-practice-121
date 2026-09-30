@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { CategoryCard } from "@/components/exam/CategoryCard";
-import { ExamGrid } from "@/components/exam/ExamCard";
+import { ExamCard } from "@/components/exam/ExamCard";
 import { FilterChips } from "@/components/exam/FilterChips";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { EmptyState, PageHeader, SectionHeader } from "@/components/ui/Primitives";
 import { DateStatusLegend } from "@/components/ui/StatusBadge";
+import { UrlFilter } from "@/components/ui/UrlFilter";
 import { dict, tr } from "@/i18n/dictionary";
 import { getLang } from "@/i18n/server";
 import { examPhase } from "@/lib/dates";
 import { getCategories, getExams } from "@/lib/repo";
 import { pageMeta } from "@/lib/seo";
-import type { Organization } from "@/types";
 
 export const metadata = pageMeta({
   title: "MP Upcoming Exams 2026 — MPESB, MPPSC Exam Dates & Status",
@@ -19,29 +19,20 @@ export const metadata = pageMeta({
   path: "/exams",
 });
 
-type SP = Promise<{ category?: string; org?: string; status?: string }>;
-
 const statusGroups = {
   open: ["APPLICATION_OPEN", "APPLICATION_UPCOMING"],
   upcoming: ["APPLICATION_CLOSED", "EXAM_UPCOMING"],
   completed: ["EXAM_COMPLETED", "AWAITING_UPDATE"],
 } as const;
 
-export default async function ExamsPage({ searchParams }: { searchParams: SP }) {
-  const sp = await searchParams;
+/** Which status filter group an exam phase belongs to. */
+const groupOf = (phase: string) =>
+  (Object.entries(statusGroups).find(([, list]) => (list as readonly string[]).includes(phase))?.[0] ?? "other");
+
+export default async function ExamsPage() {
   const lang = await getLang();
   const now = new Date();
   const [all, categories] = await Promise.all([getExams(now), getCategories()]);
-
-  const filtered = all.filter((e) => {
-    if (sp.category && e.category !== sp.category) return false;
-    if (sp.org && e.organization !== (sp.org as Organization)) return false;
-    if (sp.status && sp.status in statusGroups) {
-      const allowed = statusGroups[sp.status as keyof typeof statusGroups] as readonly string[];
-      if (!allowed.includes(examPhase(e, now))) return false;
-    }
-    return true;
-  });
 
   const c = dict.calendar;
   const statusLabels = {
@@ -61,18 +52,12 @@ export default async function ExamsPage({ searchParams }: { searchParams: SP }) 
           <FilterChips
             label={tr(c.category, lang)}
             param="category"
-            basePath="/exams"
-            params={sp}
-            current={sp.category}
             allLabel={tr(c.all, lang)}
             options={categories.map((cat) => ({ value: cat.slug, label: tr(cat.name, lang) }))}
           />
           <FilterChips
             label={tr(c.organization, lang)}
             param="org"
-            basePath="/exams"
-            params={sp}
-            current={sp.org}
             allLabel={tr(c.all, lang)}
             options={[
               { value: "MPESB", label: "MPESB" },
@@ -82,34 +67,38 @@ export default async function ExamsPage({ searchParams }: { searchParams: SP }) 
           <FilterChips
             label={tr(c.status, lang)}
             param="status"
-            basePath="/exams"
-            params={sp}
-            current={sp.status}
             allLabel={tr(c.all, lang)}
             options={Object.entries(statusLabels).map(([v, l]) => ({ value: v, label: tr(l, lang) }))}
           />
         </div>
 
         <div className="my-5 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-ink-500">
-            {filtered.length} / {all.length}
-          </p>
+          <UrlFilter
+            scope="exam-list"
+            params={["category", "org", "status"]}
+            countLabel
+            empty={
+              <EmptyState
+                title={tr(dict.exam.noExams, lang)}
+                hint={tr(dict.exam.noExamsHint, lang)}
+                action={
+                  <Link href="/exams" className="btn-outline">
+                    {tr(c.reset, lang)}
+                  </Link>
+                }
+              />
+            }
+          />
           <DateStatusLegend lang={lang} />
         </div>
 
-        {filtered.length ? (
-          <ExamGrid exams={filtered} lang={lang} now={now} />
-        ) : (
-          <EmptyState
-            title={tr(dict.exam.noExams, lang)}
-            hint={tr(dict.exam.noExamsHint, lang)}
-            action={
-              <Link href="/exams" className="btn-outline">
-                {tr(c.reset, lang)}
-              </Link>
-            }
-          />
-        )}
+        <div id="exam-list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {all.map((e) => (
+            <div key={e.id} data-f-item="" data-f-category={e.category} data-f-org={e.organization} data-f-status={groupOf(examPhase(e, now))}>
+              <ExamCard exam={e} lang={lang} now={now} />
+            </div>
+          ))}
+        </div>
 
         <p className="mt-6 text-xs text-ink-500">{tr(dict.disclaimer.info, lang)}</p>
 

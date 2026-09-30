@@ -28,6 +28,13 @@ npm run dev                  # http://localhost:3000
 npm run build && npm start   # production
 ```
 
+## Demo on GitHub Pages
+
+`.github/workflows/pages.yml` publishes a static demo on every push, plus a daily rebuild:
+**https://saymukeshofficework-hash.github.io/Chat-practice-121/**
+
+The demo is a static export (`NEXT_PUBLIC_STATIC_EXPORT=1`), so it has three limits. It is Hindi only (switching languages needs a server). The contact form and "Buy" button show a "not active yet" message. Exam status is recalculated once a day. Use the normal server build (for example on Vercel) for the real launch.
+
 ## Where things live
 
 ```

@@ -12,15 +12,18 @@ import { DateStatusBadge, PhaseBadge } from "@/components/ui/StatusBadge";
 import { dict, tr } from "@/i18n/dictionary";
 import { getLang } from "@/i18n/server";
 import { examPhase, formatDate, formatExamDate } from "@/lib/dates";
-import { getCategory, getExamBySlug, getNotesForExam, getNotificationsForExam, getRelatedExams } from "@/lib/repo";
+import { getCategory, getExamBySlug, getExams, getNotesForExam, getNotificationsForExam, getRelatedExams } from "@/lib/repo";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 import type { Bilingual, ExamDate } from "@/types";
 
 type Params = Promise<{ slug: string }>;
 
-// Rendered per request: language cookie + live exam status.
-export const dynamic = "force-dynamic";
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return (await getExams()).map((x) => ({ slug: x.slug }));
+}
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;

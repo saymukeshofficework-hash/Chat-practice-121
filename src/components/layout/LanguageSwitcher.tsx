@@ -18,6 +18,9 @@ export function LanguageSwitcher({ lang, className = "" }: { lang: Lang; classNa
     start(() => router.refresh());
   };
 
+  // The static demo (GitHub Pages) has no server to switch languages on.
+  if (process.env.NEXT_PUBLIC_STATIC_EXPORT === "1") return null;
+
   const base = "px-2.5 py-1 text-xs font-semibold rounded-md transition-colors";
   return (
     <div

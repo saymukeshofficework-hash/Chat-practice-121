@@ -9,12 +9,8 @@ import { site } from "@/lib/site";
 
 export const metadata = pageMeta({ title: "Contact Exam Hub", description: "Get in touch with the Exam Hub team.", path: "/contact" });
 
-type SP = Promise<{ subject?: string }>;
-
-export default async function ContactPage({ searchParams }: { searchParams: SP }) {
-  const sp = await searchParams;
+export default async function ContactPage() {
   const lang = await getLang();
-  const subject = (sp.subject ?? "").slice(0, 150);
   // Contact details appear only when configured through environment variables.
   const channels = [
     site.contact.email && { Icon: Mail, label: site.contact.email, href: `mailto:${site.contact.email}` },
@@ -32,7 +28,7 @@ export default async function ContactPage({ searchParams }: { searchParams: SP }
         <Breadcrumbs items={[{ label: tr(dict.nav.home, lang), href: "/" }, { label: tr(dict.nav.contact, lang), href: "/contact" }]} />
       </PageHeader>
       <div className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_320px]">
-        <ContactForm lang={lang} defaultSubject={subject} />
+        <ContactForm lang={lang} />
         <aside className="space-y-4">
           {channels.length > 0 && (
             <ul className="card divide-y divide-ink-100">

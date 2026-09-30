@@ -17,8 +17,11 @@ import { site } from "@/lib/site";
 
 type Params = Promise<{ slug: string }>;
 
-// Rendered per request: language cookie + live exam status.
-export const dynamic = "force-dynamic";
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return (await getNotes()).map((x) => ({ slug: x.slug }));
+}
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;

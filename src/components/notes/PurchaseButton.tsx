@@ -23,6 +23,7 @@ export function PurchaseButton({ productSlug, available, lang }: { productSlug: 
   }
 
   const buy = async () => {
+    if (process.env.NEXT_PUBLIC_STATIC_EXPORT === "1") return setState("unavailable");
     setState("loading");
     try {
       const res = await fetch("/api/orders", {

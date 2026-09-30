@@ -4,6 +4,7 @@ import { NotesCard } from "@/components/notes/NotesCard";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ComingSoon } from "@/components/ui/ComingSoon";
 import { EmptyState, PageHeader } from "@/components/ui/Primitives";
+import { UrlFilter } from "@/components/ui/UrlFilter";
 import { dict, tr } from "@/i18n/dictionary";
 import { getLang } from "@/i18n/server";
 import { getCategories, getNotes } from "@/lib/repo";
@@ -16,13 +17,9 @@ export const metadata = pageMeta({
   path: "/notes",
 });
 
-type SP = Promise<{ category?: string }>;
-
-export default async function NotesPage({ searchParams }: { searchParams: SP }) {
-  const sp = await searchParams;
+export default async function NotesPage() {
   const lang = await getLang();
   const [notes, categories] = await Promise.all([getNotes(), getCategories()]);
-  const list = sp.category ? notes.filter((n) => n.category === sp.category) : notes;
   const n = dict.notes;
   const allComingSoon = notes.every((x) => x.status !== "AVAILABLE");
 
@@ -37,9 +34,6 @@ export default async function NotesPage({ searchParams }: { searchParams: SP }) 
           <FilterChips
             label={tr(dict.calendar.category, lang)}
             param="category"
-            basePath="/notes"
-            params={sp}
-            current={sp.category}
             allLabel={tr(n.allCategories, lang)}
             options={categories.map((c) => ({ value: c.slug, label: tr(c.name, lang) }))}
           />
@@ -51,14 +45,17 @@ export default async function NotesPage({ searchParams }: { searchParams: SP }) 
           </div>
         )}
 
-        <div className="mt-6">
-          {list.length ? (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {list.map((note) => (
-                <NotesCard key={note.id} note={note} lang={lang} />
-              ))}
+        <div id="notes-list" className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {notes.map((note) => (
+            <div key={note.id} data-f-item="" data-f-category={note.category}>
+              <NotesCard note={note} lang={lang} />
             </div>
-          ) : (
+          ))}
+        </div>
+        <UrlFilter
+          scope="notes-list"
+          params={["category"]}
+          empty={
             <EmptyState
               title={tr(n.noNotes, lang)}
               hint={tr(n.noNotesHint, lang)}
@@ -68,8 +65,8 @@ export default async function NotesPage({ searchParams }: { searchParams: SP }) 
                 </Link>
               }
             />
-          )}
-        </div>
+          }
+        />
       </div>
     </>
   );

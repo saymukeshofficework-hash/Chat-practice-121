@@ -4,6 +4,7 @@ import { Logo } from "@/components/brand/Logo";
 import { dict, tr } from "@/i18n/dictionary";
 import type { Lang } from "@/types";
 import { DesktopNav, MobileControls } from "./HeaderClient";
+import { isStaticExport } from "@/i18n/server";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function Header({ lang }: { lang: Lang }) {
@@ -14,7 +15,7 @@ export function Header({ lang }: { lang: Lang }) {
           <Logo />
         </Link>
 
-        <form action="/search" role="search" className="hidden max-w-md flex-1 xl:block">
+        <form action={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/search`} role="search" className="hidden max-w-md flex-1 xl:block">
           <label htmlFor="header-search" className="sr-only">
             {tr(dict.search.label, lang)}
           </label>
@@ -31,9 +32,11 @@ export function Header({ lang }: { lang: Lang }) {
         </form>
 
         <div className="flex items-center gap-2">
-          <div className="hidden sm:block">
-            <LanguageSwitcher lang={lang} />
-          </div>
+          {!isStaticExport && (
+            <div className="hidden sm:block">
+              <LanguageSwitcher lang={lang} />
+            </div>
+          )}
           <MobileControls lang={lang} />
         </div>
       </div>

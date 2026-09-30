@@ -11,6 +11,7 @@ import { faqs } from "@/data/faqs";
 import { notes } from "@/data/notes";
 import { notifications } from "@/data/notifications";
 import { compareExams, examPhase } from "@/lib/dates";
+import { searchSync } from "@/lib/search";
 import type { CategorySlug, Exam, ExamCategory, ExamNotification, Faq, NoteProduct } from "@/types";
 
 export async function getExams(now = new Date()): Promise<Exam[]> {
@@ -84,32 +85,8 @@ export async function getFaqs(group?: Faq["group"]): Promise<Faq[]> {
 
 /* ------------------------------------------------------------------ search */
 
-export type SearchHit =
-  | { kind: "exam"; exam: Exam }
-  | { kind: "note"; note: NoteProduct }
-  | { kind: "category"; category: ExamCategory };
+export type { SearchHit } from "@/lib/search";
 
-const norm = (s: string) => s.toLowerCase().normalize("NFC").replace(/[-_]/g, " ");
-
-/** Simple token search across exams, notes and categories. */
-export async function search(query: string): Promise<SearchHit[]> {
-  const tokens = norm(query).split(/\s+/).filter(Boolean);
-  if (!tokens.length) return [];
-  const match = (hay: string) => {
-    const h = norm(hay);
-    return tokens.every((t) => h.includes(t));
-  };
-  const hits: SearchHit[] = [];
-  for (const c of categories) {
-    if (match([c.name.hi, c.name.en, c.description.hi, c.description.en, ...c.subcategories.flatMap((s) => [s.hi, s.en])].join(" "))) {
-      hits.push({ kind: "category", category: c });
-    }
-  }
-  for (const e of await getExams()) {
-    if (match([e.name.hi, e.name.en, e.shortName, e.organization, e.category, e.slug].join(" "))) hits.push({ kind: "exam", exam: e });
-  }
-  for (const n of notes) {
-    if (match([n.title.hi, n.title.en, n.subject.hi, n.subject.en, n.category, "notes नोट्स"].join(" "))) hits.push({ kind: "note", note: n });
-  }
-  return hits;
+export async function search(query: string) {
+  return searchSync(query);
 }
