@@ -16,7 +16,7 @@ export default async function DisclaimerPage() {
       {lang === "hi" ? (
         <>
           <p className="rounded-xl border border-warning-700/20 bg-warning-50 p-4 font-medium text-warning-700">
-            Exam Hub एक स्वतंत्र शैक्षिक एवं सूचनात्मक प्लेटफ़ॉर्म है। यह MPPSC, MPESB या मध्यप्रदेश शासन से संबद्ध, समर्थित या संचालित नहीं है।
+            Exam Hub एक स्वतंत्र शैक्षिक एवं सूचनात्मक प्लेटफ़ॉर्म है। यह MPPSC, MPESB, म.प्र. उच्च न्यायालय या मध्यप्रदेश शासन से संबद्ध, समर्थित या संचालित नहीं है।
           </p>
           <h2>जानकारी की सटीकता</h2>
           <p>
@@ -36,7 +36,7 @@ export default async function DisclaimerPage() {
       ) : (
         <>
           <p className="rounded-xl border border-warning-700/20 bg-warning-50 p-4 font-medium text-warning-700">
-            Exam Hub is an independent educational and informational platform. It is not affiliated with, endorsed by, or operated by MPPSC, MPESB or the Government of
+            Exam Hub is an independent educational and informational platform. It is not affiliated with, endorsed by, or operated by MPPSC, MPESB, the High Court of Madhya Pradesh or the Government of
             Madhya Pradesh.
           </p>
           <h2>Accuracy of information</h2>

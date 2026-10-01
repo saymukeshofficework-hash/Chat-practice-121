@@ -39,7 +39,7 @@ export interface ExamDate {
   note?: Bilingual;
 }
 
-export type Organization = "MPESB" | "MPPSC" | "MP_GOVT" | "OTHER";
+export type Organization = "MPESB" | "MPPSC" | "MPHC" | "MP_GOVT" | "OTHER";
 
 export type CategorySlug =
   | "mppsc"
@@ -49,6 +49,7 @@ export type CategorySlug =
   | "revenue"
   | "health"
   | "technical"
+  | "court"
   | "other";
 
 export interface ExamCategory {

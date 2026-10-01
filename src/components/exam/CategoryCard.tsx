@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Building2, FileText, GraduationCap, HeartPulse, Landmark, LayoutGrid, ShieldCheck, Wrench, type LucideIcon } from "lucide-react";
+import { Building2, FileText, GraduationCap, HeartPulse, Landmark, LayoutGrid, Scale, ShieldCheck, Wrench, type LucideIcon } from "lucide-react";
 import { tr } from "@/i18n/dictionary";
 import type { ExamCategory, Lang } from "@/types";
 
-const icons: Record<string, LucideIcon> = { Building2, FileText, GraduationCap, HeartPulse, Landmark, LayoutGrid, ShieldCheck, Wrench };
+const icons: Record<string, LucideIcon> = { Building2, FileText, GraduationCap, HeartPulse, Landmark, LayoutGrid, Scale, ShieldCheck, Wrench };
 
 export function CategoryIcon({ name, className = "h-6 w-6" }: { name: string; className?: string }) {
   const Icon = icons[name] ?? LayoutGrid;

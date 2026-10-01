@@ -139,6 +139,7 @@ export function ExamCalendar({ exams, phases, categories, lang, initialMonth }: 
               <option value="">{tr(c.all, lang)}</option>
               <option value="MPESB">MPESB</option>
               <option value="MPPSC">MPPSC</option>
+              <option value="MPHC">{lang === "hi" ? "MP हाई कोर्ट" : "MP High Court"}</option>
             </select>
           </label>
           <label className="flex flex-col gap-1 text-xs font-semibold text-ink-500">

@@ -306,6 +306,51 @@ export const exams: Exam[] = [
     updatedAt: CHECKED,
   },
   {
+    id: "mphc-assistant-grade-3-2026",
+    slug: "mp-high-court-assistant-grade-3-2026",
+    name: {
+      hi: "म.प्र. हाई कोर्ट — जिला न्यायालयों में सहायक ग्रेड-3 सीधी भर्ती 2026",
+      en: "MP High Court — Assistant Grade-3 Direct Recruitment 2026 (District Courts)",
+    },
+    shortName: "High Court AG-3 2026",
+    organization: "MPHC",
+    category: "court",
+    examType: "RECRUITMENT",
+    mode: { hi: "ऑनलाइन प्रारंभिक परीक्षा", en: "Online preliminary exam" },
+    description: {
+      hi: "मध्यप्रदेश राज्य के जिला एवं सत्र न्यायालयों की स्थापनाओं पर सहायक ग्रेड-III के रिक्त पदों की सीधी भर्ती (विज्ञापन क्रमांक 614/परीक्षा/2026, दिनांक 14.08.2026)।",
+      en: "Direct recruitment to Assistant Grade-III posts in District & Sessions Court establishments of Madhya Pradesh (Advt. No. 614/Exam/2026 dated 14.08.2026).",
+    },
+    dates: {
+      applicationStart: { date: "2026-08-17", status: "CONFIRMED" },
+      applicationEnd: {
+        date: "2026-09-30",
+        status: "CONFIRMED",
+        note: { hi: "शाम 5 बजे तक। अंतिम तिथि बढ़ाई गई (पूर्व में 15.09.2026)।", en: "Till 5 PM. Last date extended (earlier 15.09.2026)." },
+      },
+      correctionEnd: {
+        date: "2026-10-08",
+        status: "CONFIRMED",
+        note: { hi: "त्रुटि सुधार: 06.10.2026 दोपहर 12 बजे से 08.10.2026 शाम 5 बजे तक।", en: "Corrections: 06.10.2026 12 PM to 08.10.2026 5 PM." },
+      },
+      exam: {
+        status: "TBA",
+        note: { hi: "ऑनलाइन प्रारंभिक परीक्षा की तिथि बाद में अधिसूचित की जाएगी (विज्ञापन के अनुसार)।", en: "Online preliminary exam date will be notified later (per the advertisement)." },
+      },
+    },
+    officialUrl: "https://mphc.gov.in/",
+    notificationUrl: "https://mphc.gov.in/storage/PDF/web_pdf/ME/Notification%20AG-III%20date%20extension%2015.09.2026.pdf",
+    rulebookUrl: "https://mphc.gov.in/storage/PDF/web_pdf/ME/Advertisement%20AG-III%20District%20Court-2026.pdf",
+    featured: true,
+    popular: true,
+    source: {
+      label: "MP High Court — Advertisement (14.08.2026) & date-extension notice (15.09.2026)",
+      url: "https://mphc.gov.in/storage/PDF/web_pdf/ME/Advertisement%20AG-III%20District%20Court-2026.pdf",
+      checkedOn: "2026-10-01",
+    },
+    updatedAt: "2026-10-01",
+  },
+  {
     id: "mppsc-state-service-2026",
     slug: "mppsc-state-service-2026",
     name: { hi: "राज्य सेवा परीक्षा 2026 (MPPSC)", en: "MPPSC State Service Examination 2026" },

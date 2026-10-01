@@ -7,6 +7,45 @@ const ESB_APPLY = "https://esb.mponline.gov.in/Portal/Examinations/Vyapam/examsL
 /** Only notices actually seen on the official websites. */
 export const notifications: ExamNotification[] = [
   {
+    id: "n-mphc-ag3-ews",
+    type: "IMPORTANT_NOTICE",
+    title: {
+      hi: "सहायक ग्रेड-3 भर्ती 2026 — EWS वर्ग के पुरुष अभ्यर्थियों को 5 वर्ष आयु छूट (45 वर्ष तक) संबंधी शुद्धिपत्र",
+      en: "Assistant Grade-3 Recruitment 2026 — corrigendum: 5-year age relaxation (up to 45) for male EWS candidates",
+    },
+    organization: "MPHC",
+    examSlug: "mp-high-court-assistant-grade-3-2026",
+    publishedOn: "2026-09-18",
+    officialUrl: "https://mphc.gov.in/storage/PDF/web_pdf/ME/Corrigendum%20652%20AG-III%2018.09.2026.pdf",
+    source: { label: "MP High Court", url: "https://mphc.gov.in/", checkedOn: "2026-10-01" },
+  },
+  {
+    id: "n-mphc-ag3-extension",
+    type: "DATE_CHANGE",
+    title: {
+      hi: "सहायक ग्रेड-3 भर्ती 2026 — आवेदन की अंतिम तिथि 30.09.2026 तक बढ़ी",
+      en: "Assistant Grade-3 Recruitment 2026 — last date to apply extended to 30.09.2026",
+    },
+    organization: "MPHC",
+    examSlug: "mp-high-court-assistant-grade-3-2026",
+    publishedOn: "2026-09-15",
+    officialUrl: "https://mphc.gov.in/storage/PDF/web_pdf/ME/Notification%20AG-III%20date%20extension%2015.09.2026.pdf",
+    source: { label: "MP High Court", url: "https://mphc.gov.in/", checkedOn: "2026-10-01" },
+  },
+  {
+    id: "n-mphc-ag3-advt",
+    type: "NEW_RECRUITMENT",
+    title: {
+      hi: "जिला न्यायालयों में सहायक ग्रेड-3 सीधी भर्ती 2026 — विज्ञापन जारी",
+      en: "Assistant Grade-3 Direct Recruitment 2026 for District Courts — advertisement released",
+    },
+    organization: "MPHC",
+    examSlug: "mp-high-court-assistant-grade-3-2026",
+    publishedOn: "2026-08-14",
+    officialUrl: "https://mphc.gov.in/storage/PDF/web_pdf/ME/Advertisement%20AG-III%20District%20Court-2026.pdf",
+    source: { label: "MP High Court", url: "https://mphc.gov.in/", checkedOn: "2026-10-01" },
+  },
+  {
     id: "n-psc-sfs-main-key",
     type: "ANSWER_KEY",
     title: {

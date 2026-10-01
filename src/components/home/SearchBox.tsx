@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import { dict, tr } from "@/i18n/dictionary";
 import type { Lang } from "@/types";
 
-const examples = ["MP TET", "Police Constable", "MPPSC", "Group 2", "Group 3", "Nayab Tahsildar", "Notes"];
+const examples = ["MP TET", "Police Constable", "MPPSC", "Group 2", "Group 3", "Nayab Tahsildar", "High Court", "Notes"];
 
 /** Large search box (spec §8). Plain GET form: works without JavaScript. */
 export function SearchBox({ lang, defaultValue = "", autoFocus = false }: { lang: Lang; defaultValue?: string; autoFocus?: boolean }) {

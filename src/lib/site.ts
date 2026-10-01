@@ -28,6 +28,7 @@ export const site = {
   officialSources: [
     { name: "MPESB", fullName: { hi: "मध्यप्रदेश कर्मचारी चयन मंडल", en: "MP Employees Selection Board" }, url: "https://esb.mp.gov.in/" },
     { name: "MPPSC", fullName: { hi: "मध्यप्रदेश लोक सेवा आयोग", en: "MP Public Service Commission" }, url: "https://mppsc.mp.gov.in/" },
+    { name: "MP High Court", fullName: { hi: "मध्यप्रदेश उच्च न्यायालय", en: "High Court of Madhya Pradesh" }, url: "https://mphc.gov.in/" },
     { name: "MP Govt", fullName: { hi: "मध्यप्रदेश शासन", en: "Government of Madhya Pradesh" }, url: "https://mp.gov.in/" },
   ],
 };

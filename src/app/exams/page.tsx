@@ -62,6 +62,7 @@ export default async function ExamsPage() {
             options={[
               { value: "MPESB", label: "MPESB" },
               { value: "MPPSC", label: "MPPSC" },
+              { value: "MPHC", label: tr(dict.org.MPHC, lang) },
             ]}
           />
           <FilterChips

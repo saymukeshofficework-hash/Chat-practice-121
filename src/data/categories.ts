@@ -96,6 +96,19 @@ export const categories: ExamCategory[] = [
     ],
   },
   {
+    slug: "court",
+    name: { hi: "न्यायालय", en: "Courts" },
+    description: { hi: "MP हाई कोर्ट एवं जिला न्यायालय भर्तियाँ", en: "MP High Court & District Court recruitments" },
+    icon: "Scale",
+    subcategories: [
+      { hi: "सहायक ग्रेड-3", en: "Assistant Grade-3" },
+      { hi: "स्टेनोग्राफर", en: "Stenographer" },
+      { hi: "कनिष्ठ न्यायिक सहायक", en: "Junior Judicial Assistant" },
+      { hi: "सिविल जज", en: "Civil Judge" },
+      { hi: "अन्य न्यायालय भर्तियाँ", en: "Other Court Recruitments" },
+    ],
+  },
+  {
     slug: "other",
     name: { hi: "अन्य", en: "Other" },
     description: { hi: "अन्य मध्यप्रदेश सरकारी भर्तियाँ", en: "Other MP government recruitments" },

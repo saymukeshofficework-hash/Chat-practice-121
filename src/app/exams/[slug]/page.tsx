@@ -155,7 +155,7 @@ export default async function ExamDetailPage({ params }: { params: Params }) {
               {tr(e.overview, lang)}
             </h2>
             <dl className="mt-4 grid gap-4 sm:grid-cols-2">
-              <Fact label={tr(e.body, lang)} value={exam.organization === "MPESB" ? "MPESB — मध्यप्रदेश कर्मचारी चयन मंडल" : exam.organization === "MPPSC" ? "MPPSC — मध्यप्रदेश लोक सेवा आयोग" : exam.organization} />
+              <Fact label={tr(e.body, lang)} value={exam.organization === "MPESB" ? "MPESB — मध्यप्रदेश कर्मचारी चयन मंडल" : exam.organization === "MPPSC" ? "MPPSC — मध्यप्रदेश लोक सेवा आयोग" : exam.organization === "MPHC" ? "मध्यप्रदेश उच्च न्यायालय, जबलपुर" : exam.organization} />
               <Fact label={tr(e.type, lang)} value={tr(dict.examType[exam.examType], lang)} />
               <Fact label={tr(e.mode, lang)} value={exam.mode ? tr(exam.mode, lang) : tr(e.notAnnounced, lang)} />
               <Fact label={tr(e.posts, lang)} value={exam.posts ? exam.posts.toLocaleString(lang === "hi" ? "hi-IN" : "en-IN") : tr(e.notAnnounced, lang)} />

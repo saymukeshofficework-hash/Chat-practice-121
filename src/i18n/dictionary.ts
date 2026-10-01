@@ -165,6 +165,7 @@ const ui = {
   org: {
     MPESB: { hi: "MPESB", en: "MPESB" },
     MPPSC: { hi: "MPPSC", en: "MPPSC" },
+    MPHC: { hi: "MP हाई कोर्ट", en: "MP High Court" },
     MP_GOVT: { hi: "मध्यप्रदेश शासन", en: "MP Government" },
     OTHER: { hi: "अन्य", en: "Other" },
   } satisfies Record<Organization, Bilingual>,
@@ -244,7 +245,7 @@ const ui = {
   },
   disclaimer: {
     info: { hi: "परीक्षा तिथियाँ और भर्ती जानकारी बदल सकती हैं। अभ्यर्थी महत्वपूर्ण जानकारी की पुष्टि आधिकारिक अधिसूचना से करें।", en: "Exam dates and recruitment information may change. Candidates should verify important information from the official notification." },
-    affiliation: { hi: "Exam Hub एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और MPESB, MPPSC या मध्यप्रदेश शासन से संबद्ध नहीं है।", en: "Exam Hub is an independent educational platform and is not affiliated with MPESB, MPPSC or the Government of Madhya Pradesh." },
+    affiliation: { hi: "Exam Hub एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और MPESB, MPPSC, म.प्र. उच्च न्यायालय या मध्यप्रदेश शासन से संबद्ध नहीं है।", en: "Exam Hub is an independent educational platform and is not affiliated with MPESB, MPPSC, the High Court of Madhya Pradesh or the Government of Madhya Pradesh." },
   },
   cta: {
     title: { hi: "अपनी परीक्षा की तैयारी आज से शुरू करें", en: "Start preparing for your exam today" },
