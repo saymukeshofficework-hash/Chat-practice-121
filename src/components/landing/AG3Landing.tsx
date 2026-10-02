@@ -172,7 +172,11 @@ export function AG3Landing({
         <div className="container-page flex h-12 items-center justify-between gap-3">
           <span className="flex min-w-0 items-center gap-2 truncate text-sm font-semibold text-brand-900">
             <Scale className="h-4 w-4 shrink-0 text-accent-600" aria-hidden="true" />
-            <span className="truncate">{lang === "hi" ? "सहायक ग्रेड-3 नोट्स" : "Assistant Grade-3 Notes"}</span>
+            <span className="truncate">
+              {lang === "hi" ? "नोट्स: " : "Notes: "}
+              <span className="text-accent-700">{lang === "hi" ? "हिंदी PDF" : "English PDF"}</span>
+              <span className="hidden sm:inline"> • ₹199</span>
+            </span>
           </span>
           <div role="group" aria-label="भाषा / Language" className="inline-flex shrink-0 rounded-lg border border-ink-200 bg-canvas p-0.5">
             {(["hi", "en"] as Lang[]).map((l) => (
@@ -227,7 +231,7 @@ export function AG3Landing({
               <LogoMark className="h-10 w-10" />
               <div>
                 <p className="text-sm font-semibold text-ink-500">Exam Hub</p>
-                <p className="font-bold text-brand-900">{lang === "hi" ? "सहायक ग्रेड-3 नोट्स" : "Assistant Grade-3 Notes"}</p>
+                <p className="font-bold text-brand-900">{lang === "hi" ? "सहायक ग्रेड-3 नोट्स — हिंदी PDF" : "Assistant Grade-3 Notes — English PDF"}</p>
               </div>
             </div>
             <p className="mt-5 flex items-baseline gap-2">
@@ -236,7 +240,7 @@ export function AG3Landing({
             </p>
             <ul className="mt-5 space-y-2.5 text-sm">
               {[
-                { hi: "हिंदी PDF या English PDF", en: "Hindi PDF or English PDF" },
+                { hi: "हिंदी PDF (ऊपर English चुनें तो English PDF)", en: "English PDF (switch to हिंदी above for Hindi PDF)" },
                 { hi: "1174 पदों की भर्ती के लिए", en: "For the 1174-post recruitment" },
                 { hi: "मोबाइल पर पढ़ने योग्य", en: "Readable on mobile" },
               ].map((x) => (
@@ -520,7 +524,7 @@ export function AG3Landing({
         <div className="flex items-center justify-between gap-3">
           <p className="leading-tight">
             <span className="block text-xl font-extrabold text-brand-900">₹199</span>
-            <span className="text-xs text-ink-500">{lang === "hi" ? "हिंदी / English PDF" : "Hindi / English PDF"}</span>
+            <span className="text-xs text-ink-500">{lang === "hi" ? "हिंदी PDF" : "English PDF"}</span>
           </p>
           <a href="#buy" className="btn-primary">
             {lang === "hi" ? "नोट्स लें" : "Get notes"}
