@@ -81,7 +81,7 @@ const copy = {
   topicsPending: { hi: "विषय-सूची नोट्स जारी होने के साथ यहाँ जोड़ी जाएगी।", en: "The topic list will be added here when the notes are released." },
   howTitle: { hi: "कैसे खरीदें", en: "How to buy" },
   how: [
-    { icon: Languages, title: { hi: "भाषा चुनें", en: "Choose language" }, body: { hi: "\"हिंदी\" या \"English\" पर टैप करें — वही PDF मिलेगी।", en: "Tap \"हिंदी\" or \"English\" — that's the PDF you get." } },
+    { icon: Languages, title: { hi: "भाषा चुनें", en: "Choose language" }, body: { hi: "सबसे ऊपर \"हिंदी\" या \"English\" चुनें — उसी भाषा की PDF मिलेगी।", en: "Pick \"हिंदी\" or \"English\" at the top — you get the PDF in that language." } },
     { icon: CreditCard, title: { hi: "₹199 का भुगतान करें", en: "Pay ₹199" }, body: { hi: "Razorpay पर UPI, कार्ड या नेट बैंकिंग से।", en: "On Razorpay via UPI, card or net banking." } },
     { icon: Download, title: { hi: "PDF प्राप्त करें", en: "Get your PDF" }, body: { hi: "भुगतान के बाद PDF आपको भेज दी जाएगी।", en: "Your PDF is sent to you after payment." } },
   ],
@@ -229,10 +229,6 @@ export function AG3Landing({
 
   const d = exam.dates;
   const fmt = (x?: ExamDate) => formatExamDate(x, lang) ?? t(copy.tba, lang);
-  const products = [
-    { key: "hi" as const, label: { hi: "हिंदी में PDF", en: "Hindi PDF" } },
-    { key: "en" as const, label: { hi: "English PDF", en: "PDF in English" } },
-  ];
 
   return (
     <div lang={lang} className="bg-canvas">
@@ -355,44 +351,14 @@ export function AG3Landing({
       {/* Buy — one simple choice: the language you pick is the PDF you get */}
       <section id="buy" className="section scroll-mt-32 bg-surface" aria-labelledby="buy-h">
         <div className="container-page max-w-xl">
-          <h2 id="buy-h" className="text-center text-2xl font-bold text-brand-900 sm:text-3xl">
-            {lang === "hi" ? "किस भाषा में नोट्स चाहिए?" : "Which language do you want?"}
+          <h2 id="buy-h" className="sr-only">
+            {lang === "hi" ? "नोट्स खरीदें" : "Buy the notes"}
           </h2>
-          <div role="radiogroup" aria-labelledby="buy-h" className="mt-6 grid grid-cols-2 gap-3">
-            {products.map(({ key, label }) => {
-              const on = lang === key;
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  role="radio"
-                  aria-checked={on}
-                  lang={key}
-                  onClick={() => switchLang(key)}
-                  className={`flex min-h-24 flex-col items-center justify-center gap-1 rounded-2xl border-2 p-4 text-center transition-colors ${
-                    on ? "border-accent-500 bg-accent-50" : "border-ink-200 bg-surface hover:border-brand-500"
-                  }`}
-                >
-                  <span className="flex items-center gap-2 text-xl font-extrabold text-ink-900 sm:text-2xl">
-                    <span
-                      className={`grid h-6 w-6 place-items-center rounded-full border-2 ${on ? "border-accent-500 bg-accent-500" : "border-ink-300"}`}
-                      aria-hidden="true"
-                    >
-                      {on && <Check className="h-4 w-4 text-white" />}
-                    </span>
-                    {key === "hi" ? "हिंदी" : "English"}
-                  </span>
-                  <span className="text-sm text-ink-500">{t(label, key)}</span>
-                </button>
-              );
-            })}
-          </div>
-
           {(() => {
             const note = lang === "hi" ? notes.hi : notes.en;
             const live = note?.status === "AVAILABLE" && !!note.paymentUrl;
             return (
-              <div className="card mt-5 p-6 text-center">
+              <div className="card p-6 text-center">
                 <p className="text-sm font-semibold text-ink-500">{t(lang === "hi" ? copy.hindiPdf : copy.englishPdf, lang)}</p>
                 <p className="mt-1 text-5xl font-extrabold text-brand-900">{formatINR(note?.price.amount ?? 199, lang)}</p>
                 {note?.pages ? <p className="mt-1 text-sm text-ink-500">{note.pages} {lang === "hi" ? "पृष्ठ" : "pages"}</p> : null}
@@ -484,7 +450,7 @@ export function AG3Landing({
           </div>
 
           <h3 className="mt-12 text-xl font-bold text-brand-900">{lang === "hi" ? "परीक्षा पैटर्न (आधिकारिक विज्ञापन के अनुसार)" : "Exam pattern (per the official advertisement)"}</h3>
-          <div className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+          <div className="mt-4 max-w-3xl">
             <div className="card overflow-x-auto">
               <table className="w-full text-sm">
                 <caption className="px-5 pt-4 text-left font-semibold text-ink-900">
@@ -513,27 +479,11 @@ export function AG3Landing({
                 </tbody>
               </table>
             </div>
-            <div className="card p-5">
-              <p className="font-semibold text-ink-900">{lang === "hi" ? "चरण 2 — हिंदी टाइपिंग कौशल परीक्षा" : "Stage 2 — Hindi typing skill test"}</p>
-              <ul className="mt-3 space-y-2 text-sm text-ink-700">
-                {[
-                  { hi: "50 अंक • 10 मिनट • लगभग 350 शब्द", en: "50 marks • 10 minutes • about 350 words" },
-                  { hi: "केवल रेमिंगटन गेल (Remington Gail) कीबोर्ड पर", en: "Remington Gail keyboard layout only" },
-                  { hi: "सुधार के लिए केवल Backspace — Delete, Arrow keys व Mouse बंद", en: "Backspace only for corrections — Delete, arrow keys and mouse disabled" },
-                  { hi: "प्रारंभिक परीक्षा सिर्फ़ छँटनी के लिए: हर पद पर लगभग 5 अभ्यर्थी (1:5) टाइपिंग परीक्षा के लिए बुलाए जाएँगे", en: "Prelims is screening only: about 5 candidates per post (1:5) are called for the typing test" },
-                ].map((x) => (
-                  <li key={x.en} className="flex gap-2">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-success-700" aria-hidden="true" />
-                    {t(x, lang)}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
           <p className="mt-3 text-xs text-ink-500">
             {lang === "hi"
-              ? "पैटर्न: आधिकारिक विज्ञापन क्रमांक 614/परीक्षा/2026 (पृष्ठ 13 व 17)। उप-विषय आम तौर पर पूछे जाने वाले टॉपिक हैं।"
-              : "Pattern: official advertisement No. 614/Exam/2026 (pages 13 & 17). Sub-topics are commonly asked areas."}
+              ? "पैटर्न: आधिकारिक विज्ञापन क्रमांक 614/परीक्षा/2026 (पृष्ठ 13)। उप-विषय आम तौर पर पूछे जाने वाले टॉपिक हैं।"
+              : "Pattern: official advertisement No. 614/Exam/2026 (page 13). Sub-topics are commonly asked areas."}
           </p>
         </div>
       </section>
