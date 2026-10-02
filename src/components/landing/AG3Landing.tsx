@@ -81,7 +81,7 @@ const copy = {
   topicsPending: { hi: "विषय-सूची नोट्स जारी होने के साथ यहाँ जोड़ी जाएगी।", en: "The topic list will be added here when the notes are released." },
   howTitle: { hi: "कैसे खरीदें", en: "How to buy" },
   how: [
-    { icon: Languages, title: { hi: "भाषा चुनें", en: "Choose language" }, body: { hi: "हिंदी या English PDF चुनें।", en: "Pick the Hindi or English PDF." } },
+    { icon: Languages, title: { hi: "भाषा चुनें", en: "Choose language" }, body: { hi: "\"हिंदी\" या \"English\" पर टैप करें — वही PDF मिलेगी।", en: "Tap \"हिंदी\" or \"English\" — that's the PDF you get." } },
     { icon: CreditCard, title: { hi: "₹199 का भुगतान करें", en: "Pay ₹199" }, body: { hi: "Razorpay पर UPI, कार्ड या नेट बैंकिंग से।", en: "On Razorpay via UPI, card or net banking." } },
     { icon: Download, title: { hi: "PDF प्राप्त करें", en: "Get your PDF" }, body: { hi: "भुगतान के बाद PDF आपको भेज दी जाएगी।", en: "Your PDF is sent to you after payment." } },
   ],
@@ -160,8 +160,8 @@ export function AG3Landing({
   const d = exam.dates;
   const fmt = (x?: ExamDate) => formatExamDate(x, lang) ?? t(copy.tba, lang);
   const products = [
-    { key: "hi" as const, label: copy.hindiPdf, note: notes.hi, sub: { hi: "हिंदी माध्यम के अभ्यर्थियों के लिए", en: "For Hindi-medium candidates" } },
-    { key: "en" as const, label: copy.englishPdf, note: notes.en, sub: { hi: "English माध्यम के अभ्यर्थियों के लिए", en: "For English-medium candidates" } },
+    { key: "hi" as const, label: { hi: "हिंदी में PDF", en: "Hindi PDF" } },
+    { key: "en" as const, label: { hi: "English PDF", en: "PDF in English" } },
   ];
   const topics = notes.hi?.topics.length ? notes.hi.topics : notes.en?.topics ?? [];
 
@@ -212,7 +212,7 @@ export function AG3Landing({
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="#buy" className="btn-primary">
-                {t(copy.chooseLang, lang)} — ₹199
+                {lang === "hi" ? "नोट्स लें — ₹199" : "Get the notes — ₹199"}
               </a>
               <a href="#share" className="btn-ghost-light">
                 <Share2 className="h-4 w-4" aria-hidden="true" />
@@ -279,57 +279,82 @@ export function AG3Landing({
         </div>
       </section>
 
-      {/* Buy */}
+      {/* Buy — one simple choice: the language you pick is the PDF you get */}
       <section id="buy" className="section scroll-mt-32 bg-surface" aria-labelledby="buy-h">
-        <div className="container-page">
-          <h2 id="buy-h" className="text-2xl font-bold text-brand-900 sm:text-3xl">
-            {t(copy.chooseLang, lang)}
+        <div className="container-page max-w-xl">
+          <h2 id="buy-h" className="text-center text-2xl font-bold text-brand-900 sm:text-3xl">
+            {lang === "hi" ? "किस भाषा में नोट्स चाहिए?" : "Which language do you want?"}
           </h2>
-          <div className="mt-6 grid gap-5 md:grid-cols-2">
-            {products.map(({ key, label, note, sub }) => {
-              const live = note?.status === "AVAILABLE" && !!note.paymentUrl;
-              const highlight = key === lang;
+          <div role="radiogroup" aria-labelledby="buy-h" className="mt-6 grid grid-cols-2 gap-3">
+            {products.map(({ key, label }) => {
+              const on = lang === key;
               return (
-                <article key={key} className={`card relative flex flex-col p-6 ${highlight ? "ring-2 ring-accent-500" : ""}`}>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-brand-700 text-lg font-extrabold text-white">{key === "hi" ? "हि" : "En"}</span>
-                    <span className={`chip ${live ? "bg-success-50 text-success-700" : "bg-accent-100 text-accent-700"}`}>
-                      {live ? (lang === "hi" ? "उपलब्ध" : "Available") : t(copy.comingSoon, lang)}
+                <button
+                  key={key}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  lang={key}
+                  onClick={() => switchLang(key)}
+                  className={`flex min-h-24 flex-col items-center justify-center gap-1 rounded-2xl border-2 p-4 text-center transition-colors ${
+                    on ? "border-accent-500 bg-accent-50" : "border-ink-200 bg-surface hover:border-brand-500"
+                  }`}
+                >
+                  <span className="flex items-center gap-2 text-xl font-extrabold text-ink-900 sm:text-2xl">
+                    <span
+                      className={`grid h-6 w-6 place-items-center rounded-full border-2 ${on ? "border-accent-500 bg-accent-500" : "border-ink-300"}`}
+                      aria-hidden="true"
+                    >
+                      {on && <Check className="h-4 w-4 text-white" />}
                     </span>
-                  </div>
-                  <h3 className="mt-4 text-xl font-bold text-ink-900">{t(label, lang)}</h3>
-                  <p className="text-sm text-ink-500">{t(sub, lang)}</p>
-                  <p className="mt-4 text-3xl font-extrabold text-brand-900">{formatINR(note?.price.amount ?? 199, lang)}</p>
-                  {note?.pages ? <p className="text-sm text-ink-500">{note.pages} {lang === "hi" ? "पृष्ठ" : "pages"}</p> : null}
-                  <div className="mt-6">
-                    {live ? (
-                      <a href={note!.paymentUrl} target="_blank" rel="noopener noreferrer" className="btn-primary w-full">
-                        <CreditCard className="h-4 w-4" aria-hidden="true" />
-                        {t(copy.buy, lang)} — ₹199
-                      </a>
-                    ) : notifyHref.startsWith("http") ? (
-                      <a href={notifyHref} target="_blank" rel="noopener noreferrer" className="btn-outline w-full">
-                        <Bell className="h-4 w-4" aria-hidden="true" />
-                        {t(copy.notify, lang)}
-                      </a>
-                    ) : (
-                      <Link href={`${notifyHref}${encodeURIComponent(`${note?.title.en ?? "AG-3 notes"} — notify me`)}`} className="btn-outline w-full">
-                        <Bell className="h-4 w-4" aria-hidden="true" />
-                        {t(copy.notify, lang)}
-                      </Link>
-                    )}
-                  </div>
-                </article>
+                    {key === "hi" ? "हिंदी" : "English"}
+                  </span>
+                  <span className="text-sm text-ink-500">{t(label, key)}</span>
+                </button>
               );
             })}
           </div>
-          <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-500">
-            <span className="inline-flex items-center gap-1.5 font-semibold text-ink-700">
-              <ShieldCheck className="h-4 w-4 text-success-700" aria-hidden="true" />
-              {t(copy.secure, lang)}
-            </span>
-            <span>{t(copy.payMethods, lang)}</span>
-          </p>
+
+          {(() => {
+            const note = lang === "hi" ? notes.hi : notes.en;
+            const live = note?.status === "AVAILABLE" && !!note.paymentUrl;
+            return (
+              <div className="card mt-5 p-6 text-center">
+                <p className="text-sm font-semibold text-ink-500">{t(lang === "hi" ? copy.hindiPdf : copy.englishPdf, lang)}</p>
+                <p className="mt-1 text-5xl font-extrabold text-brand-900">{formatINR(note?.price.amount ?? 199, lang)}</p>
+                {note?.pages ? <p className="mt-1 text-sm text-ink-500">{note.pages} {lang === "hi" ? "पृष्ठ" : "pages"}</p> : null}
+                <div className="mt-5">
+                  {live ? (
+                    <a href={note!.paymentUrl} target="_blank" rel="noopener noreferrer" className="btn-primary w-full text-base">
+                      <CreditCard className="h-5 w-5" aria-hidden="true" />
+                      {t(copy.buy, lang)} — ₹199
+                    </a>
+                  ) : (
+                    <>
+                      <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-accent-100 px-3 py-1 text-sm font-semibold text-accent-700">
+                        {t(copy.comingSoon, lang)}
+                      </p>
+                      {notifyHref.startsWith("http") ? (
+                        <a href={notifyHref} target="_blank" rel="noopener noreferrer" className="btn-outline w-full">
+                          <Bell className="h-4 w-4" aria-hidden="true" />
+                          {t(copy.notify, lang)}
+                        </a>
+                      ) : (
+                        <Link href={`${notifyHref}${encodeURIComponent(`${note?.title.en ?? "AG-3 notes"} — notify me`)}`} className="btn-outline w-full">
+                          <Bell className="h-4 w-4" aria-hidden="true" />
+                          {t(copy.notify, lang)}
+                        </Link>
+                      )}
+                    </>
+                  )}
+                </div>
+                <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-ink-500">
+                  <ShieldCheck className="h-4 w-4 text-success-700" aria-hidden="true" />
+                  {t(copy.secure, lang)} • UPI / Card / Net banking
+                </p>
+              </div>
+            );
+          })()}
         </div>
       </section>
 
@@ -498,7 +523,7 @@ export function AG3Landing({
             <span className="text-xs text-ink-500">{lang === "hi" ? "हिंदी / English PDF" : "Hindi / English PDF"}</span>
           </p>
           <a href="#buy" className="btn-primary">
-            {t(copy.chooseLang, lang)}
+            {lang === "hi" ? "नोट्स लें" : "Get notes"}
           </a>
         </div>
       </div>
