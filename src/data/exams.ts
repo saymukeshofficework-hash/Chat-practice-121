@@ -339,6 +339,16 @@ export const exams: Exam[] = [
         note: { hi: "ऑनलाइन प्रारंभिक परीक्षा की तिथि बाद में अधिसूचित की जाएगी (विज्ञापन के अनुसार)।", en: "Online preliminary exam date will be notified later (per the advertisement)." },
       },
     },
+    details: {
+      selectionProcess: {
+        hi: "चरण 1: ऑनलाइन प्रारंभिक परीक्षा (केवल छँटनी हेतु; अंक अंतिम परिणाम में नहीं जुड़ते)। प्रत्येक श्रेणी में प्रति पद लगभग 5 अभ्यर्थी (1:5) चरण 2 के लिए चयनित होंगे। चरण 2: हिंदी टाइपिंग कौशल परीक्षा (50 अंक)।",
+        en: "Stage 1: Online preliminary exam (screening only; marks not counted in the final result). About 5 candidates per post in each category (1:5) go to Stage 2. Stage 2: Hindi typing skill test (50 marks).",
+      },
+      pattern: {
+        hi: "प्रारंभिक परीक्षा: 100 बहुविकल्पीय प्रश्न, 100 अंक, 120 मिनट — सामान्य ज्ञान + सामान्य अध्ययन (म.प्र. सहित) 20, गणित + तार्किक क्षमता 20, सामान्य हिंदी 20, अंग्रेज़ी ज्ञान 20, कंप्यूटर ज्ञान 20। टाइपिंग परीक्षा: लगभग 350 शब्द, 10 मिनट, रेमिंगटन गेल कीबोर्ड।",
+        en: "Prelims: 100 MCQs, 100 marks, 120 minutes — G.K. + G.S. (incl. M.P.) 20, Maths + Logical Reasoning 20, General Hindi 20, English 20, Computer 20. Typing test: about 350 words, 10 minutes, Remington Gail keyboard.",
+      },
+    },
     officialUrl: "https://mphc.gov.in/",
     notificationUrl: "https://mphc.gov.in/storage/PDF/web_pdf/ME/Notification%20AG-III%20date%20extension%2015.09.2026.pdf",
     rulebookUrl: "https://mphc.gov.in/storage/PDF/web_pdf/ME/Advertisement%20AG-III%20District%20Court-2026.pdf",

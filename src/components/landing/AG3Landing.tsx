@@ -105,6 +105,76 @@ const copy = {
   },
 };
 
+/** Official prelim subjects (advt. 614/Exam/2026, p.13) with commonly asked sub-topics. */
+const syllabus: { name: T; short: T; medium: T; topics: T[] }[] = [
+  {
+    name: { hi: "सामान्य ज्ञान + सामान्य अध्ययन (म.प्र. GK सहित)", en: "G.K. + G.S. (including G.K. of M.P.)" },
+    short: { hi: "सामान्य ज्ञान + सामान्य अध्ययन (म.प्र. सहित)", en: "G.K. + G.S. incl. M.P." },
+    medium: { hi: "हिंदी व English", en: "Hindi & English" },
+    topics: [
+      { hi: "मध्यप्रदेश सामान्य ज्ञान", en: "Madhya Pradesh GK" },
+      { hi: "भारतीय इतिहास", en: "Indian History" },
+      { hi: "भारत का भूगोल", en: "Indian Geography" },
+      { hi: "भारतीय राजव्यवस्था", en: "Indian Polity" },
+      { hi: "सामान्य विज्ञान", en: "General Science" },
+      { hi: "समसामयिक घटनाएँ", en: "Current Affairs" },
+    ],
+  },
+  {
+    name: { hi: "गणित + तार्किक क्षमता", en: "Maths + Logical Reasoning" },
+    short: { hi: "गणित + तार्किक क्षमता", en: "Maths + Logical Reasoning" },
+    medium: { hi: "हिंदी व English", en: "Hindi & English" },
+    topics: [
+      { hi: "संख्या पद्धति", en: "Number System" },
+      { hi: "प्रतिशत, औसत", en: "Percentage, Average" },
+      { hi: "अनुपात-समानुपात", en: "Ratio & Proportion" },
+      { hi: "लाभ-हानि, ब्याज", en: "Profit & Loss, Interest" },
+      { hi: "समय-कार्य, चाल-दूरी", en: "Time & Work, Speed & Distance" },
+      { hi: "श्रेणी, कोडिंग-डिकोडिंग", en: "Series, Coding-Decoding" },
+      { hi: "रक्त संबंध, दिशा", en: "Blood Relations, Directions" },
+    ],
+  },
+  {
+    name: { hi: "सामान्य हिंदी", en: "General Hindi" },
+    short: { hi: "सामान्य हिंदी", en: "General Hindi" },
+    medium: { hi: "हिंदी", en: "Hindi" },
+    topics: [
+      { hi: "संधि, समास", en: "Sandhi, Samas" },
+      { hi: "पर्यायवाची, विलोम", en: "Synonyms, Antonyms (Hindi)" },
+      { hi: "वाक्यांश के लिए एक शब्द", en: "One-word substitution (Hindi)" },
+      { hi: "मुहावरे, लोकोक्तियाँ", en: "Idioms & Proverbs (Hindi)" },
+      { hi: "वाक्य शुद्धि", en: "Sentence correction (Hindi)" },
+      { hi: "संज्ञा, सर्वनाम, विशेषण, क्रिया", en: "Parts of speech (Hindi)" },
+    ],
+  },
+  {
+    name: { hi: "अंग्रेज़ी ज्ञान", en: "English Knowledge" },
+    short: { hi: "अंग्रेज़ी", en: "English" },
+    medium: { hi: "English", en: "English" },
+    topics: [
+      { hi: "Parts of Speech, Tenses", en: "Parts of Speech, Tenses" },
+      { hi: "Articles, Prepositions", en: "Articles, Prepositions" },
+      { hi: "Synonyms, Antonyms", en: "Synonyms, Antonyms" },
+      { hi: "One Word Substitution", en: "One Word Substitution" },
+      { hi: "Active-Passive, Direct-Indirect", en: "Active-Passive, Direct-Indirect" },
+      { hi: "Error Detection, Fill in the Blanks", en: "Error Detection, Fill in the Blanks" },
+    ],
+  },
+  {
+    name: { hi: "कंप्यूटर ज्ञान", en: "Computer Knowledge" },
+    short: { hi: "कंप्यूटर", en: "Computer" },
+    medium: { hi: "English", en: "English" },
+    topics: [
+      { hi: "कंप्यूटर के मूल सिद्धांत", en: "Computer Fundamentals" },
+      { hi: "हार्डवेयर, सॉफ्टवेयर, OS", en: "Hardware, Software, OS" },
+      { hi: "MS Word, Excel, PowerPoint", en: "MS Word, Excel, PowerPoint" },
+      { hi: "इंटरनेट, ईमेल, नेटवर्क", en: "Internet, Email, Networking" },
+      { hi: "साइबर सुरक्षा", en: "Cyber Security" },
+      { hi: "कीबोर्ड शॉर्टकट", en: "Keyboard Shortcuts" },
+    ],
+  },
+];
+
 export function AG3Landing({
   exam,
   notes,
@@ -163,7 +233,6 @@ export function AG3Landing({
     { key: "hi" as const, label: { hi: "हिंदी में PDF", en: "Hindi PDF" } },
     { key: "en" as const, label: { hi: "English PDF", en: "PDF in English" } },
   ];
-  const topics = notes.hi?.topics.length ? notes.hi.topics : notes.en?.topics ?? [];
 
   return (
     <div lang={lang} className="bg-canvas">
@@ -379,21 +448,93 @@ export function AG3Landing({
               </div>
             ))}
           </div>
-          <div className="card mt-6 p-5 sm:p-6">
-            <h3 className="font-bold text-ink-900">{t(copy.topicsTitle, lang)}</h3>
-            {topics.length ? (
-              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-                {topics.map((tp) => (
-                  <li key={tp.en} className="flex items-center gap-2 text-ink-700">
-                    <Check className="h-4 w-4 text-success-700" aria-hidden="true" />
-                    {t(tp, lang)}
+        </div>
+      </section>
+
+      {/* Syllabus covered + official exam pattern */}
+      <section className="section bg-surface" aria-labelledby="syl-h">
+        <div className="container-page">
+          <h2 id="syl-h" className="text-2xl font-bold text-brand-900 sm:text-3xl">
+            {t(copy.topicsTitle, lang)}
+          </h2>
+          <p className="mt-2 text-ink-500">
+            {lang === "hi"
+              ? "नोट्स ऑनलाइन प्रारंभिक परीक्षा के सभी 5 विषयों को कवर करते हैं।"
+              : "The notes cover all 5 subjects of the online preliminary exam."}
+          </p>
+          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {syllabus.map((sub, i) => (
+              <article key={sub.name.en} className="card p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="font-bold text-ink-900">
+                    <span className="mr-1.5 text-accent-600">{i + 1}.</span>
+                    {t(sub.name, lang)}
+                  </h3>
+                  <span className="chip shrink-0 bg-brand-50 text-brand-700">{lang === "hi" ? "20 प्रश्न" : "20 Qs"}</span>
+                </div>
+                <ul className="mt-3 flex flex-wrap gap-1.5">
+                  {sub.topics.map((tp) => (
+                    <li key={tp.en} className="rounded-md bg-canvas px-2 py-1 text-xs text-ink-700 ring-1 ring-ink-200">
+                      {t(tp, lang)}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+          <h3 className="mt-12 text-xl font-bold text-brand-900">{lang === "hi" ? "परीक्षा पैटर्न (आधिकारिक विज्ञापन के अनुसार)" : "Exam pattern (per the official advertisement)"}</h3>
+          <div className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+            <div className="card overflow-x-auto">
+              <table className="w-full text-sm">
+                <caption className="px-5 pt-4 text-left font-semibold text-ink-900">
+                  {lang === "hi" ? "चरण 1 — ऑनलाइन प्रारंभिक परीक्षा (MCQ)" : "Stage 1 — Online preliminary exam (MCQ)"}
+                </caption>
+                <thead className="text-left text-xs text-ink-500">
+                  <tr>
+                    <th scope="col" className="px-5 py-2 font-semibold">{lang === "hi" ? "विषय" : "Subject"}</th>
+                    <th scope="col" className="px-3 py-2 font-semibold">{lang === "hi" ? "प्रश्न/अंक" : "Qs/Marks"}</th>
+                    <th scope="col" className="px-5 py-2 font-semibold">{lang === "hi" ? "माध्यम" : "Medium"}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {syllabus.map((sub) => (
+                    <tr key={sub.name.en} className="border-t border-ink-100">
+                      <td className="px-5 py-2.5 font-medium text-ink-900">{t(sub.short, lang)}</td>
+                      <td className="px-3 py-2.5">20</td>
+                      <td className="px-5 py-2.5 text-ink-700">{t(sub.medium, lang)}</td>
+                    </tr>
+                  ))}
+                  <tr className="border-t border-ink-200 bg-canvas font-bold">
+                    <td className="px-5 py-2.5">{lang === "hi" ? "कुल" : "Total"}</td>
+                    <td className="px-3 py-2.5">100</td>
+                    <td className="px-5 py-2.5 font-normal text-ink-700">{lang === "hi" ? "120 मिनट" : "120 minutes"}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="card p-5">
+              <p className="font-semibold text-ink-900">{lang === "hi" ? "चरण 2 — हिंदी टाइपिंग कौशल परीक्षा" : "Stage 2 — Hindi typing skill test"}</p>
+              <ul className="mt-3 space-y-2 text-sm text-ink-700">
+                {[
+                  { hi: "50 अंक • 10 मिनट • लगभग 350 शब्द", en: "50 marks • 10 minutes • about 350 words" },
+                  { hi: "केवल रेमिंगटन गेल (Remington Gail) कीबोर्ड पर", en: "Remington Gail keyboard layout only" },
+                  { hi: "सुधार के लिए केवल Backspace — Delete, Arrow keys व Mouse बंद", en: "Backspace only for corrections — Delete, arrow keys and mouse disabled" },
+                  { hi: "प्रारंभिक परीक्षा सिर्फ़ छँटनी के लिए: हर पद पर लगभग 5 अभ्यर्थी (1:5) टाइपिंग परीक्षा के लिए बुलाए जाएँगे", en: "Prelims is screening only: about 5 candidates per post (1:5) are called for the typing test" },
+                ].map((x) => (
+                  <li key={x.en} className="flex gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-success-700" aria-hidden="true" />
+                    {t(x, lang)}
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="mt-2 text-sm text-ink-500">{t(copy.topicsPending, lang)}</p>
-            )}
+            </div>
           </div>
+          <p className="mt-3 text-xs text-ink-500">
+            {lang === "hi"
+              ? "पैटर्न: आधिकारिक विज्ञापन क्रमांक 614/परीक्षा/2026 (पृष्ठ 13 व 17)। उप-विषय आम तौर पर पूछे जाने वाले टॉपिक हैं।"
+              : "Pattern: official advertisement No. 614/Exam/2026 (pages 13 & 17). Sub-topics are commonly asked areas."}
+          </p>
         </div>
       </section>
 
