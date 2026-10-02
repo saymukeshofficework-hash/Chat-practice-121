@@ -155,6 +155,13 @@ export interface NoteProduct {
   topics: Bilingual[];
   /** Sample page image paths, empty until uploaded. */
   samplePages: string[];
+  /**
+   * Razorpay Payment Link / Payment Page URL (e.g. https://rzp.io/rzp/xxxx).
+   * Works on static hosting. Leave empty until the product is ready to sell.
+   */
+  paymentUrl?: string;
+  /** Dedicated shareable landing page, if any. */
+  landingPath?: string;
   featured: boolean;
   updatedAt: string;
 }

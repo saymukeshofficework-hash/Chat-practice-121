@@ -317,6 +317,7 @@ export const exams: Exam[] = [
     category: "court",
     examType: "RECRUITMENT",
     mode: { hi: "ऑनलाइन प्रारंभिक परीक्षा", en: "Online preliminary exam" },
+    posts: 1174,
     description: {
       hi: "मध्यप्रदेश राज्य के जिला एवं सत्र न्यायालयों की स्थापनाओं पर सहायक ग्रेड-III के रिक्त पदों की सीधी भर्ती (विज्ञापन क्रमांक 614/परीक्षा/2026, दिनांक 14.08.2026)।",
       en: "Direct recruitment to Assistant Grade-III posts in District & Sessions Court establishments of Madhya Pradesh (Advt. No. 614/Exam/2026 dated 14.08.2026).",

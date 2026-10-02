@@ -7,19 +7,24 @@ export function pageMeta({
   description,
   path,
   type = "website",
+  image,
 }: {
   title: string;
   description: string;
   path: string;
   type?: "website" | "article";
+  /** Path of a 1200×630 image in /public, e.g. "/og/page.png". */
+  image?: string;
 }): Metadata {
   const url = `${site.url}${path}`;
+  // Absolute URL so the GitHub Pages sub-path is not added twice.
+  const images = image ? [{ url: `${site.url}${image}`, width: 1200, height: 630, alt: title }] : undefined;
   return {
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { title, description, url, siteName: site.name, type, locale: "hi_IN", alternateLocale: ["en_IN"] },
-    twitter: { card: "summary_large_image", title, description },
+    openGraph: { title, description, url, siteName: site.name, type, locale: "hi_IN", alternateLocale: ["en_IN"], images },
+    twitter: { card: "summary_large_image", title, description, images: images?.map((i) => i.url) },
   };
 }
 

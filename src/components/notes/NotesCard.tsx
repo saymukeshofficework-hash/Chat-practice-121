@@ -25,6 +25,7 @@ export function ProductStatusBadge({ status, lang }: { status: ProductStatus; la
 /** ₹199 notes product card (spec §13). No fake download links. */
 export function NotesCard({ note, lang }: { note: NoteProduct; lang: Lang }) {
   const n = dict.notes;
+  const href = note.landingPath ?? `/notes/${note.slug}`;
   const available = note.status === "AVAILABLE";
   return (
     <article className="card card-hover flex h-full flex-col overflow-hidden">
@@ -39,7 +40,7 @@ export function NotesCard({ note, lang }: { note: NoteProduct; lang: Lang }) {
       </div>
       <div className="flex flex-1 flex-col p-5">
         <h3 className="font-bold leading-snug text-ink-900">
-          <Link href={`/notes/${note.slug}`} className="hover:text-brand-700">
+          <Link href={href} className="hover:text-brand-700">
             {tr(note.title, lang)}
           </Link>
         </h3>
@@ -59,11 +60,11 @@ export function NotesCard({ note, lang }: { note: NoteProduct; lang: Lang }) {
         <div className="mt-auto flex items-center justify-between gap-3 pt-5">
           <PriceBadge price={note.price} lang={lang} />
           {available ? (
-            <Link href={`/notes/${note.slug}#buy`} className="btn-primary">
+            <Link href={`${href}#buy`} className="btn-primary">
               {tr(n.buyNow, lang)}
             </Link>
           ) : (
-            <Link href={`/notes/${note.slug}`} className="btn-outline">
+            <Link href={href} className="btn-outline">
               {tr(n.viewDetails, lang)} <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           )}

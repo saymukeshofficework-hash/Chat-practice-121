@@ -231,6 +231,21 @@ export default async function ExamDetailPage({ params }: { params: Params }) {
             })}
           </section>
 
+          {notes.some((n) => n.landingPath) && (
+            <Link
+              href={notes.find((n) => n.landingPath)!.landingPath!}
+              className="flex flex-col gap-3 rounded-[var(--radius-card)] bg-gradient-to-r from-brand-800 to-brand-600 p-5 text-white sm:flex-row sm:items-center sm:justify-between sm:p-6"
+            >
+              <span>
+                <span className="block text-lg font-bold">
+                  {lang === "hi" ? "इस परीक्षा के नोट्स — हिंदी और English PDF" : "Notes for this exam — Hindi & English PDF"}
+                </span>
+                <span className="block text-sm text-brand-100">{lang === "hi" ? "सिर्फ़ ₹199 • जल्द उपलब्ध" : "Just ₹199 • Coming soon"}</span>
+              </span>
+              <span className="btn-primary shrink-0">{lang === "hi" ? "नोट्स देखें" : "See notes"}</span>
+            </Link>
+          )}
+
           {/* Preparation resources */}
           <section aria-labelledby="res-h">
             <h2 id="res-h" className="mb-4 text-xl font-bold text-brand-900">

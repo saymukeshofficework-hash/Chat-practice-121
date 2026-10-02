@@ -35,6 +35,19 @@ npm run build && npm start   # production
 
 The demo is a static export (`NEXT_PUBLIC_STATIC_EXPORT=1`), so it has three limits. It is Hindi only (switching languages needs a server). The contact form and "Buy" button show a "not active yet" message. Exam status is recalculated once a day. Use the normal server build (for example on Vercel) for the real launch.
 
+## MP High Court AG-3 notes landing page
+
+Shareable page: `/mp-high-court-assistant-grade-3-notes` (add `?lang=en` to share the English version).
+The share preview image is `public/og/mphc-assistant-grade-3-notes.png`.
+
+**To start selling (works on GitHub Pages, no server needed):**
+1. In the Razorpay Dashboard, create two **Payment Pages** or **Payment Links**, one for the Hindi PDF and one for the English PDF, at ₹199 each.
+2. In `src/data/notes.ts`, for `note-mphc-ag3-hi` and `note-mphc-ag3-en`, paste each link into `paymentUrl` and set `status: "AVAILABLE"`.
+3. Optional: fill in `pages` and `topics`. The page shows them automatically.
+4. Push. The "Buy now" buttons go live once the deploy finishes.
+
+The PDF is delivered by whatever you set up in Razorpay: a download link on the Payment Page's success screen, or by email/WhatsApp. Automatic secure download from the website needs the server version (Phase 6).
+
 ## Where things live
 
 ```
