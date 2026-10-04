@@ -3,9 +3,22 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, Download, KeyRound, Loader2 } from "lucide-react";
 import { checkout, downloadPath } from "@/lib/checkout";
+import { site } from "@/lib/site";
 
 /** Private download page for paid notes: /download/?t=<token>. Bilingual (Hindi first). */
 type Info = { title: string; downloads: number; max: number; payment_id?: string; kind?: string; product?: string };
+
+function Support({ pid }: { pid?: string }) {
+  const msg = encodeURIComponent(`नमस्ते TestHub, डाउनलोड/टेस्ट में समस्या है।${pid ? " Payment ID: " + pid : ""}`);
+  return (
+    <p className="mt-5 border-t border-ink-100 pt-4 text-center text-sm text-ink-600">
+      समस्या है? / Need help?{" "}
+      <a href={`${site.contact.whatsapp}?text=${msg}`} target="_blank" rel="noopener noreferrer" className="font-semibold text-success-700 underline">
+        WhatsApp {site.contact.phone}
+      </a>
+    </p>
+  );
+}
 
 export function DownloadClient() {
   const [token, setToken] = useState<string | null>(null);
@@ -96,6 +109,7 @@ export function DownloadClient() {
           <button type="submit" className="btn-primary w-full">खोजें / Find my PDF</button>
           {recoverMsg ? <p role="alert" className="text-sm text-danger-700">{recoverMsg}</p> : null}
         </form>
+        <Support />
       </div>
     );
   }
@@ -114,6 +128,7 @@ export function DownloadClient() {
           <br />
           This device is now unlocked. Open this page&apos;s link on another device to unlock it too.
         </p>
+        <Support pid={info.payment_id} />
       </div>
     );
   }
@@ -148,6 +163,7 @@ export function DownloadClient() {
           20 मॉक टेस्ट (अनलॉक) / Go to your 20 mock tests
         </a>
       ) : null}
+      <Support pid={info.payment_id} />
     </div>
   );
 }

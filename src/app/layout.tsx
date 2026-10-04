@@ -7,6 +7,7 @@ import "@fontsource/noto-sans-devanagari/devanagari-700.css";
 import "./globals.css";
 import { Analytics } from "@/components/layout/Analytics";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { WhatsAppHelp } from "@/components/layout/WhatsAppHelp";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { OfflineBanner } from "@/components/layout/OfflineBanner";
@@ -47,6 +48,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </main>
         <Footer lang={lang} />
         <BottomNav lang={lang} />
+        <WhatsAppHelp />
         <OfflineBanner lang={lang} />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />

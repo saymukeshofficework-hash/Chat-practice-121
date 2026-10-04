@@ -16,9 +16,9 @@ export const site = {
   },
   contact: {
     email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
-    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || "",
+    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || "+91 87703 75866",
     telegram: process.env.NEXT_PUBLIC_TELEGRAM_URL || "",
-    whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_URL || "",
+    whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_URL || "https://wa.me/918770375866",
   },
   analytics: {
     gaId: process.env.NEXT_PUBLIC_GA_ID || "",
