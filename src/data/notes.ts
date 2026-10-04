@@ -5,7 +5,7 @@ import type { NoteProduct } from "@/types";
  * topics or sample pages are filled in until the actual PDF exists.
  * Flip `status` to "AVAILABLE" and fill the nulls when a PDF is ready.
  */
-const PRICE = { amount: 199, currency: "INR" as const };
+const PRICE = { amount: 299, currency: "INR" as const };
 const UPDATED = "2026-09-30";
 
 export const notes: NoteProduct[] = [
@@ -33,10 +33,12 @@ export const notes: NoteProduct[] = [
       { hi: "कंप्यूटर ज्ञान", en: "Computer Knowledge" },
     ],
     samplePages: [
-      "/samples/ag3-hi-sample-1.webp",
-      "/samples/ag3-hi-sample-2.webp",
-      "/samples/ag3-hi-sample-3.webp",
-      "/samples/ag3-hi-sample-4.webp",
+      "/samples/ag3-hi-demo-1.webp",
+      "/samples/ag3-hi-demo-2.webp",
+      "/samples/ag3-hi-demo-3.webp",
+      "/samples/ag3-hi-demo-4.webp",
+      "/samples/ag3-hi-demo-5.webp",
+      "/samples/ag3-hi-demo-6.webp",
     ],
     chapters: [
       { hi: "मध्यप्रदेश सामान्य ज्ञान", en: "Madhya Pradesh General Knowledge" },
@@ -88,10 +90,12 @@ export const notes: NoteProduct[] = [
       { hi: "कंप्यूटर ज्ञान", en: "Computer Knowledge" },
     ],
     samplePages: [
-      "/samples/ag3-en-sample-1.webp",
-      "/samples/ag3-en-sample-2.webp",
-      "/samples/ag3-en-sample-3.webp",
-      "/samples/ag3-en-sample-4.webp",
+      "/samples/ag3-en-demo-1.webp",
+      "/samples/ag3-en-demo-2.webp",
+      "/samples/ag3-en-demo-3.webp",
+      "/samples/ag3-en-demo-4.webp",
+      "/samples/ag3-en-demo-5.webp",
+      "/samples/ag3-en-demo-6.webp",
     ],
     chapters: [
       { hi: "मध्यप्रदेश सामान्य ज्ञान", en: "Madhya Pradesh General Knowledge" },

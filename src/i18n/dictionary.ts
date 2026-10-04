@@ -57,7 +57,7 @@ const ui = {
     popular: { hi: "लोकप्रिय परीक्षाएँ", en: "Popular Exams" },
     categories: { hi: "परीक्षा श्रेणियाँ", en: "Exam Categories" },
     categoriesSub: { hi: "अपनी परीक्षा चुनें", en: "Pick your exam" },
-    notes: { hi: "₹199 परीक्षा नोट्स", en: "₹199 Exam Notes" },
+    notes: { hi: "₹299 परीक्षा नोट्स", en: "₹299 Exam Notes" },
     notesSub: { hi: "केंद्रित तैयारी के लिए परीक्षा-उन्मुख नोट्स", en: "Exam-oriented notes for focused preparation" },
     testSeries: { hi: "टेस्ट सीरीज़", en: "Test Series" },
     practice: { hi: "प्रैक्टिस टेस्ट", en: "Practice Tests" },
@@ -231,7 +231,7 @@ const ui = {
   },
   why: [
     { title: { hi: "स्रोत सहित परीक्षा जानकारी", en: "Verified Exam Information" }, body: { hi: "हर तिथि के साथ आधिकारिक स्रोत और उसकी स्थिति — आधिकारिक, संभावित या अपेक्षित।", en: "Every date comes with its official source and status — official, tentative or expected." } },
-    { title: { hi: "परीक्षा-केंद्रित नोट्स", en: "Exam-Focused Notes" }, body: { hi: "आधिकारिक पाठ्यक्रम पर आधारित ₹199 के PDF नोट्स।", en: "₹199 PDF notes built around the official syllabus." } },
+    { title: { hi: "परीक्षा-केंद्रित नोट्स", en: "Exam-Focused Notes" }, body: { hi: "आधिकारिक पाठ्यक्रम पर आधारित ₹299 के PDF नोट्स।", en: "₹299 PDF notes built around the official syllabus." } },
     { title: { hi: "प्रैक्टिस और टेस्ट सीरीज़", en: "Practice & Test Series" }, body: { hi: "वास्तविक परीक्षा जैसा अनुभव, विश्लेषण के साथ।", en: "A real-exam experience, with analysis." } },
     { title: { hi: "MP परीक्षाओं का एक प्लेटफ़ॉर्म", en: "One Platform for MP Exams" }, body: { hi: "MPPSC से MPESB तक — सब एक ही जगह।", en: "From MPPSC to MPESB — all in one place." } },
   ],

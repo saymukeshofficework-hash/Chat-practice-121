@@ -129,7 +129,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 7. ₹199 Notes */}
+      {/* 7. ₹299 Notes */}
       <section className="section bg-surface" aria-labelledby="notes-h">
         <div className="container-page">
           <SectionHeader id="notes-h" title={tr(s.notes, lang)} subtitle={tr(s.notesSub, lang)} href="/notes" linkLabel={tr(s.viewAll, lang)} />

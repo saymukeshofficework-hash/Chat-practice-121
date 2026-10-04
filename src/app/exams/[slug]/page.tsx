@@ -240,7 +240,7 @@ export default async function ExamDetailPage({ params }: { params: Params }) {
                 <span className="block text-lg font-bold">
                   {lang === "hi" ? "इस परीक्षा के नोट्स — हिंदी और English PDF" : "Notes for this exam — Hindi & English PDF"}
                 </span>
-                <span className="block text-sm text-brand-100">{lang === "hi" ? "सिर्फ़ ₹199 • जल्द उपलब्ध" : "Just ₹199 • Coming soon"}</span>
+                <span className="block text-sm text-brand-100">{lang === "hi" ? "सिर्फ़ ₹299 • जल्द उपलब्ध" : "Just ₹299 • Coming soon"}</span>
               </span>
               <span className="btn-primary shrink-0">{lang === "hi" ? "नोट्स देखें" : "See notes"}</span>
             </Link>

@@ -6,18 +6,26 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const PRODUCTS: Record<string, { amount: number; file: string; downloadName: string; title: string }> = {
+// kind "pdf": one private file in bucket "notes"; kind "tests": unlocks private test files in bucket "tests"
+const PRODUCTS: Record<string, { amount: number; file: string; downloadName: string; title: string; kind?: "pdf" | "tests" }> = {
   "ag3-en": {
-    amount: 19900, // paise
+    amount: 29900, // paise
     file: "TESTHUB_AG3_2026_ENGLISH_COMPLETE_NOTES.pdf",
     downloadName: "TestHub-MP-High-Court-AG3-2026-English-Notes.pdf",
     title: "MP High Court AG-3 2026 — English Notes (PDF)",
   },
   "ag3-hi": {
-    amount: 19900,
+    amount: 29900,
     file: "TESTHUB_AG3_2026_HINDI_COMPLETE_NOTES.pdf",
     downloadName: "TestHub-MP-High-Court-AG3-2026-Hindi-Notes.pdf",
     title: "MP हाई कोर्ट सहायक ग्रेड-3 2026 — हिंदी नोट्स (PDF)",
+  },
+  "ag3-tests": {
+    amount: 19900,
+    kind: "tests",
+    file: "ag3", // folder in bucket "tests": ag3/02.json … ag3/20.json
+    downloadName: "",
+    title: "MP High Court AG-3 2026 — 20 Full Mock Tests (Test Series)",
   },
 };
 const MAX_DOWNLOADS = 10;
@@ -75,6 +83,11 @@ Deno.serve(async (req) => {
     case "status": {
       const p = PRODUCTS[body.product ?? ""];
       if (!p) return json({ ready: false });
+      if (p.kind === "tests") {
+        const { data } = await db.storage.from("tests").list(p.file, { limit: 100 });
+        const files = (data ?? []).filter((f) => f.name.endsWith(".json")).map((f) => parseInt(f.name, 10)).filter((n) => n > 0).sort((a, b) => a - b);
+        return json({ ready: ready && files.length > 0, amount: p.amount, tests: files });
+      }
       const slash = p.file.lastIndexOf("/");
       const { data } = await db.storage.from("notes").list(slash > 0 ? p.file.slice(0, slash) : "", { search: p.file.slice(slash + 1) });
       return json({ ready: ready && !!data?.length, amount: p.amount });
@@ -133,12 +146,26 @@ Deno.serve(async (req) => {
       const { data: ord } = await db.from("orders").select("*").eq("download_token", token).eq("status", "paid").maybeSingle();
       if (!ord) return json({ error: "not_found" }, 404);
       const p = PRODUCTS[ord.product];
-      if (body.peek) return json({ title: p.title, downloads: ord.downloads, max: MAX_DOWNLOADS, payment_id: ord.rzp_payment_id });
+      if (body.peek) return json({ product: ord.product, kind: p.kind ?? "pdf", title: p.title, downloads: ord.downloads, max: MAX_DOWNLOADS, payment_id: ord.rzp_payment_id });
+      if (p.kind === "tests") return json({ error: "not_a_pdf" }, 400);
       if (ord.downloads >= MAX_DOWNLOADS) return json({ error: "limit", max: MAX_DOWNLOADS }, 429);
       const { data, error } = await db.storage.from("notes").createSignedUrl(p.file, LINK_SECONDS, { download: p.downloadName });
       if (error || !data) return json({ error: "storage" }, 500);
       await db.from("orders").update({ downloads: ord.downloads + 1 }).eq("id", ord.id);
       return json({ url: data.signedUrl, title: p.title, downloads: ord.downloads + 1, max: MAX_DOWNLOADS });
+    }
+
+    case "test": {
+      // paid mock test paper: token of a paid "tests" order + test number
+      const token = body.token ?? "";
+      const n = parseInt(String(body.n ?? ""), 10);
+      if (token.length < 20 || !(n >= 1 && n <= 50)) return json({ error: "bad_request" }, 400);
+      const { data: ord } = await db.from("orders").select("product,status").eq("download_token", token).eq("status", "paid").maybeSingle();
+      const p = ord ? PRODUCTS[ord.product] : null;
+      if (!p || p.kind !== "tests") return json({ error: "not_found" }, 404);
+      const { data, error } = await db.storage.from("tests").download(`${p.file}/${String(n).padStart(2, "0")}.json`);
+      if (error || !data) return json({ error: "no_test" }, 404);
+      return new Response(await data.text(), { headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "private, max-age=600" } });
     }
   }
   return json({ error: "unknown_action" }, 400);

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   BadgeCheck,
+  BookOpen,
   Bell,
   CalendarDays,
   Check,
@@ -42,8 +43,8 @@ const copy = {
   badge: { hi: "MP हाई कोर्ट • जिला न्यायालय भर्ती 2026", en: "MP High Court • District Court Recruitment 2026" },
   title: { hi: "सहायक ग्रेड-3 परीक्षा 2026 — संपूर्ण नोट्स", en: "Assistant Grade-3 Exam 2026 — Complete Notes" },
   subtitle: {
-    hi: "1174 पदों की भर्ती के लिए परीक्षा-केंद्रित PDF नोट्स — हिंदी और English दोनों में, केवल ₹199 में।",
-    en: "Exam-focused PDF notes for the 1174-post recruitment — in Hindi and English, just ₹199.",
+    hi: "1174 पदों की भर्ती के लिए परीक्षा-केंद्रित PDF नोट्स — हिंदी और English दोनों में, केवल ₹299 में।",
+    en: "Exam-focused PDF notes for the 1174-post recruitment — in Hindi and English, just ₹299.",
   },
   preparing: { hi: "नोट्स तैयार हो रहे हैं — जल्द उपलब्ध", en: "Notes are being prepared — available soon" },
   chooseLang: { hi: "अपनी भाषा चुनें", en: "Choose your language" },
@@ -84,26 +85,26 @@ const copy = {
     { icon: FileText, title: { hi: "परीक्षा-केंद्रित PDF", en: "Exam-focused PDF" }, body: { hi: "सिर्फ़ वही जो इस परीक्षा के लिए ज़रूरी है — सीधी और साफ़ भाषा में।", en: "Only what this exam needs — clear and to the point." } },
     { icon: Languages, title: { hi: "हिंदी और English", en: "Hindi & English" }, body: { hi: "अपनी पसंद की भाषा चुनें — दोनों के अलग PDF।", en: "Pick your language — separate PDFs for each." } },
     { icon: Smartphone, title: { hi: "मोबाइल पर पढ़ें", en: "Read on mobile" }, body: { hi: "फ़ोन, टैबलेट या कंप्यूटर — कहीं भी पढ़ें, प्रिंट भी कर सकते हैं।", en: "Phone, tablet or computer — read anywhere, print if you like." } },
-    { icon: IndianRupee, title: { hi: "सिर्फ़ ₹199", en: "Just ₹199" }, body: { hi: "एक बार भुगतान, कोई छुपा शुल्क नहीं।", en: "One-time payment, no hidden charges." } },
+    { icon: IndianRupee, title: { hi: "सिर्फ़ ₹299", en: "Just ₹299" }, body: { hi: "एक बार भुगतान, कोई छुपा शुल्क नहीं।", en: "One-time payment, no hidden charges." } },
   ],
   topicsTitle: { hi: "शामिल विषय", en: "Topics covered" },
   topicsPending: { hi: "विषय-सूची नोट्स जारी होने के साथ यहाँ जोड़ी जाएगी।", en: "The topic list will be added here when the notes are released." },
   howTitle: { hi: "कैसे खरीदें", en: "How to buy" },
   how: [
     { icon: Languages, title: { hi: "भाषा चुनें", en: "Choose language" }, body: { hi: "सबसे ऊपर \"हिंदी\" या \"English\" चुनें — उसी भाषा की PDF मिलेगी।", en: "Pick \"हिंदी\" or \"English\" at the top — you get the PDF in that language." } },
-    { icon: CreditCard, title: { hi: "₹199 का भुगतान करें", en: "Pay ₹199" }, body: { hi: "Razorpay पर UPI, कार्ड या नेट बैंकिंग से।", en: "On Razorpay via UPI, card or net banking." } },
+    { icon: CreditCard, title: { hi: "₹299 का भुगतान करें", en: "Pay ₹299" }, body: { hi: "Razorpay पर UPI, कार्ड या नेट बैंकिंग से।", en: "On Razorpay via UPI, card or net banking." } },
     { icon: Download, title: { hi: "PDF प्राप्त करें", en: "Get your PDF" }, body: { hi: "भुगतान के बाद PDF आपको भेज दी जाएगी।", en: "Your PDF is sent to you after payment." } },
   ],
   faqTitle: { hi: "अक्सर पूछे जाने वाले प्रश्न", en: "Frequently asked questions" },
   faqs: [
-    { q: { hi: "नोट्स की कीमत कितनी है?", en: "How much do the notes cost?" }, a: { hi: "हिंदी PDF और English PDF — दोनों ₹199 प्रत्येक।", en: "Hindi PDF and English PDF — ₹199 each." } },
+    { q: { hi: "नोट्स की कीमत कितनी है?", en: "How much do the notes cost?" }, a: { hi: "हिंदी PDF और English PDF — दोनों ₹299 प्रत्येक।", en: "Hindi PDF and English PDF — ₹299 each." } },
     { q: { hi: "नोट्स कब उपलब्ध होंगे?", en: "When will the notes be available?" }, a: { hi: "नोट्स अभी तैयार हो रहे हैं। उपलब्ध होते ही इसी पेज पर \"अभी खरीदें\" बटन चालू हो जाएगा।", en: "The notes are being prepared. As soon as they're ready, the \"Buy now\" button on this page goes live." } },
     { q: { hi: "भुगतान कैसे करें?", en: "How do I pay?" }, a: { hi: "भुगतान Razorpay से होगा — UPI, डेबिट/क्रेडिट कार्ड, नेट बैंकिंग या वॉलेट से।", en: "Payment is through Razorpay — UPI, debit/credit card, net banking or wallets." } },
     { q: { hi: "क्या दोनों भाषाओं के नोट्स एक जैसे हैं?", en: "Are the Hindi and English notes the same?" }, a: { hi: "हाँ, विषय-वस्तु एक ही है — सिर्फ़ भाषा अलग है। अपनी परीक्षा की भाषा के अनुसार चुनें।", en: "Yes, the content is the same — only the language differs. Choose the language you'll write the exam in." } },
     { q: { hi: "परीक्षा तिथि कब घोषित होगी?", en: "When will the exam date be announced?" }, a: { hi: "आधिकारिक विज्ञापन के अनुसार प्रारंभिक परीक्षा की तिथि बाद में अधिसूचित की जाएगी। तिथि आते ही यहाँ अपडेट होगी।", en: "Per the official advertisement, the preliminary exam date will be notified later. We'll update it here as soon as it's out." } },
   ],
   shareTitle: { hi: "दोस्तों के साथ शेयर करें", en: "Share with friends" },
-  shareText: { hi: "MP हाई कोर्ट सहायक ग्रेड-3 (1174 पद) — हिंदी/English PDF नोट्स सिर्फ़ ₹199 में:", en: "MP High Court Assistant Grade-3 (1174 posts) — Hindi/English PDF notes for just ₹199:" },
+  shareText: { hi: "MP हाई कोर्ट सहायक ग्रेड-3 (1174 पद) — हिंदी/English PDF नोट्स सिर्फ़ ₹299 में:", en: "MP High Court Assistant Grade-3 (1174 posts) — Hindi/English PDF notes for just ₹299:" },
   copy: { hi: "लिंक कॉपी करें", en: "Copy link" },
   copied: { hi: "कॉपी हो गया!", en: "Copied!" },
   more: { hi: "और", en: "More" },
@@ -198,6 +199,7 @@ export function AG3Landing({
   const [lang, setLang] = useState<Lang>(initialLang);
   const [url, setUrl] = useState("");
   const [copied, setCopied] = useState(false);
+  const [demoIdx, setDemoIdx] = useState<number | null>(null);
   const [payReady, setPayReady] = useState<Record<string, boolean>>({});
   const [payState, setPayState] = useState<"creating" | "open" | "verifying" | "idle">("idle");
   const [payError, setPayError] = useState("");
@@ -281,7 +283,7 @@ export function AG3Landing({
             <span className="truncate">
               {lang === "hi" ? "नोट्स: " : "Notes: "}
               <span className="text-accent-700">{lang === "hi" ? "हिंदी PDF" : "English PDF"}</span>
-              <span className="hidden sm:inline"> • ₹199</span>
+              <span className="hidden sm:inline"> • ₹299</span>
             </span>
           </span>
           <div role="group" aria-label="भाषा / Language" className="inline-flex shrink-0 rounded-lg border border-ink-200 bg-canvas p-0.5">
@@ -326,12 +328,16 @@ export function AG3Landing({
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="#buy" className="btn-primary">
-                {lang === "hi" ? "नोट्स लें — ₹199" : "Get the notes — ₹199"}
+                {lang === "hi" ? "नोट्स लें — ₹299" : "Get the notes — ₹299"}
               </a>
               <Link href={`/mp-high-court-assistant-grade-3-mock-tests${lang === "en" ? "?lang=en" : ""}`} className="btn-ghost-light">
                 <FileText className="h-4 w-4" aria-hidden="true" />
                 {lang === "hi" ? "20 फुल मॉक टेस्ट दें" : "Take 20 full mock tests"}
               </Link>
+              <a href="#demo" className="btn-ghost-light">
+                <BookOpen className="h-4 w-4" aria-hidden="true" />
+                {lang === "hi" ? "डेमो पेज देखें" : "See demo pages"}
+              </a>
               <a href="#share" className="btn-ghost-light">
                 <Share2 className="h-4 w-4" aria-hidden="true" />
                 {t(copy.shareTitle, lang)}
@@ -349,7 +355,7 @@ export function AG3Landing({
               </div>
             </div>
             <p className="mt-5 flex items-baseline gap-2">
-              <span className="text-5xl font-extrabold text-brand-900">₹199</span>
+              <span className="text-5xl font-extrabold text-brand-900">₹299</span>
               <span className="text-ink-500">{t(copy.perPdf, lang)}</span>
             </p>
             <ul className="mt-5 space-y-2.5 text-sm">
@@ -373,6 +379,47 @@ export function AG3Landing({
       </section>
 
       {/* Facts */}
+      {/* Demo pages of the notes (current language) */}
+      {(() => {
+        const note = lang === "hi" ? notes.hi : notes.en;
+        if (!note?.samplePages.length) return null;
+        const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+        const pages = note.samplePages;
+        return (
+          <section id="demo" className="section scroll-mt-32 bg-surface" aria-labelledby="demo-h">
+            <div className="container-page">
+              <h2 id="demo-h" className="text-2xl font-bold text-brand-900 sm:text-3xl">
+                {lang === "hi" ? "नोट्स के डेमो पेज देखें" : "See demo pages of the notes"}
+              </h2>
+              <p className="mt-2 text-ink-500">
+                {lang === "hi" ? "खरीदने से पहले असली PDF के पेज देखें — बड़ा देखने के लिए किसी पेज पर टैप करें।" : "Preview real pages from the PDF before you buy — tap a page to enlarge."}
+              </p>
+              <ul className="mt-6 flex snap-x gap-4 overflow-x-auto pb-3">
+                {pages.map((src, i) => (
+                  <li key={src} className="w-[62%] shrink-0 snap-start sm:w-[30%] lg:w-[18%]">
+                    <button type="button" onClick={() => setDemoIdx(i)} className="block w-full overflow-hidden rounded-lg border border-ink-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={`${base}${src}`} alt={`${lang === "hi" ? "डेमो पेज" : "Demo page"} ${i + 1}`} loading="lazy" className="w-full" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              {demoIdx !== null ? (
+                <div role="dialog" aria-modal="true" aria-label={lang === "hi" ? "डेमो पेज" : "Demo page"} className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-3" onClick={() => setDemoIdx(null)}>
+                  <div className="relative max-h-full max-w-3xl overflow-auto rounded-lg bg-white" onClick={(e) => e.stopPropagation()}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={`${base}${pages[demoIdx]}`} alt={`${lang === "hi" ? "डेमो पेज" : "Demo page"} ${demoIdx + 1}`} className="w-full" />
+                  </div>
+                  <button type="button" aria-label="Close" onClick={() => setDemoIdx(null)} className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1.5 text-sm font-bold text-ink-900">✕</button>
+                  {demoIdx > 0 ? <button type="button" aria-label="Previous" onClick={(e) => { e.stopPropagation(); setDemoIdx(demoIdx - 1); }} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 px-3 py-2 text-lg font-bold text-ink-900">‹</button> : null}
+                  {demoIdx < pages.length - 1 ? <button type="button" aria-label="Next" onClick={(e) => { e.stopPropagation(); setDemoIdx(demoIdx + 1); }} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 px-3 py-2 text-lg font-bold text-ink-900">›</button> : null}
+                </div>
+              ) : null}
+            </div>
+          </section>
+        );
+      })()}
+
       <section className="section" aria-labelledby="facts-h">
         <div className="container-page">
           <h2 id="facts-h" className="text-2xl font-bold text-brand-900 sm:text-3xl">
@@ -410,7 +457,7 @@ export function AG3Landing({
             return (
               <div className="card p-6 text-center">
                 <p className="text-sm font-semibold text-ink-500">{t(lang === "hi" ? copy.hindiPdf : copy.englishPdf, lang)}</p>
-                <p className="mt-1 text-5xl font-extrabold text-brand-900">{formatINR(note?.price.amount ?? 199, lang)}</p>
+                <p className="mt-1 text-5xl font-extrabold text-brand-900">{formatINR(note?.price.amount ?? 299, lang)}</p>
                 {note?.pages ? <p className="mt-1 text-sm text-ink-500">{note.pages} {lang === "hi" ? "पृष्ठ" : "pages"}</p> : null}
                 <div className="mt-5">
                   {secure ? (
@@ -422,7 +469,7 @@ export function AG3Landing({
                         className="btn-primary w-full text-base disabled:opacity-70"
                       >
                         <CreditCard className="h-5 w-5" aria-hidden="true" />
-                        {payState === "idle" ? `${t(copy.buy, lang)} — ₹199` : t(copy.wait, lang)}
+                        {payState === "idle" ? `${t(copy.buy, lang)} — ₹299` : t(copy.wait, lang)}
                       </button>
                       {payError ? <p role="alert" className="mt-3 text-sm text-danger-700">{payError}</p> : null}
                       {ownedToken[note!.checkoutProduct!] ? (
@@ -436,7 +483,7 @@ export function AG3Landing({
                   ) : live ? (
                     <a href={note!.paymentUrl} target="_blank" rel="noopener noreferrer" className="btn-primary w-full text-base">
                       <CreditCard className="h-5 w-5" aria-hidden="true" />
-                      {t(copy.buy, lang)} — ₹199
+                      {t(copy.buy, lang)} — ₹299
                     </a>
                   ) : (
                     <>
@@ -471,7 +518,6 @@ export function AG3Landing({
       {(() => {
         const note = lang === "hi" ? notes.hi : notes.en;
         if (!note?.chapters?.length) return null;
-        const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
         return (
           <section className="section" aria-labelledby="inside-h">
             <div className="container-page">
@@ -491,19 +537,6 @@ export function AG3Landing({
                   </li>
                 ))}
               </ol>
-              {note.samplePages.length ? (
-                <>
-                  <h3 className="mt-10 text-xl font-bold text-brand-900">{lang === "hi" ? "नमूना पृष्ठ" : "Sample pages"}</h3>
-                  <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-                    {note.samplePages.map((src, i) => (
-                      <a key={src} href={`${base}${src}`} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-lg border border-ink-200 bg-white shadow-sm transition hover:shadow-md">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={`${base}${src}`} alt={`${lang === "hi" ? "नमूना पृष्ठ" : "Sample page"} ${i + 1}`} loading="lazy" className="w-full" />
-                      </a>
-                    ))}
-                  </div>
-                </>
-              ) : null}
             </div>
           </section>
         );
@@ -726,7 +759,7 @@ export function AG3Landing({
       <div className="fixed inset-x-0 bottom-14 z-30 border-t border-ink-200 bg-surface/95 p-3 backdrop-blur xl:bottom-0 lg:hidden">
         <div className="flex items-center justify-between gap-3">
           <p className="leading-tight">
-            <span className="block text-xl font-extrabold text-brand-900">₹199</span>
+            <span className="block text-xl font-extrabold text-brand-900">₹299</span>
             <span className="text-xs text-ink-500">{lang === "hi" ? "हिंदी PDF" : "English PDF"}</span>
           </p>
           <a href="#buy" className="btn-primary">

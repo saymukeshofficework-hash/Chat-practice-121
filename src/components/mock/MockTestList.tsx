@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle2, FileText, Lock, PlayCircle } from "lucide-react";
+import { CheckCircle2, CreditCard, FileText, Lock, PlayCircle, Unlock } from "lucide-react";
 import { AG3_MOCK } from "@/data/mockTests";
+import { buyNotes, checkout, downloadPath } from "@/lib/checkout";
 
 type Lang = "hi" | "en";
 type Best = { last: number; best: number; total: number; at: number };
@@ -41,11 +42,57 @@ const T = {
   soon: { hi: "जल्द उपलब्ध", en: "Coming soon" },
   best: { hi: "सर्वश्रेष्ठ", en: "Best" },
   meta: { hi: "100 प्रश्न · 120 मिनट", en: "100 Qs · 120 min" },
+  free: { hi: "फ्री", en: "Free" },
+  locked: { hi: "टेस्ट सीरीज़ में", en: "In test series" },
+  unlockTitle: { hi: "पूरी टेस्ट सीरीज़ — 20 फुल मॉक टेस्ट", en: "Full test series — 20 full mock tests" },
+  unlockSub: {
+    hi: "टेस्ट 1 फ्री है। बाकी 19 टेस्ट एक बार ₹199 देकर अनलॉक करें — इसी डिवाइस पर तुरंत खुल जाएंगे।",
+    en: "Test 1 is free. Unlock the other 19 tests once for ₹199 — they open instantly on this device.",
+  },
+  unlockBtn: { hi: "सभी टेस्ट अनलॉक करें — ₹199", en: "Unlock all tests — ₹199" },
+  unlocked: { hi: "टेस्ट सीरीज़ अनलॉक है ✓", en: "Test series unlocked ✓" },
+  wait: { hi: "कृपया प्रतीक्षा करें…", en: "Please wait…" },
+  payErr: { hi: "भुगतान पूरा नहीं हुआ। कृपया दोबारा प्रयास करें।", en: "Payment didn't go through. Please try again." },
+  otherDevice: { hi: "दूसरे फ़ोन/कंप्यूटर पर? Payment ID से यहाँ अनलॉक करें", en: "On another device? Unlock with your Payment ID here" },
 };
+const TOKEN_KEY = `testhub_dl_${AG3_MOCK.product}`;
 
 export function MockTestList() {
   const [lang, setLang] = useState<Lang>("hi");
   const [best, setBest] = useState<Record<number, Best>>({});
+  const [token, setToken] = useState<string | null>(null);
+  const [paidReady, setPaidReady] = useState<number[]>([]);
+  const [canBuy, setCanBuy] = useState(false);
+  const [payState, setPayState] = useState("idle");
+  const [payErr, setPayErr] = useState("");
+  useEffect(() => {
+    try {
+      setToken(localStorage.getItem(TOKEN_KEY));
+    } catch {
+      /* ignore */
+    }
+    checkout<{ ready: boolean; tests?: number[] }>({ action: "status", product: AG3_MOCK.product })
+      .then((r) => {
+        setCanBuy(!!r.ready);
+        setPaidReady(r.tests ?? []);
+      })
+      .catch(() => {});
+  }, []);
+  const unlock = () => {
+    setPayErr("");
+    buyNotes(AG3_MOCK.product, {
+      onState: setPayState,
+      onError: () => setPayErr(t("payErr")),
+      onPaid: (tk) => {
+        try {
+          localStorage.setItem(TOKEN_KEY, tk);
+        } catch {
+          /* ignore */
+        }
+        setToken(tk);
+      },
+    });
+  };
   useEffect(() => {
     try {
       const q = new URLSearchParams(location.search).get("lang");
@@ -106,9 +153,37 @@ export function MockTestList() {
         <p className="mt-1 text-xs text-ink-500">{t("neg")}</p>
       </section>
 
+      <section className="card mt-6 flex flex-col gap-4 border-accent-100 bg-accent-50 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="font-bold text-ink-900">{t("unlockTitle")}</h2>
+          <p className="mt-1 text-sm text-ink-600">{t("unlockSub")}</p>
+        </div>
+        <div className="shrink-0 sm:w-72">
+          {token ? (
+            <>
+              <p className="rounded-lg bg-success-50 px-4 py-2 text-center font-semibold text-success-700">{t("unlocked")}</p>
+              <a href={downloadPath(token)} className="mt-2 block text-center text-xs text-brand-700 underline">
+                {lang === "hi" ? "दूसरे डिवाइस के लिए यह लिंक सेव करें" : "Save this link to unlock another device"}
+              </a>
+            </>
+          ) : (
+            <>
+              <button type="button" onClick={unlock} disabled={!canBuy || payState !== "idle"} className="btn-primary w-full disabled:opacity-60">
+                <CreditCard className="h-4 w-4" aria-hidden="true" />
+                {payState !== "idle" ? t("wait") : canBuy ? t("unlockBtn") : t("soon")}
+              </button>
+              {payErr ? <p role="alert" className="mt-2 text-sm text-danger-700">{payErr}</p> : null}
+              <a href={`${base}/download/`} className="mt-2 block text-center text-xs text-brand-700 underline">{t("otherDevice")}</a>
+            </>
+          )}
+        </div>
+      </section>
+
       <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: AG3_MOCK.total }, (_, i) => i + 1).map((n) => {
-          const ready = AG3_MOCK.ready.includes(n);
+          const isFree = AG3_MOCK.free.includes(n) || n === 1;
+          const ready = isFree ? AG3_MOCK.free.includes(n) : !!token && paidReady.includes(n);
+          const lockedPaid = !isFree && !token;
           const b = best[n];
           const href = `${base}${AG3_MOCK.enginePath}?t=${String(n).padStart(2, "0")}&lang=${lang}`;
           return (
@@ -116,6 +191,7 @@ export function MockTestList() {
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-ink-900">
                   {t("test")} {n}
+                  {isFree ? <span className="ml-2 rounded-full bg-success-50 px-2 py-0.5 text-xs font-semibold text-success-700">{t("free")}</span> : null}
                 </h3>
                 {b ? <CheckCircle2 className="h-5 w-5 text-success-700" aria-hidden="true" /> : null}
               </div>
@@ -135,8 +211,8 @@ export function MockTestList() {
                   </a>
                 ) : (
                   <span className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-canvas px-3 py-2 text-sm font-semibold text-ink-500 ring-1 ring-ink-200">
-                    <Lock className="h-4 w-4" aria-hidden="true" />
-                    {t("soon")}
+                    {lockedPaid ? <Lock className="h-4 w-4" aria-hidden="true" /> : <Unlock className="h-4 w-4" aria-hidden="true" />}
+                    {lockedPaid ? t("locked") : t("soon")}
                   </span>
                 )}
               </div>

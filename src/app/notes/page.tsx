@@ -11,9 +11,9 @@ import { getCategories, getNotes } from "@/lib/repo";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "MP Exam Notes ₹199 — MPPSC, MPESB, Police, TET, Group Exams",
+  title: "MP Exam Notes ₹299 — MPPSC, MPESB, Police, TET, Group Exams",
   description:
-    "Exam-oriented PDF notes at ₹199 for Madhya Pradesh exams — MPPSC, MPESB, MP TET, Police, Group exams, Nayab Tahsildar and MP GK. Hindi medium.",
+    "Exam-oriented PDF notes at ₹299 for Madhya Pradesh exams — MPPSC, MPESB, MP TET, Police, Group exams, Nayab Tahsildar and MP GK. Hindi medium.",
   path: "/notes",
 });
 

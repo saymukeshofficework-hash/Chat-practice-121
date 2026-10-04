@@ -130,7 +130,7 @@ export type ExamPhase =
 export type ProductStatus = "AVAILABLE" | "COMING_SOON" | "AVAILABLE_SOON";
 
 export interface Price {
-  /** Price in rupees. The base ₹199 model. */
+  /** Price in rupees. The base ₹299 model. */
   amount: number;
   /** Only set when a real discount exists. Never invent one. */
   originalAmount?: number;

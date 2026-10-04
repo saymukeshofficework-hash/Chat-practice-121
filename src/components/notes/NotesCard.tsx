@@ -22,7 +22,7 @@ export function ProductStatusBadge({ status, lang }: { status: ProductStatus; la
   return <span className="chip bg-accent-100 text-accent-700">{tr(n.comingSoon, lang)}</span>;
 }
 
-/** ₹199 notes product card (spec §13). No fake download links. */
+/** ₹299 notes product card (spec §13). No fake download links. */
 export function NotesCard({ note, lang }: { note: NoteProduct; lang: Lang }) {
   const n = dict.notes;
   const href = note.landingPath ?? `/notes/${note.slug}`;

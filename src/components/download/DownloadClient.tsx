@@ -5,12 +5,12 @@ import { CheckCircle2, Download, KeyRound, Loader2 } from "lucide-react";
 import { checkout, downloadPath } from "@/lib/checkout";
 
 /** Private download page for paid notes: /download/?t=<token>. Bilingual (Hindi first). */
-type Info = { title: string; downloads: number; max: number; payment_id?: string };
+type Info = { title: string; downloads: number; max: number; payment_id?: string; kind?: string; product?: string };
 
 export function DownloadClient() {
   const [token, setToken] = useState<string | null>(null);
   const [info, setInfo] = useState<Info | null>(null);
-  const [state, setState] = useState<"loading" | "ready" | "notfound" | "busy" | "limit" | "error">("loading");
+  const [state, setState] = useState<"loading" | "ready" | "notfound" | "busy" | "limit" | "error" | "tests">("loading");
   const [pid, setPid] = useState("");
   const [contact, setContact] = useState("");
   const [recoverMsg, setRecoverMsg] = useState("");
@@ -24,7 +24,15 @@ export function DownloadClient() {
     }
     checkout<Info>({ action: "download", token: tk, peek: true }).then((r) => {
       if (r.error) setState("notfound");
-      else {
+      else if (r.kind === "tests") {
+        try {
+          localStorage.setItem(`testhub_dl_${r.product}`, tk);
+        } catch {
+          /* ignore */
+        }
+        setInfo(r);
+        setState("tests");
+      } else {
         setInfo(r);
         setState(r.downloads >= r.max ? "limit" : "ready");
       }
@@ -81,6 +89,24 @@ export function DownloadClient() {
           <button type="submit" className="btn-primary w-full">खोजें / Find my PDF</button>
           {recoverMsg ? <p role="alert" className="text-sm text-danger-700">{recoverMsg}</p> : null}
         </form>
+      </div>
+    );
+  }
+
+  if (state === "tests") {
+    return (
+      <div className="card p-6 text-center">
+        <CheckCircle2 className="mx-auto h-12 w-12 text-success-700" aria-hidden="true" />
+        <h1 className="mt-3 text-2xl font-bold text-brand-900">टेस्ट सीरीज़ अनलॉक! / Test series unlocked!</h1>
+        <p className="mt-2 text-ink-700">{info.title}</p>
+        <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/mp-high-court-assistant-grade-3-mock-tests/`} className="btn-primary mt-6 w-full text-base">
+          टेस्ट शुरू करें / Go to tests
+        </a>
+        <p className="mt-4 text-xs text-ink-500">
+          यह डिवाइस अब अनलॉक है। दूसरे डिवाइस पर इसी पेज का लिंक खोलें।
+          <br />
+          This device is now unlocked. Open this page&apos;s link on another device to unlock it too.
+        </p>
       </div>
     );
   }

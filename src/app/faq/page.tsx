@@ -8,7 +8,7 @@ import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
   title: "FAQ — TestHub",
-  description: "Answers about TestHub: exams covered, ₹199 notes, accessing purchases, how exam dates are verified and affiliation.",
+  description: "Answers about TestHub: exams covered, ₹299 notes, accessing purchases, how exam dates are verified and affiliation.",
   path: "/faq",
 });
 

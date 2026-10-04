@@ -32,7 +32,7 @@ export const faqs: Faq[] = [
     id: "price",
     group: "notes",
     question: { hi: "नोट्स की कीमत कितनी है?", en: "How much do notes cost?" },
-    answer: { hi: "प्रत्येक नोट्स PDF की कीमत ₹199 है।", en: "Each notes PDF costs ₹199." },
+    answer: { hi: "प्रत्येक नोट्स PDF की कीमत ₹299 है।", en: "Each notes PDF costs ₹299." },
   },
   {
     id: "access",

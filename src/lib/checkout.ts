@@ -48,8 +48,11 @@ export const downloadPath = (token: string) =>
  * Opens Razorpay checkout for `product`. On success the payment is verified on the
  * server and the buyer is sent to their private download page.
  */
-export async function buyNotes(product: string, opts: { onState?: (s: "creating" | "open" | "verifying" | "idle") => void; onError?: (msg: string) => void }) {
-  const { onState = () => {}, onError = () => {} } = opts;
+export async function buyNotes(
+  product: string,
+  opts: { onState?: (s: "creating" | "open" | "verifying" | "idle") => void; onError?: (msg: string) => void; onPaid?: (token: string) => void },
+) {
+  const { onState = () => {}, onError = () => {}, onPaid } = opts;
   try {
     onState("creating");
     await loadRazorpay();
@@ -85,7 +88,10 @@ export async function buyNotes(product: string, opts: { onState?: (s: "creating"
           } catch {
             /* private mode */
           }
-          window.location.href = downloadPath(v.token);
+          if (onPaid) {
+            onState("idle");
+            onPaid(v.token);
+          } else window.location.href = downloadPath(v.token);
         } else {
           onState("idle");
           onError(`verify:${res.razorpay_payment_id}`);
