@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { LogoMark } from "@/components/brand/Logo";
 import { formatExamDate } from "@/lib/dates";
+import { buyNotes, checkout, downloadPath } from "@/lib/checkout";
 import { formatINR } from "@/lib/format";
 import type { Bilingual, Exam, ExamDate, Lang, NoteProduct } from "@/types";
 
@@ -52,6 +53,13 @@ const copy = {
   notify: { hi: "उपलब्ध होने पर सूचना पाएँ", en: "Notify me when available" },
   comingSoon: { hi: "जल्द उपलब्ध", en: "Coming soon" },
   readySoon: { hi: "PDF तैयार — ऑनलाइन भुगतान जल्द शुरू", en: "PDF ready — online payment opens soon" },
+  availableNow: { hi: "अभी उपलब्ध — भुगतान के बाद तुरंत डाउनलोड", en: "Available now — instant download after payment" },
+  wait: { hi: "कृपया प्रतीक्षा करें…", en: "Please wait…" },
+  instant: { hi: "भुगतान के तुरंत बाद PDF डाउनलोड करें — कोई ईमेल इंतज़ार नहीं।", en: "Download the PDF right after payment — no waiting for email." },
+  alreadyBought: { hi: "पहले खरीदा है? अपना PDF डाउनलोड करें", en: "Already bought? Download your PDF" },
+  payFailed: { hi: "भुगतान पूरा नहीं हुआ। कृपया दोबारा प्रयास करें।", en: "Payment didn't go through. Please try again." },
+  payNet: { hi: "कनेक्शन में समस्या। कृपया दोबारा प्रयास करें।", en: "Connection problem. Please try again." },
+  payVerify: { hi: "भुगतान हो गया पर पुष्टि अटक गई। Payment ID संभालकर रखें और \"डाउनलोड वापस पाएँ\" पेज पर जाएँ:", en: "Payment received but confirmation got stuck. Keep your Payment ID and use the \"Recover download\" page:" },
   perPdf: { hi: "प्रति PDF", en: "per PDF" },
   secure: { hi: "Razorpay द्वारा सुरक्षित भुगतान", en: "Secure payment by Razorpay" },
   payMethods: { hi: "UPI • डेबिट/क्रेडिट कार्ड • नेट बैंकिंग • वॉलेट", en: "UPI • Debit/Credit card • Net banking • Wallets" },
@@ -190,6 +198,38 @@ export function AG3Landing({
   const [lang, setLang] = useState<Lang>(initialLang);
   const [url, setUrl] = useState("");
   const [copied, setCopied] = useState(false);
+  const [payReady, setPayReady] = useState<Record<string, boolean>>({});
+  const [payState, setPayState] = useState<"creating" | "open" | "verifying" | "idle">("idle");
+  const [payError, setPayError] = useState("");
+  const [ownedToken, setOwnedToken] = useState<Record<string, string | null>>({});
+
+  // Is secure checkout live for these products? (server answers; no redeploy needed once keys are added)
+  useEffect(() => {
+    const products = [notes.hi?.checkoutProduct, notes.en?.checkoutProduct].filter(Boolean) as string[];
+    products.forEach((p) => {
+      checkout<{ ready: boolean }>({ action: "status", product: p })
+        .then((r) => setPayReady((m) => ({ ...m, [p]: !!r.ready })))
+        .catch(() => {});
+      try {
+        const tok = localStorage.getItem(`examhub_dl_${p}`);
+        if (tok) setOwnedToken((m) => ({ ...m, [p]: tok }));
+      } catch {
+        /* ignore */
+      }
+    });
+  }, [notes.hi?.checkoutProduct, notes.en?.checkoutProduct]);
+
+  const startBuy = (product: string) => {
+    setPayError("");
+    buyNotes(product, {
+      onState: setPayState,
+      onError: (e) => {
+        if (e === "failed") setPayError(t(copy.payFailed, lang));
+        else if (e.startsWith("verify:")) setPayError(`${t(copy.payVerify, lang)} ${e.slice(7)}`);
+        else setPayError(t(copy.payNet, lang));
+      },
+    });
+  };
 
   // ?lang=en / ?lang=hi preset (read on the client so the page stays static).
   useEffect(() => {
@@ -278,7 +318,11 @@ export function AG3Landing({
             <p className="mt-4 max-w-xl text-base text-brand-100 sm:text-lg">{t(copy.subtitle, lang)}</p>
             <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent-500/15 px-4 py-2 text-sm font-semibold text-accent-100 ring-1 ring-accent-500/40">
               <span className="h-2 w-2 animate-pulse rounded-full bg-accent-500" aria-hidden="true" />
-              {t((lang === "hi" ? notes.hi : notes.en)?.pages ? copy.readySoon : copy.preparing, lang)}
+              {(() => {
+                const n = lang === "hi" ? notes.hi : notes.en;
+                if (n?.checkoutProduct && payReady[n.checkoutProduct]) return t(copy.availableNow, lang);
+                return t(n?.pages ? copy.readySoon : copy.preparing, lang);
+              })()}
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="#buy" className="btn-primary">
@@ -357,14 +401,35 @@ export function AG3Landing({
           </h2>
           {(() => {
             const note = lang === "hi" ? notes.hi : notes.en;
-            const live = note?.status === "AVAILABLE" && !!note.paymentUrl;
+            const secure = !!note?.checkoutProduct && payReady[note.checkoutProduct] === true;
+            const live = secure || (note?.status === "AVAILABLE" && !!note.paymentUrl);
             return (
               <div className="card p-6 text-center">
                 <p className="text-sm font-semibold text-ink-500">{t(lang === "hi" ? copy.hindiPdf : copy.englishPdf, lang)}</p>
                 <p className="mt-1 text-5xl font-extrabold text-brand-900">{formatINR(note?.price.amount ?? 199, lang)}</p>
                 {note?.pages ? <p className="mt-1 text-sm text-ink-500">{note.pages} {lang === "hi" ? "पृष्ठ" : "pages"}</p> : null}
                 <div className="mt-5">
-                  {live ? (
+                  {secure ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => startBuy(note!.checkoutProduct!)}
+                        disabled={payState !== "idle"}
+                        className="btn-primary w-full text-base disabled:opacity-70"
+                      >
+                        <CreditCard className="h-5 w-5" aria-hidden="true" />
+                        {payState === "idle" ? `${t(copy.buy, lang)} — ₹199` : t(copy.wait, lang)}
+                      </button>
+                      {payError ? <p role="alert" className="mt-3 text-sm text-danger-700">{payError}</p> : null}
+                      {ownedToken[note!.checkoutProduct!] ? (
+                        <a href={downloadPath(ownedToken[note!.checkoutProduct!]!)} className="btn-outline mt-3 w-full">
+                          <Download className="h-4 w-4" aria-hidden="true" />
+                          {t(copy.alreadyBought, lang)}
+                        </a>
+                      ) : null}
+                      <p className="mt-3 text-xs text-ink-500">{t(copy.instant, lang)}</p>
+                    </>
+                  ) : live ? (
                     <a href={note!.paymentUrl} target="_blank" rel="noopener noreferrer" className="btn-primary w-full text-base">
                       <CreditCard className="h-5 w-5" aria-hidden="true" />
                       {t(copy.buy, lang)} — ₹199

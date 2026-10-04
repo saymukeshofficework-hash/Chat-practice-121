@@ -162,6 +162,8 @@ export interface NoteProduct {
    * Works on static hosting. Leave empty until the product is ready to sell.
    */
   paymentUrl?: string;
+  /** Product id in the secure checkout (supabase/functions/notes-checkout), e.g. "ag3-en". */
+  checkoutProduct?: string;
   /** Dedicated shareable landing page, if any. */
   landingPath?: string;
   featured: boolean;
