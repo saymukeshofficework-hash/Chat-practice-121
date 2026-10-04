@@ -154,7 +154,7 @@ export default async function NoteProductPage({ params }: { params: Params }) {
               <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {note.samplePages.map((src, i) => (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img key={src} src={src} alt={`${tr(n.samplePages, lang)} ${i + 1}`} loading="lazy" className="rounded-lg border border-ink-200" />
+                  <img key={src} src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${src}`} alt={`${tr(n.samplePages, lang)} ${i + 1}`} loading="lazy" className="rounded-lg border border-ink-200" />
                 ))}
               </div>
             ) : (

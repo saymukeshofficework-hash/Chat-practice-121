@@ -155,6 +155,8 @@ export interface NoteProduct {
   topics: Bilingual[];
   /** Sample page image paths, empty until uploaded. */
   samplePages: string[];
+  /** Chapter list of the finished PDF (shown on the landing page). */
+  chapters?: Bilingual[];
   /**
    * Razorpay Payment Link / Payment Page URL (e.g. https://rzp.io/rzp/xxxx).
    * Works on static hosting. Leave empty until the product is ready to sell.

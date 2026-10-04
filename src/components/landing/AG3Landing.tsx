@@ -51,6 +51,7 @@ const copy = {
   buy: { hi: "अभी खरीदें", en: "Buy now" },
   notify: { hi: "उपलब्ध होने पर सूचना पाएँ", en: "Notify me when available" },
   comingSoon: { hi: "जल्द उपलब्ध", en: "Coming soon" },
+  readySoon: { hi: "PDF तैयार — ऑनलाइन भुगतान जल्द शुरू", en: "PDF ready — online payment opens soon" },
   perPdf: { hi: "प्रति PDF", en: "per PDF" },
   secure: { hi: "Razorpay द्वारा सुरक्षित भुगतान", en: "Secure payment by Razorpay" },
   payMethods: { hi: "UPI • डेबिट/क्रेडिट कार्ड • नेट बैंकिंग • वॉलेट", en: "UPI • Debit/Credit card • Net banking • Wallets" },
@@ -277,7 +278,7 @@ export function AG3Landing({
             <p className="mt-4 max-w-xl text-base text-brand-100 sm:text-lg">{t(copy.subtitle, lang)}</p>
             <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent-500/15 px-4 py-2 text-sm font-semibold text-accent-100 ring-1 ring-accent-500/40">
               <span className="h-2 w-2 animate-pulse rounded-full bg-accent-500" aria-hidden="true" />
-              {t(copy.preparing, lang)}
+              {t((lang === "hi" ? notes.hi : notes.en)?.pages ? copy.readySoon : copy.preparing, lang)}
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="#buy" className="btn-primary">
@@ -371,7 +372,7 @@ export function AG3Landing({
                   ) : (
                     <>
                       <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-accent-100 px-3 py-1 text-sm font-semibold text-accent-700">
-                        {t(copy.comingSoon, lang)}
+                        {t(note?.pages ? copy.readySoon : copy.comingSoon, lang)}
                       </p>
                       {notifyHref.startsWith("http") ? (
                         <a href={notifyHref} target="_blank" rel="noopener noreferrer" className="btn-outline w-full">
@@ -396,6 +397,48 @@ export function AG3Landing({
           })()}
         </div>
       </section>
+
+      {/* What's inside the PDF for the selected language (only once the PDF is finished) */}
+      {(() => {
+        const note = lang === "hi" ? notes.hi : notes.en;
+        if (!note?.chapters?.length) return null;
+        const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+        return (
+          <section className="section" aria-labelledby="inside-h">
+            <div className="container-page">
+              <h2 id="inside-h" className="text-2xl font-bold text-brand-900 sm:text-3xl">
+                {lang === "hi" ? "PDF में क्या है" : "What's inside the PDF"}
+              </h2>
+              <p className="mt-2 text-ink-500">
+                {lang === "hi"
+                  ? `${note.chapters.length} अध्याय • ${note.pages} पृष्ठ • हर अध्याय में नोट्स, तालिकाएँ, शॉर्टकट, सामान्य गलतियाँ और हल सहित MCQ`
+                  : `${note.chapters.length} chapters • ${note.pages} pages • every chapter has notes, tables, shortcuts, common traps and solved MCQs`}
+              </p>
+              <ol className="mt-6 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+                {note.chapters.map((c, i) => (
+                  <li key={c.en} className="flex gap-3 rounded-lg bg-surface px-3 py-2 ring-1 ring-ink-100">
+                    <span className="w-7 shrink-0 font-bold text-accent-600">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-sm text-ink-800">{t(c, lang)}</span>
+                  </li>
+                ))}
+              </ol>
+              {note.samplePages.length ? (
+                <>
+                  <h3 className="mt-10 text-xl font-bold text-brand-900">{lang === "hi" ? "नमूना पृष्ठ" : "Sample pages"}</h3>
+                  <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                    {note.samplePages.map((src, i) => (
+                      <a key={src} href={`${base}${src}`} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-lg border border-ink-200 bg-white shadow-sm transition hover:shadow-md">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={`${base}${src}`} alt={`${lang === "hi" ? "नमूना पृष्ठ" : "Sample page"} ${i + 1}`} loading="lazy" className="w-full" />
+                      </a>
+                    ))}
+                  </div>
+                </>
+              ) : null}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* What you get */}
       <section className="section" aria-labelledby="why-h">
