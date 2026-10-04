@@ -8,7 +8,6 @@ import {
   Bell,
   CalendarDays,
   Check,
-  CheckCircle2,
   ChevronDown,
   Copy,
   CreditCard,
@@ -17,14 +16,12 @@ import {
   FileText,
   IndianRupee,
   Languages,
-  Lock,
   Scale,
   Share2,
   ShieldCheck,
   Smartphone,
   Users,
 } from "lucide-react";
-import { LogoMark } from "@/components/brand/Logo";
 import { formatExamDate } from "@/lib/dates";
 import { buyNotes, checkout, downloadPath } from "@/lib/checkout";
 import { formatINR } from "@/lib/format";
@@ -326,55 +323,71 @@ export function AG3Landing({
                 return t(n?.pages ? copy.readySoon : copy.preparing, lang);
               })()}
             </div>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#buy" className="btn-primary">
-                {lang === "hi" ? "नोट्स लें — ₹299" : "Get the notes — ₹299"}
-              </a>
-              <Link href={`/mp-high-court-assistant-grade-3-mock-tests${lang === "en" ? "?lang=en" : ""}`} className="btn-ghost-light">
-                <FileText className="h-4 w-4" aria-hidden="true" />
-                {lang === "hi" ? "20 फुल मॉक टेस्ट दें" : "Take 20 full mock tests"}
-              </Link>
-              <a href="#demo" className="btn-ghost-light">
-                <BookOpen className="h-4 w-4" aria-hidden="true" />
-                {lang === "hi" ? "डेमो पेज देखें" : "See demo pages"}
-              </a>
-              <a href="#share" className="btn-ghost-light">
-                <Share2 className="h-4 w-4" aria-hidden="true" />
-                {t(copy.shareTitle, lang)}
-              </a>
-            </div>
+            {(() => {
+              const n = lang === "hi" ? notes.hi : notes.en;
+              const demo = n?.samplePages ?? [];
+              return (
+                <>
+                  <p className="mt-7 flex items-baseline gap-3">
+                    <span className="text-5xl font-extrabold sm:text-6xl">₹299</span>
+                    <span className="text-brand-100">{lang === "hi" ? "एक बार का भुगतान · PDF" : "one-time payment · PDF"}</span>
+                  </p>
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                    <a href="#buy" className="btn-primary px-7 text-base">
+                      {lang === "hi" ? "अभी खरीदें — ₹299" : "Buy now — ₹299"}
+                    </a>
+                    {demo.length ? (
+                      <button type="button" onClick={() => setDemoIdx(0)} className="btn-ghost-light px-7 text-base">
+                        <BookOpen className="h-4 w-4" aria-hidden="true" />
+                        {lang === "hi" ? "सैंपल पेज देखें" : "See sample pages"}
+                      </button>
+                    ) : null}
+                  </div>
+                  <p className="mt-5 text-sm text-brand-100">
+                    {lang === "hi" ? "तुरंत डिजिटल एक्सेस" : "Instant digital access"} <span className="text-accent-500">•</span>{" "}
+                    {lang === "hi" ? "सुरक्षित Razorpay भुगतान" : "Secure Razorpay payment"} <span className="text-accent-500">•</span> {lang === "hi" ? "PDF नोट्स" : "PDF notes"}
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
+                    <Link href={`/mp-high-court-assistant-grade-3-mock-tests${lang === "en" ? "?lang=en" : ""}`} className="inline-flex items-center gap-1.5 text-accent-100 underline-offset-4 hover:underline">
+                      <FileText className="h-4 w-4" aria-hidden="true" />
+                      {lang === "hi" ? "20 फुल मॉक टेस्ट (टेस्ट 1 फ्री)" : "20 full mock tests (Test 1 free)"}
+                    </Link>
+                    <a href="#share" className="inline-flex items-center gap-1.5 text-accent-100 underline-offset-4 hover:underline">
+                      <Share2 className="h-4 w-4" aria-hidden="true" />
+                      {t(copy.shareTitle, lang)}
+                    </a>
+                  </div>
+                </>
+              );
+            })()}
           </div>
 
-          {/* Price card */}
-          <div className="rounded-[var(--radius-card)] bg-white p-6 text-ink-900 shadow-2xl sm:p-7">
-            <div className="flex items-center gap-3">
-              <LogoMark className="h-10 w-10" />
-              <div>
-                <p className="text-sm font-semibold text-ink-500">TestHub</p>
-                <p className="font-bold text-brand-900">{lang === "hi" ? "सहायक ग्रेड-3 नोट्स — हिंदी PDF" : "Assistant Grade-3 Notes — English PDF"}</p>
+          {/* Fanned sample pages (like a stack of notes) */}
+          {(() => {
+            const n = lang === "hi" ? notes.hi : notes.en;
+            const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+            const demo = n?.samplePages ?? [];
+            if (demo.length < 3) return null;
+            const fan = [
+              { i: 1, cls: "left-[2%] top-[10%] -rotate-[8deg]" },
+              { i: 2, cls: "right-[2%] top-[4%] rotate-[7deg]" },
+              { i: 0, cls: "left-1/2 top-[14%] -translate-x-1/2 z-10" },
+            ];
+            return (
+              <div className="relative mx-auto h-[360px] w-full max-w-[460px] sm:h-[420px]">
+                {fan.map(({ i, cls }) => (
+                  <button key={i} type="button" onClick={() => setDemoIdx(i)} aria-label={`${lang === "hi" ? "सैंपल पेज" : "Sample page"} ${i + 1}`}
+                    className={`absolute w-[58%] overflow-hidden rounded-md bg-white shadow-2xl ring-1 ring-black/10 transition hover:-translate-y-1 ${cls}`}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={`${base}${demo[i]}`} alt="" className="w-full" />
+                  </button>
+                ))}
+                <span className="absolute bottom-0 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-4 py-1.5 text-sm font-bold text-ink-900 shadow-lg">
+                  {lang === "hi" ? `${n?.chapters?.length ?? 18} अध्याय · ${n?.pages ?? ""} पेज` : `${n?.chapters?.length ?? 18} chapters · ${n?.pages ?? ""} pages`}
+                </span>
               </div>
-            </div>
-            <p className="mt-5 flex items-baseline gap-2">
-              <span className="text-5xl font-extrabold text-brand-900">₹299</span>
-              <span className="text-ink-500">{t(copy.perPdf, lang)}</span>
-            </p>
-            <ul className="mt-5 space-y-2.5 text-sm">
-              {[
-                { hi: "हिंदी PDF (ऊपर English चुनें तो English PDF)", en: "English PDF (switch to हिंदी above for Hindi PDF)" },
-                { hi: "1174 पदों की भर्ती के लिए", en: "For the 1174-post recruitment" },
-                { hi: "मोबाइल पर पढ़ने योग्य", en: "Readable on mobile" },
-              ].map((x) => (
-                <li key={x.en} className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-success-700" aria-hidden="true" />
-                  {t(x, lang)}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-5 flex items-center gap-2 border-t border-ink-100 pt-4 text-xs text-ink-500">
-              <Lock className="h-3.5 w-3.5" aria-hidden="true" />
-              {t(copy.secure, lang)}
-            </p>
-          </div>
+            );
+          })()}
         </div>
       </section>
 
