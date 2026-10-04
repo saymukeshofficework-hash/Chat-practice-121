@@ -204,7 +204,7 @@ export function AG3Landing({
 
   // Is secure checkout live for these products? (server answers; no redeploy needed once keys are added)
   useEffect(() => {
-    const products = [notes.hi?.checkoutProduct, notes.en?.checkoutProduct].filter(Boolean) as string[];
+    const products = [notes.hi?.checkoutProduct, notes.en?.checkoutProduct, notes.hi?.comboProduct, notes.en?.comboProduct].filter(Boolean) as string[];
     products.forEach((p) => {
       checkout<{ ready: boolean }>({ action: "status", product: p })
         .then((r) => setPayReady((m) => ({ ...m, [p]: !!r.ready })))
@@ -216,7 +216,7 @@ export function AG3Landing({
         /* ignore */
       }
     });
-  }, [notes.hi?.checkoutProduct, notes.en?.checkoutProduct]);
+  }, [notes.hi?.checkoutProduct, notes.en?.checkoutProduct, notes.hi?.comboProduct, notes.en?.comboProduct]);
 
   const startBuy = (product: string) => {
     setPayError("");
@@ -347,6 +347,11 @@ export function AG3Landing({
                     {lang === "hi" ? "तुरंत डिजिटल एक्सेस" : "Instant digital access"} <span className="text-accent-500">•</span>{" "}
                     {lang === "hi" ? "सुरक्षित Razorpay भुगतान" : "Secure Razorpay payment"} <span className="text-accent-500">•</span> {lang === "hi" ? "PDF नोट्स" : "PDF notes"}
                   </p>
+                  {n?.comboProduct && payReady[n.comboProduct] ? (
+                    <a href="#buy" className="mt-4 inline-flex items-center gap-2 rounded-full bg-accent-500 px-4 py-1.5 text-sm font-bold text-white shadow">
+                      {lang === "hi" ? "कॉम्बो: नोट्स + 20 मॉक टेस्ट सिर्फ़ ₹449" : "Combo: notes + 20 mock tests just ₹449"}
+                    </a>
+                  ) : null}
                   <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
                     <Link href={`/mp-high-court-assistant-grade-3-mock-tests${lang === "en" ? "?lang=en" : ""}`} className="inline-flex items-center gap-1.5 text-accent-100 underline-offset-4 hover:underline">
                       <FileText className="h-4 w-4" aria-hidden="true" />
@@ -520,6 +525,33 @@ export function AG3Landing({
                 <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-ink-500">
                   <ShieldCheck className="h-4 w-4 text-success-700" aria-hidden="true" />
                   {t(copy.secure, lang)} • UPI / Card / Net banking
+                </p>
+              </div>
+            );
+          })()}
+          {(() => {
+            const note = lang === "hi" ? notes.hi : notes.en;
+            const cp = note?.comboProduct;
+            if (!cp || !payReady[cp]) return null;
+            return (
+              <div className="card relative mt-5 overflow-hidden border-2 border-accent-500 p-6 text-center">
+                <span className="absolute right-0 top-0 rounded-bl-lg bg-accent-500 px-3 py-1 text-xs font-bold text-white">
+                  {lang === "hi" ? "₹49 की बचत" : "Save ₹49"}
+                </span>
+                <p className="text-sm font-bold tracking-wide text-accent-700">{lang === "hi" ? "कॉम्बो ऑफ़र" : "COMBO OFFER"}</p>
+                <p className="mt-1 font-semibold text-ink-900">
+                  {lang === "hi" ? "हिंदी नोट्स PDF + 20 फुल मॉक टेस्ट" : "English notes PDF + 20 full mock tests"}
+                </p>
+                <p className="mt-2 flex items-baseline justify-center gap-2">
+                  <span className="text-4xl font-extrabold text-brand-900">₹449</span>
+                  <span className="text-ink-400 line-through">₹498</span>
+                </p>
+                <button type="button" onClick={() => startBuy(cp)} disabled={payState !== "idle"} className="btn-primary mt-4 w-full text-base disabled:opacity-70">
+                  <CreditCard className="h-5 w-5" aria-hidden="true" />
+                  {payState === "idle" ? (lang === "hi" ? "कॉम्बो खरीदें — ₹449" : "Buy combo — ₹449") : t(copy.wait, lang)}
+                </button>
+                <p className="mt-3 text-xs text-ink-500">
+                  {lang === "hi" ? "भुगतान के बाद PDF डाउनलोड करें और सभी 20 टेस्ट तुरंत अनलॉक।" : "Download the PDF and unlock all 20 tests right after payment."}
                 </p>
               </div>
             );

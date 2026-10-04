@@ -33,6 +33,13 @@ export function DownloadClient() {
         setInfo(r);
         setState("tests");
       } else {
+        if (r.kind === "combo") {
+          try {
+            localStorage.setItem("testhub_dl_ag3-tests", tk);
+          } catch {
+            /* ignore */
+          }
+        }
         setInfo(r);
         setState(r.downloads >= r.max ? "limit" : "ready");
       }
@@ -136,6 +143,11 @@ export function DownloadClient() {
         Bookmark this page — you can download {left} more time{left === 1 ? "" : "s"}.
         {info.payment_id ? <><br />Payment ID: <span className="font-mono">{info.payment_id}</span></> : null}
       </p>
+      {info.kind === "combo" ? (
+        <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/mp-high-court-assistant-grade-3-mock-tests/`} className="btn-outline mt-5 w-full">
+          20 मॉक टेस्ट (अनलॉक) / Go to your 20 mock tests
+        </a>
+      ) : null}
     </div>
   );
 }

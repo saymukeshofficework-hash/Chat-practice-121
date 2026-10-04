@@ -6,8 +6,10 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-// kind "pdf": one private file in bucket "notes"; kind "tests": unlocks private test files in bucket "tests"
-const PRODUCTS: Record<string, { amount: number; file: string; downloadName: string; title: string; kind?: "pdf" | "tests" }> = {
+// kind "pdf": one private file in bucket "notes"; kind "tests": unlocks private test files in bucket "tests";
+// kind "combo": the PDF in `file` + the test series (bucket "tests", folder TESTS_FOLDER)
+const TESTS_FOLDER = "ag3";
+const PRODUCTS: Record<string, { amount: number; file: string; downloadName: string; title: string; kind?: "pdf" | "tests" | "combo" }> = {
   "ag3-en": {
     amount: 29900, // paise
     file: "TESTHUB_AG3_2026_ENGLISH_COMPLETE_NOTES.pdf",
@@ -26,6 +28,20 @@ const PRODUCTS: Record<string, { amount: number; file: string; downloadName: str
     file: "ag3", // folder in bucket "tests": ag3/02.json … ag3/20.json
     downloadName: "",
     title: "MP High Court AG-3 2026 — 20 Full Mock Tests (Test Series)",
+  },
+  "ag3-combo-en": {
+    amount: 44900,
+    kind: "combo",
+    file: "TESTHUB_AG3_2026_ENGLISH_COMPLETE_NOTES.pdf",
+    downloadName: "TestHub-MP-High-Court-AG3-2026-English-Notes.pdf",
+    title: "Combo: MP High Court AG-3 2026 English Notes (PDF) + 20 Mock Tests",
+  },
+  "ag3-combo-hi": {
+    amount: 44900,
+    kind: "combo",
+    file: "TESTHUB_AG3_2026_HINDI_COMPLETE_NOTES.pdf",
+    downloadName: "TestHub-MP-High-Court-AG3-2026-Hindi-Notes.pdf",
+    title: "कॉम्बो: MP हाई कोर्ट सहायक ग्रेड-3 2026 हिंदी नोट्स (PDF) + 20 मॉक टेस्ट",
   },
 };
 const MAX_DOWNLOADS = 10;
@@ -162,8 +178,8 @@ Deno.serve(async (req) => {
       if (token.length < 20 || !(n >= 1 && n <= 50)) return json({ error: "bad_request" }, 400);
       const { data: ord } = await db.from("orders").select("product,status").eq("download_token", token).eq("status", "paid").maybeSingle();
       const p = ord ? PRODUCTS[ord.product] : null;
-      if (!p || p.kind !== "tests") return json({ error: "not_found" }, 404);
-      const { data, error } = await db.storage.from("tests").download(`${p.file}/${String(n).padStart(2, "0")}.json`);
+      if (!p || (p.kind !== "tests" && p.kind !== "combo")) return json({ error: "not_found" }, 404);
+      const { data, error } = await db.storage.from("tests").download(`${TESTS_FOLDER}/${String(n).padStart(2, "0")}.json`);
       if (error || !data) return json({ error: "no_test" }, 404);
       return new Response(await data.text(), { headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "private, max-age=600" } });
     }

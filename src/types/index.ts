@@ -164,6 +164,8 @@ export interface NoteProduct {
   paymentUrl?: string;
   /** Product id in the secure checkout (supabase/functions/notes-checkout), e.g. "ag3-en". */
   checkoutProduct?: string;
+  /** Combo product id (this PDF + the matching test series), e.g. "ag3-combo-hi". */
+  comboProduct?: string;
   /** Dedicated shareable landing page, if any. */
   landingPath?: string;
   featured: boolean;
