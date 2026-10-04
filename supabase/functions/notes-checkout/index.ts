@@ -61,11 +61,17 @@ Deno.serve(async (req) => {
   } catch {
     return json({ error: "bad_json" }, 400);
   }
-  const keyId = Deno.env.get("RAZORPAY_KEY_ID") ?? "";
-  const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") ?? "";
+  // tolerate pasted whitespace / quotes / "NAME=value" in the dashboard
+  const clean = (v: string | undefined, name: string) => (v ?? "").trim().replace(new RegExp("^" + name + "\\s*=\\s*"), "").replace(/^["']|["']$/g, "").trim();
+  const keyId = clean(Deno.env.get("RAZORPAY_KEY_ID"), "RAZORPAY_KEY_ID");
+  const keySecret = clean(Deno.env.get("RAZORPAY_KEY_SECRET"), "RAZORPAY_KEY_SECRET");
   const ready = !!keyId && !!keySecret;
 
   switch (body.action) {
+    case "diag": {
+      // non-secret health check for setup
+      return json({ idFormatOk: /^rzp_(test|live)_[A-Za-z0-9]+$/.test(keyId), mode: keyId.startsWith("rzp_live_") ? "live" : keyId.startsWith("rzp_test_") ? "test" : "unknown", idLen: keyId.length, secretLen: keySecret.length });
+    }
     case "status": {
       const p = PRODUCTS[body.product ?? ""];
       if (!p) return json({ ready: false });
