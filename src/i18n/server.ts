@@ -2,7 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import type { Lang } from "@/types";
 
-export const LANG_COOKIE = "examhub_lang";
+export const LANG_COOKIE = "testhub_lang";
 
 /** True for the static GitHub Pages demo build (no server, no cookies). */
 export const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";

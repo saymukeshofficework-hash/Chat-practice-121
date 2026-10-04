@@ -3,7 +3,7 @@ import { dict, tr } from "@/i18n/dictionary";
 import { getLang } from "@/i18n/server";
 import { pageMeta } from "@/lib/seo";
 
-export const metadata = pageMeta({ title: "Terms & Conditions", description: "Terms for using Exam Hub and its paid study material.", path: "/terms" });
+export const metadata = pageMeta({ title: "Terms & Conditions", description: "Terms for using TestHub and its paid study material.", path: "/terms" });
 
 export default async function TermsPage() {
   const lang = await getLang();
@@ -12,7 +12,7 @@ export default async function TermsPage() {
       {lang === "hi" ? (
         <>
           <h2>सेवा का उपयोग</h2>
-          <p>Exam Hub की सामग्री केवल व्यक्तिगत, गैर-व्यावसायिक अध्ययन के लिए है।</p>
+          <p>TestHub की सामग्री केवल व्यक्तिगत, गैर-व्यावसायिक अध्ययन के लिए है।</p>
           <h2>पेड सामग्री</h2>
           <ul>
             <li>खरीदे गए नोट्स खरीदार के व्यक्तिगत उपयोग के लिए लाइसेंस हैं।</li>
@@ -26,7 +26,7 @@ export default async function TermsPage() {
       ) : (
         <>
           <h2>Using the service</h2>
-          <p>Exam Hub content is for personal, non-commercial study only.</p>
+          <p>TestHub content is for personal, non-commercial study only.</p>
           <h2>Paid content</h2>
           <ul>
             <li>Purchased notes are licensed for the buyer&apos;s personal use.</li>

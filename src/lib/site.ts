@@ -3,14 +3,14 @@
  * details, analytics IDs) comes from environment variables — never hard-code.
  */
 export const site = {
-  name: "Exam Hub",
+  name: "TestHub",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, ""),
   tagline: {
     hi: "मध्यप्रदेश की परीक्षाओं की तैयारी — एक ही जगह",
     en: "Preparation for Madhya Pradesh exams — in one place",
   },
   seo: {
-    title: "Exam Hub – MP Exams, Notes, Test Series & Latest Government Exam Updates",
+    title: "TestHub – MP Exams, Notes, Test Series & Latest Government Exam Updates",
     description:
       "Prepare for MPPSC, MPESB, MP TET, Police, Teacher, Group and other Madhya Pradesh government exams with notes, test series, practice tests and latest exam updates.",
   },

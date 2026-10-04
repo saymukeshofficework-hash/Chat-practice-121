@@ -81,7 +81,7 @@ export async function buyNotes(product: string, opts: { onState?: (s: "creating"
         });
         if (v.token) {
           try {
-            localStorage.setItem(`examhub_dl_${product}`, v.token);
+            localStorage.setItem(`testhub_dl_${product}`, v.token);
           } catch {
             /* private mode */
           }

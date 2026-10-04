@@ -1,4 +1,4 @@
-// Exam Hub — planned database schema (Phase 6/7).
+// TestHub — planned database schema (Phase 6/7).
 // Not wired up yet: today the app reads typed seed files in src/data via src/lib/repo.ts.
 // When the database is added, only src/lib/repo.ts changes.
 

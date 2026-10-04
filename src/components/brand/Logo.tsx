@@ -1,4 +1,4 @@
-/** Exam Hub mark: an open book forming a target, with a check mark. */
+/** TestHub mark: an open book forming a target, with a check mark. */
 export function LogoMark({ className = "h-9 w-9" }: { className?: string }) {
   return (
     <svg viewBox="0 0 40 40" className={className} aria-hidden="true" focusable="false">
@@ -16,7 +16,7 @@ export function Logo({ light = false }: { light?: boolean }) {
     <span className="inline-flex items-center gap-2.5">
       <LogoMark />
       <span className={`text-lg font-extrabold tracking-tight ${light ? "text-white" : "text-brand-900"}`}>
-        EXAM <span className="text-accent-500">HUB</span>
+        TEST <span className="text-accent-500">HUB</span>
       </span>
     </span>
   );

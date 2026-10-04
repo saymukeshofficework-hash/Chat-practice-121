@@ -5,7 +5,7 @@ import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
   title: "Disclaimer",
-  description: "Exam Hub is an independent educational and informational platform, not affiliated with MPPSC, MPESB or the Government of Madhya Pradesh.",
+  description: "TestHub is an independent educational and informational platform, not affiliated with MPPSC, MPESB or the Government of Madhya Pradesh.",
   path: "/disclaimer",
 });
 
@@ -16,7 +16,7 @@ export default async function DisclaimerPage() {
       {lang === "hi" ? (
         <>
           <p className="rounded-xl border border-warning-700/20 bg-warning-50 p-4 font-medium text-warning-700">
-            Exam Hub एक स्वतंत्र शैक्षिक एवं सूचनात्मक प्लेटफ़ॉर्म है। यह MPPSC, MPESB, म.प्र. उच्च न्यायालय या मध्यप्रदेश शासन से संबद्ध, समर्थित या संचालित नहीं है।
+            TestHub एक स्वतंत्र शैक्षिक एवं सूचनात्मक प्लेटफ़ॉर्म है। यह MPPSC, MPESB, म.प्र. उच्च न्यायालय या मध्यप्रदेश शासन से संबद्ध, समर्थित या संचालित नहीं है।
           </p>
           <h2>जानकारी की सटीकता</h2>
           <p>
@@ -31,12 +31,12 @@ export default async function DisclaimerPage() {
             <li><strong>घोषित होना शेष</strong> — अभी कोई आधिकारिक तिथि नहीं।</li>
           </ul>
           <h2>बाहरी लिंक</h2>
-          <p>आधिकारिक वेबसाइटों के लिंक सुविधा के लिए दिए गए हैं। उन वेबसाइटों की सामग्री के लिए Exam Hub उत्तरदायी नहीं है।</p>
+          <p>आधिकारिक वेबसाइटों के लिंक सुविधा के लिए दिए गए हैं। उन वेबसाइटों की सामग्री के लिए TestHub उत्तरदायी नहीं है।</p>
         </>
       ) : (
         <>
           <p className="rounded-xl border border-warning-700/20 bg-warning-50 p-4 font-medium text-warning-700">
-            Exam Hub is an independent educational and informational platform. It is not affiliated with, endorsed by, or operated by MPPSC, MPESB, the High Court of Madhya Pradesh or the Government of
+            TestHub is an independent educational and informational platform. It is not affiliated with, endorsed by, or operated by MPPSC, MPESB, the High Court of Madhya Pradesh or the Government of
             Madhya Pradesh.
           </p>
           <h2>Accuracy of information</h2>
@@ -52,7 +52,7 @@ export default async function DisclaimerPage() {
             <li><strong>To be announced</strong> — no official date yet.</li>
           </ul>
           <h2>External links</h2>
-          <p>Links to official websites are provided for convenience. Exam Hub is not responsible for the content of those websites.</p>
+          <p>Links to official websites are provided for convenience. TestHub is not responsible for the content of those websites.</p>
         </>
       )}
     </InfoPage>

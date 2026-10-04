@@ -3,7 +3,7 @@ import { dict, tr } from "@/i18n/dictionary";
 import { getLang } from "@/i18n/server";
 import { pageMeta } from "@/lib/seo";
 
-export const metadata = pageMeta({ title: "Privacy Policy", description: "How Exam Hub collects, uses and protects your information.", path: "/privacy-policy" });
+export const metadata = pageMeta({ title: "Privacy Policy", description: "How TestHub collects, uses and protects your information.", path: "/privacy-policy" });
 
 export default async function PrivacyPage() {
   const lang = await getLang();

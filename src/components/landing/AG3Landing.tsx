@@ -109,8 +109,8 @@ const copy = {
   more: { hi: "और", en: "More" },
   examPage: { hi: "परीक्षा की पूरी जानकारी देखें", en: "See full exam details" },
   disclaimer: {
-    hi: "Exam Hub एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और मध्यप्रदेश उच्च न्यायालय से संबद्ध नहीं है। परीक्षा संबंधी हर जानकारी की पुष्टि आधिकारिक वेबसाइट mphc.gov.in से करें।",
-    en: "Exam Hub is an independent educational platform and is not affiliated with the High Court of Madhya Pradesh. Verify all exam information on the official website mphc.gov.in.",
+    hi: "TestHub एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और मध्यप्रदेश उच्च न्यायालय से संबद्ध नहीं है। परीक्षा संबंधी हर जानकारी की पुष्टि आधिकारिक वेबसाइट mphc.gov.in से करें।",
+    en: "TestHub is an independent educational platform and is not affiliated with the High Court of Madhya Pradesh. Verify all exam information on the official website mphc.gov.in.",
   },
 };
 
@@ -211,7 +211,7 @@ export function AG3Landing({
         .then((r) => setPayReady((m) => ({ ...m, [p]: !!r.ready })))
         .catch(() => {});
       try {
-        const tok = localStorage.getItem(`examhub_dl_${p}`);
+        const tok = localStorage.getItem(`testhub_dl_${p}`);
         if (tok) setOwnedToken((m) => ({ ...m, [p]: tok }));
       } catch {
         /* ignore */
@@ -328,6 +328,10 @@ export function AG3Landing({
               <a href="#buy" className="btn-primary">
                 {lang === "hi" ? "नोट्स लें — ₹199" : "Get the notes — ₹199"}
               </a>
+              <Link href={`/mp-high-court-assistant-grade-3-mock-tests${lang === "en" ? "?lang=en" : ""}`} className="btn-ghost-light">
+                <FileText className="h-4 w-4" aria-hidden="true" />
+                {lang === "hi" ? "20 फुल मॉक टेस्ट दें" : "Take 20 full mock tests"}
+              </Link>
               <a href="#share" className="btn-ghost-light">
                 <Share2 className="h-4 w-4" aria-hidden="true" />
                 {t(copy.shareTitle, lang)}
@@ -340,7 +344,7 @@ export function AG3Landing({
             <div className="flex items-center gap-3">
               <LogoMark className="h-10 w-10" />
               <div>
-                <p className="text-sm font-semibold text-ink-500">Exam Hub</p>
+                <p className="text-sm font-semibold text-ink-500">TestHub</p>
                 <p className="font-bold text-brand-900">{lang === "hi" ? "सहायक ग्रेड-3 नोट्स — हिंदी PDF" : "Assistant Grade-3 Notes — English PDF"}</p>
               </div>
             </div>

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import type { Lang } from "@/types";
 
-const COOKIE = "examhub_lang";
+const COOKIE = "testhub_lang";
 
 /** हिंदी | English toggle. Stores choice in a cookie and re-renders on the server. */
 export function LanguageSwitcher({ lang, className = "" }: { lang: Lang; className?: string }) {

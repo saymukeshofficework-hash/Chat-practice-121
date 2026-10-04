@@ -7,8 +7,8 @@ import { getFaqs } from "@/lib/repo";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "FAQ — Exam Hub",
-  description: "Answers about Exam Hub: exams covered, ₹199 notes, accessing purchases, how exam dates are verified and affiliation.",
+  title: "FAQ — TestHub",
+  description: "Answers about TestHub: exams covered, ₹199 notes, accessing purchases, how exam dates are verified and affiliation.",
   path: "/faq",
 });
 

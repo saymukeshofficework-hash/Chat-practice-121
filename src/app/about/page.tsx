@@ -5,8 +5,8 @@ import { getLang } from "@/i18n/server";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "About Exam Hub",
-  description: "Exam Hub is an independent preparation platform for Madhya Pradesh competitive exams — exam updates, calendar, notes, test series and practice tests.",
+  title: "About TestHub",
+  description: "TestHub is an independent preparation platform for Madhya Pradesh competitive exams — exam updates, calendar, notes, test series and practice tests.",
   path: "/about",
 });
 
@@ -17,7 +17,7 @@ export default async function AboutPage() {
       {lang === "hi" ? (
         <>
           <p>
-            <strong>Exam Hub</strong> का उद्देश्य मध्यप्रदेश की प्रतियोगी परीक्षाओं की तैयारी को सरल बनाना है — परीक्षा अपडेट, कैलेंडर, नोट्स, टेस्ट सीरीज़ और
+            <strong>TestHub</strong> का उद्देश्य मध्यप्रदेश की प्रतियोगी परीक्षाओं की तैयारी को सरल बनाना है — परीक्षा अपडेट, कैलेंडर, नोट्स, टेस्ट सीरीज़ और
             प्रैक्टिस टेस्ट, सब एक ही जगह।
           </p>
           <h2>हम क्या करते हैं</h2>
@@ -33,7 +33,7 @@ export default async function AboutPage() {
       ) : (
         <>
           <p>
-            <strong>Exam Hub</strong> exists to make preparing for Madhya Pradesh competitive exams simpler — exam updates, calendar, notes, test series and practice
+            <strong>TestHub</strong> exists to make preparing for Madhya Pradesh competitive exams simpler — exam updates, calendar, notes, test series and practice
             tests, all in one place.
           </p>
           <h2>What we do</h2>

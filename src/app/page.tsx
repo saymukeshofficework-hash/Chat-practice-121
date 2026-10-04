@@ -212,7 +212,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 12. Why Exam Hub + trust */}
+      {/* 12. Why TestHub + trust */}
       <section className="section" aria-labelledby="why-h">
         <div className="container-page">
           <SectionHeader id="why-h" title={tr(s.why, lang)} />
