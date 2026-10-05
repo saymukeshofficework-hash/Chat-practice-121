@@ -313,6 +313,64 @@
 				font-weight: 700;
 				font-size: 15px;
 			}
+
+			/* ---------- layout wrappers (mobile: palette under the question) ---------- */
+			.examgrid{display:flex;flex-direction:column;flex:1}
+			.maincol{display:flex;flex-direction:column}
+			.side{display:flex;flex-direction:column}
+			.side .palette{order:1}.side .legend{order:2}.side .submitwrap{order:3}
+			.dhome,.dtime,.dinfo,.dview,.dprof,.dsecname,.dchoose,.qnoD{display:none}
+			.legend .dot{font-size:0;color:transparent}
+			/* ---------- PC: CBT exam screen ---------- */
+			@media (min-width: 900px){
+				body{background:#e9edf4}
+				#app{max-width:none;height:100vh;min-height:0;overflow:hidden}
+				.topbar{background:#2457c5;align-items:center;padding:0 18px;height:56px;gap:18px;justify-content:flex-start;flex:0 0 auto}
+				.topbar .ttwrap{flex:1;display:flex;align-items:baseline;gap:10px;min-width:0;overflow:hidden}
+				.topbar .ttext{font-size:19px;white-space:nowrap}
+				.topbar small{display:inline;font-size:15px;opacity:.9;margin:0;white-space:nowrap}
+				.dhome{display:inline-block;color:#fff;text-decoration:none;font-weight:600;font-size:15px;white-space:nowrap}
+				.dtime{display:inline-block;background:#fff;color:#1c2233;border-radius:6px;padding:6px 14px;font-size:17px;font-weight:600;white-space:nowrap}
+				.dtime b{font-variant-numeric:tabular-nums}
+				.dtime.warn{background:var(--red);color:#fff}
+				.topbar .langBtn,.timerbar{display:none}
+				.sectiontabs{padding:0;gap:0;background:#f1f3f7;border-bottom:1px solid #d5dae3;flex:0 0 auto}
+				.sectiontabs button{border:none;border-right:1px solid #d5dae3;border-radius:0;background:transparent;padding:13px 20px;font-size:13.5px;font-weight:700;letter-spacing:.3px;color:#2d3446;text-transform:uppercase;cursor:pointer}
+				.sectiontabs button.active{background:#2457c5;color:#fff}
+				.examgrid{flex-direction:row;min-height:0}
+				.maincol{flex:1;min-width:0;border-right:1px solid #d5dae3;overflow:hidden;background:#fff}
+				.dinfo{display:flex;justify-content:space-between;padding:10px 22px;font-size:14px;color:#2d3446;border-bottom:1px solid #e3e7ee}
+				.dview{display:flex;justify-content:flex-end;align-items:center;gap:10px;background:#2f6fed;color:#fff;padding:9px 22px;font-size:15px;font-weight:600}
+				.dview select{font-size:14.5px;padding:5px 10px;border-radius:4px;border:1px solid #c7d2e6;min-width:120px;font-family:inherit}
+				.qpanel{padding:18px 26px;overflow-y:auto}
+				.qnoD{display:block;font-weight:700;font-size:15.5px;color:#2d3446;margin-bottom:12px}
+				.qmeta{display:none}
+				.qtext{font-size:18px;font-weight:600;margin-bottom:18px}
+				.options{gap:4px}
+				.opt{border:none;padding:8px 6px;font-size:17px;border-radius:6px}
+				.opt.selected{background:#eaf1ff}
+				.opt input{width:17px;height:17px;margin-top:5px}
+				.actbar{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e3e7ee;padding:14px 22px;gap:12px;background:#fff}
+				.actions,.actions2{padding:0;gap:10px}
+				.actions button,.actions2 button{flex:0 0 auto;padding:11px 22px;font-size:15px;border-radius:4px;font-weight:500;cursor:pointer}
+				.actions button{border:1px solid #d5dae3;background:#f7f8fa;color:#2d3446}
+				#prevBtn{background:#f7f8fa;border:1px solid #d5dae3;color:#2d3446}
+				#saveBtn{background:#2f6fed;color:#fff;min-width:150px}
+				.side{width:340px;flex:0 0 340px;background:#f7f8fb;overflow-y:auto;padding:14px 14px 18px}
+				.side .dprof{order:0;display:flex;align-items:center;gap:14px;margin-bottom:12px}
+				.avatar{width:62px;height:62px;border-radius:6px;background:#dfe5ef;display:flex;align-items:center;justify-content:center;font-size:30px}
+				.dprof b{font-size:17px;color:#2d3446}
+				.side .legend{order:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 8px;background:transparent;border:none;padding:4px 0 12px;font-size:13px;color:#2d3446}
+				.legend .dot{width:24px;height:24px;border-radius:4px;font-size:12px;font-weight:700;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-style:normal;flex:0 0 auto}
+				#cVis{background:#c5cad6 !important;color:#2d3446;border:none !important}
+				.side .dsecname{order:2;display:block;background:#2457c5;color:#fff;font-weight:700;font-size:13.5px;padding:10px 12px;text-transform:uppercase;letter-spacing:.3px}
+				.side .dchoose{order:3;display:block;font-size:14px;color:#2d3446;padding:10px 0 8px}
+				.side .palette{order:4;grid-template-columns:repeat(4,1fr);gap:10px;max-height:none;overflow:visible;padding:0;margin:0;border:none;background:transparent}
+				.palette .pcell.othersec{display:none}
+				.pcell{aspect-ratio:auto;height:56px;font-size:15px;border-radius:6px;background:#c5cad6;border-color:#c5cad6;color:#2d3446}
+				.side .submitwrap{order:5;padding:18px 0 0;margin-top:auto}
+				#submitBtn{border-radius:4px;cursor:pointer}
+			}
 			/* Name entry screen */
 			#nameScreen {
 				max-width: 720px;
@@ -599,12 +657,14 @@
 
 		<div id="app" style="display: none">
 			<div class="topbar">
-				<div>
+				<a class="dhome" href="../../mp-high-court-assistant-grade-3-mock-tests/" id="dHome">&larr; Home</a>
+				<div class="ttwrap">
 					<div class="ttext" data-title>MP High Court AG-III Mock Test</div>
 					<small id="subtitleText"
 						>100 Questions &nbsp;&middot;&nbsp; 120 min</small
 					>
 				</div>
+				<span class="dtime" id="dTime"><span id="dTimeLbl">Time Left</span> : <b id="timer2">120:00</b></span>
 				<button class="langBtn" id="langBtn" type="button">
 					हिंदी
 				</button>
@@ -614,7 +674,12 @@
 				<span id="timer">120:00</span>
 			</div>
 			<div class="sectiontabs" id="sectiontabs"></div>
+			<div class="examgrid">
+			<div class="maincol">
+			<div class="dinfo"><span id="dQType">Question Type: MCQ</span><span id="dMarks">Marks for correct answer: 1 | Negative Marks: 0</span></div>
+			<div class="dview"><label for="langSel" id="dViewLbl">View in:</label> <select id="langSel"><option value="hi">हिन्दी</option><option value="en">English</option></select></div>
 			<div class="qpanel" id="qpanel">
+				<div class="qnoD" id="qnoD">Question No. 1</div>
 				<div class="qmeta">
 					<span class="qno" id="qno">Q 1 of 100</span>
 					<span class="qsec" id="qsec"></span>
@@ -622,6 +687,7 @@
 				<div class="qtext" id="qtext"></div>
 				<div class="options" id="options"></div>
 			</div>
+			<div class="actbar">
 			<div class="actions">
 				<button id="clearBtn">Clear Response</button>
 				<button id="markBtn">Mark for Review & Next</button>
@@ -630,23 +696,27 @@
 				<button id="prevBtn">&#8249; Previous</button>
 				<button id="saveBtn">Save & Next &#8250;</button>
 			</div>
+			</div>
+			</div>
+			<aside class="side">
+			<div class="dprof"><span class="avatar" aria-hidden="true">&#128100;</span><b id="dName"></b></div>
 			<div class="palette" id="palette"></div>
 			<div class="legend">
 				<span
-					><i class="dot" style="background: var(--green)"></i
+					><i class="dot" id="cAns" style="background: var(--green)"></i
 					><span id="legAns">Answered</span></span
 				>
 				<span
-					><i class="dot" style="background: var(--red)"></i
+					><i class="dot" id="cNot" style="background: var(--red)"></i
 					><span id="legNot">Not Answered</span></span
 				>
 				<span
-					><i class="dot" style="background: var(--purple)"></i
+					><i class="dot" id="cMark" style="background: var(--purple)"></i
 					><span id="legMarked">Marked</span></span
 				>
 				<span
 					><i
-						class="dot"
+						class="dot" id="cVis"
 						style="
 							background: #fff;
 							border: 1px solid var(--border);
@@ -655,9 +725,14 @@
 					><span id="legVisit">Not Visited</span></span
 				>
 			</div>
+			<div class="dsecname" id="dSecName"></div>
+			<div class="dchoose" id="dChoose">Choose a Question</div>
 			<div class="submitwrap">
 				<button id="submitBtn">Submit Test</button>
 			</div>
+			</aside>
+			</div>
+
 		</div>
 
 		<div id="resultScreen"></div>
@@ -727,6 +802,13 @@ const UI = {
 					retake: "Retake Test",
 					langBtn: "\u0939\u093f\u0902\u0926\u0940",
 					qLabelPrefix: "Q ",
+					qnoD: "Question No. ",
+					dHome: "&larr; Home",
+					dTimeLbl: "Time Left",
+					dQType: "Question Type: MCQ",
+					dMarks: "Marks for correct answer: 1 | Negative Marks: 0",
+					dViewLbl: "View in:",
+					dChoose: "Choose a Question",
 					nCardTitle: "Before you begin",
 					nCardSub: "Exam pattern as per official advt. 614/Exam/2026. Enter your name for the result card.",
 					nFieldLabel: "Student Name",
@@ -781,6 +863,13 @@ const UI = {
 					retake: "\u091f\u0947\u0938\u094d\u091f \u092b\u093f\u0930 \u0938\u0947 \u0926\u0947\u0902",
 					langBtn: "English",
 					qLabelPrefix: "\u092a\u094d\u0930\u0936\u094d\u0928 ",
+					qnoD: "प्रश्न क्रमांक ",
+					dHome: "&larr; सभी टेस्ट",
+					dTimeLbl: "शेष समय",
+					dQType: "प्रश्न प्रकार: MCQ",
+					dMarks: "सही उत्तर के अंक: 1 | ऋणात्मक अंक: 0",
+					dViewLbl: "भाषा:",
+					dChoose: "प्रश्न चुनें",
 					nCardTitle:
 						"\u0936\u0941\u0930\u0942 \u0915\u0930\u0928\u0947 \u0938\u0947 \u092a\u0939\u0932\u0947",
 					nCardSub: "परीक्षा पैटर्न आधिकारिक विज्ञापन 614/परीक्षा/2026 के अनुसार। परिणाम कार्ड के लिए अपना नाम दर्ज करें।",
@@ -832,6 +921,8 @@ const UI = {
 			const elTimerbar = document.getElementById("timerbar");
 			const elPalette = document.getElementById("palette");
 			const elTabs = document.getElementById("sectiontabs");
+			const elTimer2 = document.getElementById("timer2");
+			const elDTime = document.getElementById("dTime");
 
 			function buildTabs() {
 				elTabs.innerHTML = "";
@@ -867,6 +958,7 @@ const UI = {
 					const c = cells[i];
 					c.className = "pcell";
 					if (i === cur) c.classList.add("current");
+					if (Q[i].s !== Q[cur].s) c.classList.add("othersec");
 					const hasA = answers.hasOwnProperty(i);
 					const isMark = marked.has(i);
 					if (isMark) {
@@ -875,6 +967,23 @@ const UI = {
 					} else if (hasA) c.classList.add("answered");
 					else if (visited.has(i)) c.classList.add("notanswered");
 				}
+			}
+
+			function renderSide() {
+				let a = 0, n = 0, m = 0, v = 0;
+				for (let i = 0; i < TOTAL; i++) {
+					if (marked.has(i)) m++;
+					else if (answers.hasOwnProperty(i)) a++;
+					else if (visited.has(i)) n++;
+					else v++;
+				}
+				document.getElementById("cAns").textContent = a;
+				document.getElementById("cNot").textContent = n;
+				document.getElementById("cMark").textContent = m;
+				document.getElementById("cVis").textContent = v;
+				const sec = SECTIONS.find((s) => s.key === Q[cur].s);
+				document.getElementById("dSecName").textContent = sec.label[lang];
+				document.getElementById("dName").textContent = studentName || t().defaultName;
 			}
 
 			function renderTabs() {
@@ -891,6 +1000,7 @@ const UI = {
 					TOTAL
 				);
 				document.getElementById("qsec").textContent = sec.label[lang];
+				document.getElementById("qnoD").textContent = t().qnoD + (cur + 1);
 				document.getElementById("qtext").textContent = item.q[lang];
 				const optDiv = document.getElementById("options");
 				optDiv.innerHTML = "";
@@ -919,6 +1029,7 @@ const UI = {
 						visited.add(cur);
 						renderQuestion();
 						renderPalette();
+						renderSide();
 					};
 					optDiv.appendChild(wrap);
 				});
@@ -929,6 +1040,7 @@ const UI = {
 				renderQuestion();
 				renderPalette();
 				renderTabs();
+				renderSide();
 				// keep the current cell visible inside the palette without moving the page
 				const cell = elPalette.children[cur];
 				if (cell) elPalette.scrollTop = cell.offsetTop - elPalette.offsetTop - elPalette.clientHeight / 2 + cell.clientHeight / 2;
@@ -941,6 +1053,7 @@ const UI = {
 				delete answers[cur];
 				renderQuestion();
 				renderPalette();
+				renderSide();
 			};
 			document.getElementById("markBtn").onclick = () => {
 				marked.add(cur);
@@ -976,7 +1089,8 @@ const UI = {
 				timerH = setInterval(() => {
 					timeLeft--;
 					elTimer.textContent = fmt(Math.max(timeLeft, 0));
-					if (timeLeft <= 300) elTimerbar.classList.add("warn");
+					elTimer2.textContent = elTimer.textContent;
+					if (timeLeft <= 300) { elTimerbar.classList.add("warn"); elDTime.classList.add("warn"); }
 					if (timeLeft <= 0) {
 						clearInterval(timerH);
 						submitTest(true);
@@ -1090,7 +1204,7 @@ const UI = {
 					timeLeft = DURATION;
 					lastResult = null;
 					elTimerbar.classList.remove("warn");
-					elTimer.textContent = fmt(DURATION);
+					document.getElementById("dTime").classList.remove("warn"); elTimer.textContent = document.getElementById("timer2").textContent = fmt(DURATION);
 					rs.style.display = "none";
 					document.getElementById("app").style.display = "flex";
 					renderPalette();
@@ -1123,6 +1237,13 @@ const UI = {
 				);
 				document.getElementById("submitBtn").textContent = u.submit;
 				document.getElementById("langBtn").textContent = u.langBtn;
+				document.getElementById("langSel").value = lang;
+				document.getElementById("dHome").innerHTML = u.dHome;
+				document.getElementById("dTimeLbl").textContent = u.dTimeLbl;
+				document.getElementById("dQType").textContent = u.dQType;
+				document.getElementById("dMarks").textContent = u.dMarks;
+				document.getElementById("dViewLbl").textContent = u.dViewLbl;
+				document.getElementById("dChoose").textContent = u.dChoose;
 				document.getElementById("langBtnName").textContent = u.langBtn;
 				document.getElementById("nCardTitle").textContent =
 					u.nCardTitle;
@@ -1151,6 +1272,7 @@ const UI = {
 
 			document.getElementById("langBtn").onclick = toggleLang;
 			document.getElementById("langBtnName").onclick = toggleLang;
+			document.getElementById("langSel").onchange = (e) => { if (e.target.value !== lang) toggleLang(); };
 
 			function beginTest() {
 				const val = document.getElementById("nameInput").value.trim();
@@ -1171,6 +1293,7 @@ const UI = {
 			buildTabs();
 			buildPalette();
 			elTimer.textContent = fmt(DURATION);
+			elTimer2.textContent = fmt(DURATION);
 			document.getElementById("nameInput").focus();
 		
 }
