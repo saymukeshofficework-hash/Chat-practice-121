@@ -371,7 +371,7 @@ export function TestSeriesLanding() {
           {site.contact.whatsapp ? (
             <a href={`${site.contact.whatsapp}?text=${encodeURIComponent("TestHub AG-3 test series")}`} className="mt-6 inline-flex items-center gap-2 font-semibold text-success-700">
               <MessageCircle className="h-4 w-4" aria-hidden="true" />
-              {lang === "hi" ? "कोई समस्या? WhatsApp करें: 87703 75866" : "Any issue? WhatsApp: 87703 75866"}
+              {lang === "hi" ? "कोई समस्या? WhatsApp पर संपर्क करें" : "Any issue? Chat with us on WhatsApp"}
             </a>
           ) : null}
           <p className="mt-8 text-xs text-ink-500">

@@ -14,7 +14,7 @@ function Support({ pid }: { pid?: string }) {
     <p className="mt-5 border-t border-ink-100 pt-4 text-center text-sm text-ink-600">
       समस्या है? / Need help?{" "}
       <a href={`${site.contact.whatsapp}?text=${msg}`} target="_blank" rel="noopener noreferrer" className="font-semibold text-success-700 underline">
-        WhatsApp {site.contact.phone}
+        WhatsApp पर संपर्क करें / Chat on WhatsApp
       </a>
     </p>
   );
