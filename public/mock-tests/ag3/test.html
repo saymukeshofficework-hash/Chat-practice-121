@@ -131,7 +131,8 @@
 				max-height: 190px;
 				overflow-y: auto;
 				background: #fbfcfe;
-				border-bottom: 1px solid var(--border);
+				border-top: 1px solid var(--border);
+				margin-top: 10px;
 			}
 			.pcell {
 				aspect-ratio: 1;
@@ -613,6 +614,22 @@
 				<span id="timer">120:00</span>
 			</div>
 			<div class="sectiontabs" id="sectiontabs"></div>
+			<div class="qpanel" id="qpanel">
+				<div class="qmeta">
+					<span class="qno" id="qno">Q 1 of 100</span>
+					<span class="qsec" id="qsec"></span>
+				</div>
+				<div class="qtext" id="qtext"></div>
+				<div class="options" id="options"></div>
+			</div>
+			<div class="actions">
+				<button id="clearBtn">Clear Response</button>
+				<button id="markBtn">Mark for Review & Next</button>
+			</div>
+			<div class="actions2">
+				<button id="prevBtn">&#8249; Previous</button>
+				<button id="saveBtn">Save & Next &#8250;</button>
+			</div>
 			<div class="palette" id="palette"></div>
 			<div class="legend">
 				<span
@@ -637,22 +654,6 @@
 					></i
 					><span id="legVisit">Not Visited</span></span
 				>
-			</div>
-			<div class="qpanel" id="qpanel">
-				<div class="qmeta">
-					<span class="qno" id="qno">Q 1 of 100</span>
-					<span class="qsec" id="qsec"></span>
-				</div>
-				<div class="qtext" id="qtext"></div>
-				<div class="options" id="options"></div>
-			</div>
-			<div class="actions">
-				<button id="clearBtn">Clear Response</button>
-				<button id="markBtn">Mark for Review & Next</button>
-			</div>
-			<div class="actions2">
-				<button id="prevBtn">&#8249; Previous</button>
-				<button id="saveBtn">Save & Next &#8250;</button>
 			</div>
 			<div class="submitwrap">
 				<button id="submitBtn">Submit Test</button>
@@ -928,10 +929,12 @@ const UI = {
 				renderQuestion();
 				renderPalette();
 				renderTabs();
-				elPalette.children[cur].scrollIntoView({
-					block: "nearest",
-					inline: "center",
-				});
+				// keep the current cell visible inside the palette without moving the page
+				const cell = elPalette.children[cur];
+				if (cell) elPalette.scrollTop = cell.offsetTop - elPalette.offsetTop - elPalette.clientHeight / 2 + cell.clientHeight / 2;
+				// if the question is above the screen (e.g. tapped a number at the bottom), bring it into view
+				const qp = document.getElementById("qpanel").getBoundingClientRect();
+				if (qp.top < 0 || qp.top > window.innerHeight * 0.6) window.scrollTo({ top: window.scrollY + qp.top - 70, behavior: "smooth" });
 			}
 
 			document.getElementById("clearBtn").onclick = () => {
