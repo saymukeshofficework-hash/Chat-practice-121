@@ -5,7 +5,7 @@
 export const AG3_MOCK = {
   total: 20,
   /** Free tests whose public JSON is published. */
-  free: [] as number[],
+  free: [1] as number[],
   product: "ag3-tests",
   price: 199,
   enginePath: "/mock-tests/ag3/test.html",
