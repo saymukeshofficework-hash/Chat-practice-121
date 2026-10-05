@@ -22,6 +22,24 @@ export async function checkout<T = Record<string, unknown>>(payload: Record<stri
   }
 }
 
+/** Private admin API (supabase/functions/testhub-admin). Password is checked on the server. */
+export async function adminCall<T = Record<string, unknown>>(payload: Record<string, unknown>): Promise<T & { error?: string }> {
+  try {
+    const r = await fetch(CHECKOUT_URL.replace("notes-checkout", "testhub-admin"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", apikey: ANON, Authorization: `Bearer ${ANON}` },
+      body: JSON.stringify(payload),
+    });
+    try {
+      return (await r.json()) as T & { error?: string };
+    } catch {
+      return { error: `http_${r.status}` } as T & { error?: string };
+    }
+  } catch {
+    return { error: "network" } as T & { error?: string };
+  }
+}
+
 type RazorpayHandlerArgs = { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string };
 type RazorpayInstance = { open: () => void; on: (ev: string, cb: (e: unknown) => void) => void };
 declare global {
