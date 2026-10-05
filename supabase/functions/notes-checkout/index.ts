@@ -89,12 +89,15 @@ Deno.serve(async (req) => {
   const clean = (v: string | undefined, name: string) => (v ?? "").trim().replace(new RegExp("^" + name + "\\s*=\\s*"), "").replace(/^["']|["']$/g, "").trim();
   const keyId = clean(Deno.env.get("RAZORPAY_KEY_ID"), "RAZORPAY_KEY_ID");
   const keySecret = clean(Deno.env.get("RAZORPAY_KEY_SECRET"), "RAZORPAY_KEY_SECRET");
-  const ready = !!keyId && !!keySecret;
+  // Test keys must never sell to real buyers (a simulated payment would unlock paid content).
+  // Set ALLOW_TEST_PAYMENTS=1 in Edge Function secrets only while testing.
+  const testBlocked = keyId.startsWith("rzp_test_") && Deno.env.get("ALLOW_TEST_PAYMENTS") !== "1";
+  const ready = !!keyId && !!keySecret && !testBlocked;
 
   switch (body.action) {
     case "diag": {
       // non-secret health check for setup
-      return json({ idFormatOk: /^rzp_(test|live)_[A-Za-z0-9]+$/.test(keyId), mode: keyId.startsWith("rzp_live_") ? "live" : keyId.startsWith("rzp_test_") ? "test" : "unknown", idLen: keyId.length, secretLen: keySecret.length });
+      return json({ idFormatOk: /^rzp_(test|live)_[A-Za-z0-9]+$/.test(keyId), mode: keyId.startsWith("rzp_live_") ? "live" : keyId.startsWith("rzp_test_") ? "test" : "unknown", idLen: keyId.length, secretLen: keySecret.length, selling: ready });
     }
     case "status": {
       const p = PRODUCTS[body.product ?? ""];
