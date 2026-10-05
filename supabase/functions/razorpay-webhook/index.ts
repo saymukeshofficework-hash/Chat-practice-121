@@ -18,7 +18,9 @@ function newToken() {
 }
 
 Deno.serve(async (req) => {
-  const secret = Deno.env.get("RAZORPAY_WEBHOOK_SECRET");
+  const secret = (Deno.env.get("RAZORPAY_WEBHOOK_SECRET") ?? "").trim();
+  // setup check (reveals nothing secret): GET → {"configured": true|false}
+  if (req.method === "GET") return new Response(JSON.stringify({ configured: !!secret }), { headers: { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" } });
   if (!secret || req.method !== "POST") return new Response("not configured", { status: 503 });
   const raw = await req.text();
   const sig = req.headers.get("x-razorpay-signature") ?? "";
