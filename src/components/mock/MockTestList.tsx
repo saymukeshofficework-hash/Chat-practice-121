@@ -157,6 +157,9 @@ export function MockTestList() {
         <div>
           <h2 className="font-bold text-ink-900">{t("unlockTitle")}</h2>
           <p className="mt-1 text-sm text-ink-600">{t("unlockSub")}</p>
+          <a href={`${base}/mp-high-court-assistant-grade-3-test-series/${lang === "en" ? "?lang=en" : ""}#demo`} className="mt-2 mr-4 inline-block text-sm font-semibold text-brand-700 underline">
+            {lang === "hi" ? "टेस्ट सीरीज़ का डेमो देखें →" : "See the test series demo →"}
+          </a>
           <a href={`${base}/mp-high-court-assistant-grade-3-notes/${lang === "en" ? "?lang=en" : ""}#buy`} className="mt-2 inline-block text-sm font-semibold text-accent-700 underline">
             {lang === "hi" ? "नोट्स भी चाहिए? कॉम्बो ऑफ़र: नोट्स + 20 टेस्ट सिर्फ़ ₹449 →" : "Need the notes too? Combo: notes + 20 tests just ₹449 →"}
           </a>

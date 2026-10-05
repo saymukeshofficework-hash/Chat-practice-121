@@ -353,9 +353,9 @@ export function AG3Landing({
                     </a>
                   ) : null}
                   <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
-                    <Link href={`/mp-high-court-assistant-grade-3-mock-tests${lang === "en" ? "?lang=en" : ""}`} className="inline-flex items-center gap-1.5 text-accent-100 underline-offset-4 hover:underline">
-                      <FileText className="h-4 w-4" aria-hidden="true" />
-                      {lang === "hi" ? "20 फुल मॉक टेस्ट (टेस्ट 1 फ्री)" : "20 full mock tests (Test 1 free)"}
+                    <Link href={`/mp-high-court-assistant-grade-3-test-series${lang === "en" ? "?lang=en" : ""}`} className="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-brand-900 shadow hover:bg-accent-50">
+                      <FileText className="h-4 w-4 text-accent-600" aria-hidden="true" />
+                      {lang === "hi" ? "टेस्ट सीरीज़: 20 मॉक टेस्ट — ₹199" : "Test series: 20 mock tests — ₹199"}
                     </Link>
                     <a href="#share" className="inline-flex items-center gap-1.5 text-accent-100 underline-offset-4 hover:underline">
                       <Share2 className="h-4 w-4" aria-hidden="true" />

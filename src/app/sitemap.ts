@@ -14,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/notes", priority: 0.8, freq: "weekly" },
     { path: "/mp-high-court-assistant-grade-3-notes", priority: 0.9, freq: "weekly" },
     { path: "/test-series", priority: 0.6, freq: "weekly" },
+    { path: "/mp-high-court-assistant-grade-3-test-series", priority: 0.8, freq: "weekly" },
     { path: "/practice", priority: 0.6, freq: "weekly" },
     { path: "/current-affairs", priority: 0.6, freq: "daily" },
     { path: "/previous-papers", priority: 0.6, freq: "weekly" },
