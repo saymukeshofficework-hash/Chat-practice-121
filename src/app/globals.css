@@ -2,23 +2,23 @@
 
 /*
  * TETTESTHUB design tokens. Change colours here and they update everywhere.
- * Primary: deep navy. Accent: saffron. Semantic: green / amber / red.
+ * Primary: calm teal. Accent: warm amber (matches the tettesthub.in homepage).
  */
 :root {
-  --brand-950: #07122e;
-  --brand-900: #0b1b44;
-  --brand-800: #10265c;
-  --brand-700: #163377;
-  --brand-600: #1d4499;
-  --brand-500: #2f5fc4;
-  --brand-100: #dfe8f8;
-  --brand-50: #f1f5fc;
+  --brand-950: #062523;
+  --brand-900: #0b3532;
+  --brand-800: #0d5a54;
+  --brand-700: #0f766e;
+  --brand-600: #13897f;
+  --brand-500: #1fa597;
+  --brand-100: #d5ece8;
+  --brand-50: #eef7f5;
 
-  --accent-700: #b3530a;
-  --accent-600: #d9650c;
-  --accent-500: #f07a1a;
-  --accent-100: #fde8d4;
-  --accent-50: #fff5ec;
+  --accent-700: #8a5214;
+  --accent-600: #a8661a;
+  --accent-500: #c97b1f;
+  --accent-100: #f6e4c6;
+  --accent-50: #fbf4e8;
 
   --success-700: #15703a;
   --success-50: #ecf8f0;
@@ -35,11 +35,11 @@
   --ink-100: #f3f4f6;
 
   --surface: #ffffff;
-  --canvas: #f7f8fb;
+  --canvas: #f5f6f4;
 
   --radius-card: 1rem;
   --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 1px 3px rgb(16 24 40 / 0.06);
-  --shadow-lift: 0 10px 24px -8px rgb(16 38 92 / 0.18);
+  --shadow-lift: 0 10px 24px -8px rgb(20 24 31 / 0.14);
 
   color-scheme: light;
 }
@@ -121,7 +121,7 @@ body {
   @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-60;
 }
 @utility btn-primary {
-  @apply btn bg-accent-500 text-white hover:bg-accent-600;
+  @apply btn bg-brand-700 text-white hover:bg-brand-800;
 }
 @utility btn-navy {
   @apply btn bg-brand-700 text-white hover:bg-brand-800;

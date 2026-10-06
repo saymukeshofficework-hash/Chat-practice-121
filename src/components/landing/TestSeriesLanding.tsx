@@ -162,8 +162,8 @@ export function TestSeriesLanding() {
   return (
     <div lang={lang} className="bg-canvas pb-20 lg:pb-0">
       {/* Sticky bar */}
-      <div className="sticky top-16 z-40 border-b border-ink-200 bg-surface/95 backdrop-blur">
-        <div className="container-page flex h-12 items-center justify-between gap-3">
+      <div className="container-page sticky top-[5.25rem] z-40 mt-3 xl:top-[8.25rem]">
+        <div className="flex h-12 items-center justify-between gap-3 rounded-xl border border-ink-200 bg-surface/95 px-3 shadow-sm backdrop-blur sm:px-4">
           <span className="truncate text-sm font-semibold text-brand-900">
             {lang === "hi" ? "AG-3 टेस्ट सीरीज़ " : "AG-3 Test Series "}
             <span className="text-accent-700">• ₹199</span>
@@ -231,7 +231,7 @@ export function TestSeriesLanding() {
       </section>
 
       {/* Demo screens */}
-      <section id="demo" className="section scroll-mt-32 bg-surface" aria-labelledby="demo-h">
+      <section id="demo" className="section scroll-mt-48 bg-surface" aria-labelledby="demo-h">
         <div className="container-page">
           <h2 id="demo-h" className="text-2xl font-bold text-brand-900 sm:text-3xl">
             {lang === "hi" ? "टेस्ट स्क्रीन का डेमो" : "Demo of the test screens"}
@@ -304,7 +304,7 @@ export function TestSeriesLanding() {
       </section>
 
       {/* Buy box */}
-      <section id="buy" className="section scroll-mt-32" aria-labelledby="buy-h">
+      <section id="buy" className="section scroll-mt-48" aria-labelledby="buy-h">
         <div className="container-page">
           <h2 id="buy-h" className="text-2xl font-bold text-brand-900 sm:text-3xl">{lang === "hi" ? "अपना प्लान चुनें" : "Choose your plan"}</h2>
           <div className="mt-6 grid gap-5 lg:grid-cols-2">

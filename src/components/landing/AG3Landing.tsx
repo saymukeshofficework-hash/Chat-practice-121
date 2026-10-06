@@ -273,8 +273,8 @@ export function AG3Landing({
   return (
     <div lang={lang} className="bg-canvas">
       {/* Sticky language bar */}
-      <div className="sticky top-16 z-40 border-b border-ink-200 bg-surface/95 backdrop-blur">
-        <div className="container-page flex h-12 items-center justify-between gap-3">
+      <div className="container-page sticky top-[5.25rem] z-40 mt-3 xl:top-[8.25rem]">
+        <div className="flex h-12 items-center justify-between gap-3 rounded-xl border border-ink-200 bg-surface/95 px-3 shadow-sm backdrop-blur sm:px-4">
           <span className="flex min-w-0 items-center gap-2 truncate text-sm font-semibold text-brand-900">
             <Scale className="h-4 w-4 shrink-0 text-accent-600" aria-hidden="true" />
             <span className="truncate">
@@ -404,7 +404,7 @@ export function AG3Landing({
         const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
         const pages = note.samplePages;
         return (
-          <section id="demo" className="section scroll-mt-32 bg-surface" aria-labelledby="demo-h">
+          <section id="demo" className="section scroll-mt-48 bg-surface" aria-labelledby="demo-h">
             <div className="container-page">
               <h2 id="demo-h" className="text-2xl font-bold text-brand-900 sm:text-3xl">
                 {lang === "hi" ? "नोट्स के डेमो पेज देखें" : "See demo pages of the notes"}
@@ -463,7 +463,7 @@ export function AG3Landing({
       </section>
 
       {/* Buy — one simple choice: the language you pick is the PDF you get */}
-      <section id="buy" className="section scroll-mt-32 bg-surface" aria-labelledby="buy-h">
+      <section id="buy" className="section scroll-mt-48 bg-surface" aria-labelledby="buy-h">
         <div className="container-page max-w-xl">
           <h2 id="buy-h" className="sr-only">
             {lang === "hi" ? "नोट्स खरीदें" : "Buy the notes"}
@@ -758,7 +758,7 @@ export function AG3Landing({
       </section>
 
       {/* Share */}
-      <section id="share" className="section scroll-mt-32" aria-labelledby="share-h">
+      <section id="share" className="section scroll-mt-48" aria-labelledby="share-h">
         <div className="container-page">
           <div className="rounded-[var(--radius-card)] bg-gradient-to-r from-brand-800 to-brand-600 p-6 text-white sm:p-10">
             <h2 id="share-h" className="text-2xl font-bold sm:text-3xl">

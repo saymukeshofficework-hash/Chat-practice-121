@@ -9,8 +9,10 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function Header({ lang }: { lang: Lang }) {
   return (
-    <header className="sticky top-0 z-50 border-b border-ink-200 bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/85">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 pt-3">
+      <div className="container-page">
+      <div className="rounded-2xl border border-ink-200 bg-surface/95 shadow-[0_6px_24px_rgba(20,24,31,0.07)] backdrop-blur supports-[backdrop-filter]:bg-surface/90">
+      <div className="flex h-16 items-center justify-between gap-4 px-3 sm:px-4">
         <Link href="/" aria-label="TETTESTHUB — Home" className="shrink-0">
           <Logo />
         </Link>
@@ -26,7 +28,7 @@ export function Header({ lang }: { lang: Lang }) {
               name="q"
               type="search"
               placeholder={tr(dict.search.placeholder, lang)}
-              className="h-10 w-full rounded-xl border border-ink-200 bg-canvas pr-3 pl-9 text-sm outline-none focus:border-brand-500 focus:bg-surface"
+              className="h-10 w-full rounded-full border border-ink-200 bg-canvas pr-3 pl-9 text-sm outline-none focus:border-brand-500 focus:bg-surface"
             />
           </div>
         </form>
@@ -41,6 +43,8 @@ export function Header({ lang }: { lang: Lang }) {
         </div>
       </div>
       <DesktopNav lang={lang} />
+      </div>
+      </div>
     </header>
   );
 }

@@ -34,7 +34,7 @@ export function DesktopNav({ lang }: { lang: Lang }) {
 
   return (
     <nav aria-label="Primary" className="hidden border-t border-ink-100 xl:block">
-      <ul className="container-page flex items-center gap-0.5 overflow-x-auto py-1 text-[13.5px]">
+      <ul className="flex items-center gap-0.5 overflow-x-auto px-3 py-1 text-[13.5px] sm:px-4">
         {primaryNav.map((item) => {
           const active = isActive(pathname, item.href);
           return (
