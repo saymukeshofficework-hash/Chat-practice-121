@@ -160,6 +160,15 @@ export const exams: Exam[] = [
         },
       },
     },
+    testSeries: {
+      href: "/tests.html",
+      title: { hi: "TET मॉक टेस्ट सीरीज़ — 20 फुल-लेंथ टेस्ट", en: "TET Mock Test Series — 20 full-length tests" },
+      sub: {
+        hi: "हर टेस्ट में 150 प्रश्न · 150 मिनट · हिंदी/English · टेस्ट 1 व 2 फ्री, बाकी 18 टेस्ट ₹199 में",
+        en: "150 questions · 150 minutes each · Hindi/English · Tests 1 & 2 free, other 18 for ₹199",
+      },
+      cta: { hi: "टेस्ट सीरीज़ देखें", en: "See test series" },
+    },
     officialUrl: ESB,
     applyUrl: ESB_APPLY,
     rulebookUrl: `${ESB_RB}EligibilityTest2026_for_Teachers_2026_Revised_04092026.pdf`,

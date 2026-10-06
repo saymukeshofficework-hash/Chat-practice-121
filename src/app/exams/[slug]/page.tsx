@@ -149,6 +149,25 @@ export default async function ExamDetailPage({ params }: { params: Params }) {
 
       <div className="container-page grid gap-8 py-8 lg:grid-cols-[1fr_340px]">
         <div className="min-w-0 space-y-8">
+          {/* Our test series for this exam */}
+          {exam.testSeries && (
+            <a
+              href={exam.testSeries.href}
+              className="flex flex-col gap-3 rounded-[var(--radius-card)] border border-ink-200 bg-surface p-5 transition hover:shadow-[var(--shadow-lift)] sm:flex-row sm:items-center sm:justify-between sm:p-6"
+            >
+              <span className="flex items-start gap-3">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-700 text-white">
+                  <NotebookPen className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="block text-lg font-bold text-ink-900">{tr(exam.testSeries.title, lang)}</span>
+                  <span className="mt-0.5 block text-sm text-ink-500">{tr(exam.testSeries.sub, lang)}</span>
+                </span>
+              </span>
+              <span className="btn-primary shrink-0">{tr(exam.testSeries.cta, lang)}</span>
+            </a>
+          )}
+
           {/* Overview */}
           <section aria-labelledby="ov-h" className="card p-5 sm:p-6">
             <h2 id="ov-h" className="text-xl font-bold text-brand-900">
@@ -303,7 +322,7 @@ export default async function ExamDetailPage({ params }: { params: Params }) {
         </div>
 
         {/* Sidebar */}
-        <aside className="space-y-6 lg:sticky lg:top-32 lg:self-start">
+        <aside className="space-y-6 lg:sticky lg:top-36 lg:self-start">
           {showCountdown && examDate?.date && (
             <div className="card p-5">
               <div className="mb-3 flex flex-wrap items-center gap-2">

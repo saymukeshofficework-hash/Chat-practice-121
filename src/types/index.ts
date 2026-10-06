@@ -99,6 +99,8 @@ export interface Exam {
   officialUrl: string;
   notificationUrl?: string;
   rulebookUrl?: string;
+  /** Our own mock test series for this exam (may live outside /examhelp, e.g. "/tests.html"). */
+  testSeries?: { href: string; title: Bilingual; sub: Bilingual; cta: Bilingual };
   syllabusUrl?: string;
   applyUrl?: string;
   /** Eligibility, fee, pattern etc. stay undefined until officially sourced. */
