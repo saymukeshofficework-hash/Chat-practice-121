@@ -47,6 +47,28 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* 1. Featured: MP High Court Assistant Grade-3 (notes + test series) */}
+      <section className="bg-accent-500 text-white">
+        <div className="container-page flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wide text-white/85">
+              {lang === "hi" ? "अभी उपलब्ध • MP हाई कोर्ट भर्ती 2026 (1174 पद)" : "Available now • MP High Court Recruitment 2026 (1174 posts)"}
+            </p>
+            <p className="mt-0.5 text-lg font-extrabold sm:text-xl">
+              {lang === "hi" ? "सहायक ग्रेड-3: PDF नोट्स ₹299 · 20 मॉक टेस्ट ₹199 · कॉम्बो ₹449" : "Assistant Grade-3: PDF notes ₹299 · 20 mock tests ₹199 · Combo ₹449"}
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <Link href="/mp-high-court-assistant-grade-3-notes" className="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-bold text-brand-900 shadow hover:bg-accent-50">
+              {lang === "hi" ? "नोट्स देखें" : "See notes"} <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link href="/mp-high-court-assistant-grade-3-test-series" className="inline-flex items-center gap-1.5 rounded-lg bg-brand-900 px-4 py-2 text-sm font-bold text-white shadow hover:bg-brand-800">
+              {lang === "hi" ? "टेस्ट सीरीज़ (टेस्ट 1 फ्री)" : "Test series (Test 1 free)"}
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* 2. Hero */}
       <section className="relative overflow-hidden bg-brand-900 text-white">
         <div
