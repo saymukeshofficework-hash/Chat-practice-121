@@ -1,5 +1,5 @@
 /**
- * Domain types for TestHub.
+ * Domain types for TETTESTHUB.
  *
  * These mirror the planned database entities (see prisma/schema.prisma).
  * Components only ever consume these types through src/lib/repo.ts, so the

@@ -9,7 +9,7 @@ import { site } from "@/lib/site";
 type Info = { title: string; downloads: number; max: number; payment_id?: string; kind?: string; product?: string };
 
 function Support({ pid }: { pid?: string }) {
-  const msg = encodeURIComponent(`नमस्ते TestHub, डाउनलोड/टेस्ट में समस्या है।${pid ? " Payment ID: " + pid : ""}`);
+  const msg = encodeURIComponent(`नमस्ते TETTESTHUB, डाउनलोड/टेस्ट में समस्या है।${pid ? " Payment ID: " + pid : ""}`);
   return (
     <p className="mt-5 border-t border-ink-100 pt-4 text-center text-sm text-ink-600">
       समस्या है? / Need help?{" "}

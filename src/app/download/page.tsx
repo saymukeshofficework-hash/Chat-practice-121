@@ -3,7 +3,7 @@ import { DownloadClient } from "@/components/download/DownloadClient";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = {
-  ...pageMeta({ title: "Download your notes", description: "Download the PDF notes you bought on TestHub.", path: "/download" }),
+  ...pageMeta({ title: "Download your notes", description: "Download the PDF notes you bought on TETTESTHUB.", path: "/download" }),
   robots: { index: false, follow: false },
 };
 

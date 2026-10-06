@@ -7,7 +7,7 @@ import { getLang } from "@/i18n/server";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata = pageMeta({ title: "Contact TestHub", description: "Get in touch with the TestHub team.", path: "/contact" });
+export const metadata = pageMeta({ title: "Contact TETTESTHUB", description: "Get in touch with the TETTESTHUB team.", path: "/contact" });
 
 export default async function ContactPage() {
   const lang = await getLang();

@@ -3,7 +3,7 @@ import { dict, tr } from "@/i18n/dictionary";
 import { getLang } from "@/i18n/server";
 import { pageMeta } from "@/lib/seo";
 
-export const metadata = pageMeta({ title: "Refund Policy", description: "Refund policy for TestHub digital notes and test series.", path: "/refund-policy" });
+export const metadata = pageMeta({ title: "Refund Policy", description: "Refund policy for TETTESTHUB digital notes and test series.", path: "/refund-policy" });
 
 export default async function RefundPage() {
   const lang = await getLang();
@@ -11,7 +11,7 @@ export default async function RefundPage() {
     <InfoPage lang={lang} title={tr(dict.nav.refund, lang)} path="/refund-policy">
       {lang === "hi" ? (
         <>
-          <p>TestHub के नोट्स और टेस्ट सीरीज़ डिजिटल उत्पाद हैं।</p>
+          <p>TETTESTHUB के नोट्स और टेस्ट सीरीज़ डिजिटल उत्पाद हैं।</p>
           <h2>रिफंड कब मिलेगा</h2>
           <ul>
             <li>एक ही उत्पाद के लिए दोहरा भुगतान हो जाने पर।</li>
@@ -24,7 +24,7 @@ export default async function RefundPage() {
         </>
       ) : (
         <>
-          <p>TestHub notes and test series are digital products.</p>
+          <p>TETTESTHUB notes and test series are digital products.</p>
           <h2>When you get a refund</h2>
           <ul>
             <li>If you were charged twice for the same product.</li>

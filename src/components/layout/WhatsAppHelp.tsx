@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 /** Floating WhatsApp help button (issues with payment, download, tests). */
 export function WhatsAppHelp() {
   if (!site.contact.whatsapp) return null;
-  const msg = encodeURIComponent("नमस्ते TestHub, मुझे सहायता चाहिए: ");
+  const msg = encodeURIComponent("नमस्ते TETTESTHUB, मुझे सहायता चाहिए: ");
   return (
     <a
       href={`${site.contact.whatsapp}?text=${msg}`}

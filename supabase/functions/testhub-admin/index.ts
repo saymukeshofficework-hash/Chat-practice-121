@@ -1,4 +1,4 @@
-// TestHub — private admin API for the /admin page.
+// TETTESTHUB — private admin API for the /admin page.
 // Secret (Supabase → Edge Functions → Secrets): ADMIN_PASSWORD  (at least 10 characters)
 // Actions (POST JSON, every call carries {password}):
 //   login                       → stats

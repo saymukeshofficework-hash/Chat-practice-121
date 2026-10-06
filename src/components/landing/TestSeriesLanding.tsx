@@ -369,15 +369,15 @@ export function TestSeriesLanding() {
             ))}
           </div>
           {site.contact.whatsapp ? (
-            <a href={`${site.contact.whatsapp}?text=${encodeURIComponent("TestHub AG-3 test series")}`} className="mt-6 inline-flex items-center gap-2 font-semibold text-success-700">
+            <a href={`${site.contact.whatsapp}?text=${encodeURIComponent("TETTESTHUB AG-3 test series")}`} className="mt-6 inline-flex items-center gap-2 font-semibold text-success-700">
               <MessageCircle className="h-4 w-4" aria-hidden="true" />
               {lang === "hi" ? "कोई समस्या? WhatsApp पर संपर्क करें" : "Any issue? Chat with us on WhatsApp"}
             </a>
           ) : null}
           <p className="mt-8 text-xs text-ink-500">
             {lang === "hi"
-              ? "TestHub एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और मध्यप्रदेश उच्च न्यायालय से संबद्ध नहीं है।"
-              : "TestHub is an independent educational platform and is not affiliated with the High Court of Madhya Pradesh."}
+              ? "TETTESTHUB एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और मध्यप्रदेश उच्च न्यायालय से संबद्ध नहीं है।"
+              : "TETTESTHUB is an independent educational platform and is not affiliated with the High Court of Madhya Pradesh."}
           </p>
         </div>
       </section>

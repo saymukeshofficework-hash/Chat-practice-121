@@ -107,8 +107,8 @@ const copy = {
   more: { hi: "और", en: "More" },
   examPage: { hi: "परीक्षा की पूरी जानकारी देखें", en: "See full exam details" },
   disclaimer: {
-    hi: "TestHub एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और मध्यप्रदेश उच्च न्यायालय से संबद्ध नहीं है। परीक्षा संबंधी हर जानकारी की पुष्टि आधिकारिक वेबसाइट mphc.gov.in से करें।",
-    en: "TestHub is an independent educational platform and is not affiliated with the High Court of Madhya Pradesh. Verify all exam information on the official website mphc.gov.in.",
+    hi: "TETTESTHUB एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और मध्यप्रदेश उच्च न्यायालय से संबद्ध नहीं है। परीक्षा संबंधी हर जानकारी की पुष्टि आधिकारिक वेबसाइट mphc.gov.in से करें।",
+    en: "TETTESTHUB is an independent educational platform and is not affiliated with the High Court of Madhya Pradesh. Verify all exam information on the official website mphc.gov.in.",
   },
 };
 

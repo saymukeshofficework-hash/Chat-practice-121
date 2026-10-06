@@ -8,7 +8,7 @@ export function Footer({ lang }: { lang: Lang }) {
   const n = dict.nav;
   const cols = [
     {
-      title: "TEST HUB",
+      title: "TETTESTHUB",
       links: [
         { href: "/exams", label: n.exams },
         { href: "/notes", label: n.notes },

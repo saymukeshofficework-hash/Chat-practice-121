@@ -19,7 +19,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: site.seo.title, template: "%s | TestHub" },
+  title: { default: site.seo.title, template: "%s | TETTESTHUB" },
   description: site.seo.description,
   applicationName: site.name,
   openGraph: { siteName: site.name, locale: "hi_IN", type: "website", title: site.seo.title, description: site.seo.description, url: site.url },

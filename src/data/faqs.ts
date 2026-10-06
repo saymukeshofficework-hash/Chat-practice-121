@@ -4,10 +4,10 @@ export const faqs: Faq[] = [
   {
     id: "what",
     group: "general",
-    question: { hi: "TestHub क्या है?", en: "What is TestHub?" },
+    question: { hi: "TETTESTHUB क्या है?", en: "What is TETTESTHUB?" },
     answer: {
-      hi: "TestHub मध्यप्रदेश की प्रतियोगी परीक्षाओं की तैयारी का एक स्वतंत्र प्लेटफ़ॉर्म है — परीक्षा अपडेट, कैलेंडर, नोट्स, टेस्ट सीरीज़ और अभ्यास टेस्ट एक ही जगह।",
-      en: "TestHub is an independent preparation platform for Madhya Pradesh competitive exams — exam updates, calendar, notes, test series and practice tests in one place.",
+      hi: "TETTESTHUB मध्यप्रदेश की प्रतियोगी परीक्षाओं की तैयारी का एक स्वतंत्र प्लेटफ़ॉर्म है — परीक्षा अपडेट, कैलेंडर, नोट्स, टेस्ट सीरीज़ और अभ्यास टेस्ट एक ही जगह।",
+      en: "TETTESTHUB is an independent preparation platform for Madhya Pradesh competitive exams — exam updates, calendar, notes, test series and practice tests in one place.",
     },
   },
   {
@@ -64,19 +64,19 @@ export const faqs: Faq[] = [
   {
     id: "mppsc",
     group: "affiliation",
-    question: { hi: "क्या TestHub, MPPSC से संबद्ध है?", en: "Is TestHub affiliated with MPPSC?" },
+    question: { hi: "क्या TETTESTHUB, MPPSC से संबद्ध है?", en: "Is TETTESTHUB affiliated with MPPSC?" },
     answer: {
-      hi: "नहीं। TestHub एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और MPPSC से संबद्ध, समर्थित या संचालित नहीं है।",
-      en: "No. TestHub is an independent educational platform and is not affiliated with, endorsed by, or operated by MPPSC.",
+      hi: "नहीं। TETTESTHUB एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और MPPSC से संबद्ध, समर्थित या संचालित नहीं है।",
+      en: "No. TETTESTHUB is an independent educational platform and is not affiliated with, endorsed by, or operated by MPPSC.",
     },
   },
   {
     id: "mpesb",
     group: "affiliation",
-    question: { hi: "क्या TestHub, MPESB से संबद्ध है?", en: "Is TestHub affiliated with MPESB?" },
+    question: { hi: "क्या TETTESTHUB, MPESB से संबद्ध है?", en: "Is TETTESTHUB affiliated with MPESB?" },
     answer: {
-      hi: "नहीं। TestHub का MPESB या मध्यप्रदेश शासन से कोई संबंध नहीं है।",
-      en: "No. TestHub has no connection with MPESB or the Government of Madhya Pradesh.",
+      hi: "नहीं। TETTESTHUB का MPESB या मध्यप्रदेश शासन से कोई संबंध नहीं है।",
+      en: "No. TETTESTHUB has no connection with MPESB or the Government of Madhya Pradesh.",
     },
   },
 ];

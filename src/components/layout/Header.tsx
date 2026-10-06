@@ -11,7 +11,7 @@ export function Header({ lang }: { lang: Lang }) {
   return (
     <header className="sticky top-0 z-50 border-b border-ink-200 bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/85">
       <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Link href="/" aria-label="TestHub — Home" className="shrink-0">
+        <Link href="/" aria-label="TETTESTHUB — Home" className="shrink-0">
           <Logo />
         </Link>
 

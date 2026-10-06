@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AdminClient } from "@/components/admin/AdminClient";
 
 export const metadata: Metadata = {
-  title: "Admin | TestHub",
+  title: "Admin | TETTESTHUB",
   robots: { index: false, follow: false },
 };
 

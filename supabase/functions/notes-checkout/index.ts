@@ -1,4 +1,4 @@
-// TestHub — paid PDF notes: Razorpay order, payment verification, time-limited download.
+// TETTESTHUB — paid PDF notes: Razorpay order, payment verification, time-limited download.
 // Secrets (Supabase dashboard → Edge Functions → Secrets):
 //   RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET            (required to sell)
 //   RAZORPAY_WEBHOOK_SECRET                          (optional, for the razorpay-webhook function)
@@ -13,13 +13,13 @@ const PRODUCTS: Record<string, { amount: number; file: string; downloadName: str
   "ag3-en": {
     amount: 29900, // paise
     file: "TESTHUB_AG3_2026_ENGLISH_COMPLETE_NOTES.pdf",
-    downloadName: "TestHub-MP-High-Court-AG3-2026-English-Notes.pdf",
+    downloadName: "TETTESTHUB-MP-High-Court-AG3-2026-English-Notes.pdf",
     title: "MP High Court AG-3 2026 — English Notes (PDF)",
   },
   "ag3-hi": {
     amount: 29900,
     file: "TESTHUB_AG3_2026_HINDI_COMPLETE_NOTES.pdf",
-    downloadName: "TestHub-MP-High-Court-AG3-2026-Hindi-Notes.pdf",
+    downloadName: "TETTESTHUB-MP-High-Court-AG3-2026-Hindi-Notes.pdf",
     title: "MP हाई कोर्ट सहायक ग्रेड-3 2026 — हिंदी नोट्स (PDF)",
   },
   "ag3-tests": {
@@ -33,14 +33,14 @@ const PRODUCTS: Record<string, { amount: number; file: string; downloadName: str
     amount: 44900,
     kind: "combo",
     file: "TESTHUB_AG3_2026_ENGLISH_COMPLETE_NOTES.pdf",
-    downloadName: "TestHub-MP-High-Court-AG3-2026-English-Notes.pdf",
+    downloadName: "TETTESTHUB-MP-High-Court-AG3-2026-English-Notes.pdf",
     title: "Combo: MP High Court AG-3 2026 English Notes (PDF) + 20 Mock Tests",
   },
   "ag3-combo-hi": {
     amount: 44900,
     kind: "combo",
     file: "TESTHUB_AG3_2026_HINDI_COMPLETE_NOTES.pdf",
-    downloadName: "TestHub-MP-High-Court-AG3-2026-Hindi-Notes.pdf",
+    downloadName: "TETTESTHUB-MP-High-Court-AG3-2026-Hindi-Notes.pdf",
     title: "कॉम्बो: MP हाई कोर्ट सहायक ग्रेड-3 2026 हिंदी नोट्स (PDF) + 20 मॉक टेस्ट",
   },
 };
@@ -125,7 +125,7 @@ Deno.serve(async (req) => {
       if (!r.ok) return json({ error: "razorpay_order_failed", detail: o?.error?.description }, 502);
       const { error } = await db.from("orders").insert({ product: body.product, amount: p.amount, rzp_order_id: o.id });
       if (error) return json({ error: "db" }, 500);
-      return json({ order_id: o.id, key_id: keyId, amount: p.amount, currency: "INR", name: "TestHub", description: p.title });
+      return json({ order_id: o.id, key_id: keyId, amount: p.amount, currency: "INR", name: "TETTESTHUB", description: p.title });
     }
 
     case "verify": {

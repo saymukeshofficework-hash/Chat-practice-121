@@ -63,7 +63,7 @@ const ui = {
     practice: { hi: "प्रैक्टिस टेस्ट", en: "Practice Tests" },
     currentAffairs: { hi: "करेंट अफेयर्स", en: "Current Affairs" },
     previousPapers: { hi: "पिछले वर्षों के प्रश्नपत्र", en: "Previous Year Papers" },
-    why: { hi: "TestHub क्यों?", en: "Why TestHub?" },
+    why: { hi: "TETTESTHUB क्यों?", en: "Why TETTESTHUB?" },
     notifications: { hi: "नवीनतम अधिसूचनाएँ", en: "Latest Notifications" },
     faq: { hi: "सामान्य प्रश्न", en: "Frequently Asked Questions" },
     sources: { hi: "हम इन आधिकारिक स्रोतों पर नज़र रखते हैं", en: "Official Sources We Track" },
@@ -240,12 +240,12 @@ const ui = {
     resources: { hi: "संसाधन", en: "Resources" },
     company: { hi: "कंपनी", en: "Company" },
     official: { hi: "आधिकारिक स्रोत", en: "Official Sources" },
-    rights: { hi: "© 2026 TestHub. सर्वाधिकार सुरक्षित।", en: "© 2026 TestHub. All Rights Reserved." },
+    rights: { hi: "© 2026 TETTESTHUB. सर्वाधिकार सुरक्षित।", en: "© 2026 TETTESTHUB. All Rights Reserved." },
     independent: { hi: "एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म।", en: "An independent educational platform." },
   },
   disclaimer: {
     info: { hi: "परीक्षा तिथियाँ और भर्ती जानकारी बदल सकती हैं। अभ्यर्थी महत्वपूर्ण जानकारी की पुष्टि आधिकारिक अधिसूचना से करें।", en: "Exam dates and recruitment information may change. Candidates should verify important information from the official notification." },
-    affiliation: { hi: "TestHub एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और MPESB, MPPSC, म.प्र. उच्च न्यायालय या मध्यप्रदेश शासन से संबद्ध नहीं है।", en: "TestHub is an independent educational platform and is not affiliated with MPESB, MPPSC, the High Court of Madhya Pradesh or the Government of Madhya Pradesh." },
+    affiliation: { hi: "TETTESTHUB एक स्वतंत्र शैक्षिक प्लेटफ़ॉर्म है और MPESB, MPPSC, म.प्र. उच्च न्यायालय या मध्यप्रदेश शासन से संबद्ध नहीं है।", en: "TETTESTHUB is an independent educational platform and is not affiliated with MPESB, MPPSC, the High Court of Madhya Pradesh or the Government of Madhya Pradesh." },
   },
   cta: {
     title: { hi: "अपनी परीक्षा की तैयारी आज से शुरू करें", en: "Start preparing for your exam today" },

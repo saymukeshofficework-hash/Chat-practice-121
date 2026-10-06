@@ -139,7 +139,7 @@ export function AdminClient() {
         >
           <h1 className="flex items-center gap-2 text-xl font-extrabold text-brand-900">
             <ShieldCheck className="h-5 w-5 text-accent-600" aria-hidden="true" />
-            TestHub Admin
+            TETTESTHUB Admin
           </h1>
           <label className="mt-5 block text-sm font-semibold text-ink-700" htmlFor="adm-pw">
             Password
@@ -160,7 +160,7 @@ export function AdminClient() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="flex items-center gap-2 text-2xl font-extrabold text-brand-900">
           <ShieldCheck className="h-6 w-6 text-accent-600" aria-hidden="true" />
-          TestHub Admin
+          TETTESTHUB Admin
         </h1>
         <button type="button" onClick={logout} className="btn-outline">
           <LogOut className="h-4 w-4" aria-hidden="true" />
@@ -213,7 +213,7 @@ export function AdminClient() {
         {orders.length === 0 && !busy ? <li className="card p-5 text-center text-ink-500">No orders found.</li> : null}
         {orders.map((o) => {
           const link = accessLink(o);
-          const wa = o.phone ? `https://wa.me/${o.phone.replace(/\D/g, "").replace(/^(\d{10})$/, "91$1")}?text=${encodeURIComponent("TestHub — your access link: " + link)}` : "";
+          const wa = o.phone ? `https://wa.me/${o.phone.replace(/\D/g, "").replace(/^(\d{10})$/, "91$1")}?text=${encodeURIComponent("TETTESTHUB — your access link: " + link)}` : "";
           const chip =
             o.status === "paid" ? "bg-success-50 text-success-700" : o.status === "cancelled" ? "bg-danger-50 text-danger-700" : "bg-ink-100 text-ink-700";
           return (
