@@ -21,6 +21,9 @@ type Course = {
   desc: string;
   price: number;
   mrp?: number;
+  from?: boolean;
+  /** link at the site root (outside /examhelp) */
+  abs?: boolean;
   href: string;
 };
 
@@ -36,45 +39,31 @@ const COURSES = (lang: Lang): Course[] => {
   const hi = lang === "hi";
   return [
     {
-      f: ["new", "notes"], tone: "teal", art: "book", isNew: true,
-      kick: "MP हाई कोर्ट • 1174 पद", big: "सहायक ग्रेड-3 नोट्स", sub: ["हिंदी", "343 पेज", "18 अध्याय"],
-      tags: hi ? ["MP हाई कोर्ट", "नया कोर्स"] : ["MP High Court", "New"], meta: [hi ? "PDF" : "PDF", hi ? "तुरंत डाउनलोड" : "Instant download"],
-      title: "MP हाई कोर्ट सहायक ग्रेड-3 2026 — संपूर्ण नोट्स (हिंदी PDF)",
-      desc: "✅ पूरा आधिकारिक सिलेबस ✅ सभी 5 विषय ✅ परीक्षा-केंद्रित भाषा ✅ भुगतान के तुरंत बाद डाउनलोड",
-      price: 299, href: "/mp-high-court-assistant-grade-3-notes",
+      f: ["new", "notes", "tests"], tone: "teal", art: "combo", isNew: true,
+      kick: hi ? "MP हाई कोर्ट • 1174 पद" : "MP High Court • 1174 posts", big: hi ? "सहायक ग्रेड-3 2026" : "Assistant Grade-3 2026",
+      sub: hi ? ["PDF नोट्स", "20 मॉक टेस्ट", "टेस्ट 1 फ्री"] : ["PDF notes", "20 mock tests", "Test 1 free"],
+      tags: hi ? ["MP हाई कोर्ट", "नया कोर्स"] : ["MP High Court", "New"],
+      meta: [hi ? "विकल्प" : "Options", hi ? "नोट्स ₹299 · टेस्ट ₹199 · कॉम्बो ₹449" : "Notes ₹299 · Tests ₹199 · Combo ₹449"],
+      title: hi ? "MP हाई कोर्ट सहायक ग्रेड-3 2026 — नोट्स + टेस्ट सीरीज़" : "MP High Court Assistant Grade-3 2026 — Notes + Test Series",
+      desc: hi ? "✅ हिंदी/English PDF नोट्स (18 अध्याय) ✅ 20 फुल मॉक टेस्ट, टेस्ट 1 फ्री ✅ कॉम्बो में ₹49 की बचत" : "✅ Hindi/English PDF notes (18 chapters) ✅ 20 full mock tests, Test 1 free ✅ Save ₹49 with the combo",
+      price: 199, from: true, href: "/mp-high-court-assistant-grade-3-notes",
     },
     {
-      f: ["new", "tests"], tone: "ink", art: "test", isNew: true,
-      kick: hi ? "आधिकारिक पैटर्न • 100 प्रश्न • 120 मिनट" : "Official pattern • 100 Qs • 120 min", big: hi ? "20 फुल मॉक टेस्ट" : "20 Full Mock Tests",
-      sub: [hi ? "हिंदी / English" : "Hindi / English", hi ? "टेस्ट 1 फ्री" : "Test 1 free"],
-      tags: hi ? ["MP हाई कोर्ट", "टेस्ट सीरीज़"] : ["MP High Court", "Test series"], meta: [hi ? "टेस्ट" : "Tests", hi ? "20 · 2,000 प्रश्न" : "20 · 2,000 questions"],
-      title: hi ? "MP हाई कोर्ट सहायक ग्रेड-3 — टेस्ट सीरीज़ (20 मॉक टेस्ट)" : "MP High Court Assistant Grade-3 — Test Series (20 mock tests)",
-      desc: hi ? "✅ असली ऑनलाइन परीक्षा जैसी स्क्रीन ✅ हिंदी/English टॉगल ✅ तुरंत रिज़ल्ट ✅ हर प्रश्न की व्याख्या" : "✅ Real online-exam screen ✅ Hindi/English toggle ✅ Instant result ✅ Explanation for every question",
-      price: 199, href: "/mp-high-court-assistant-grade-3-test-series",
-    },
-    {
-      f: ["new", "notes", "tests"], tone: "amber", art: "combo", isNew: true,
-      kick: hi ? "सबसे ज़्यादा फ़ायदा" : "Best value", big: hi ? "कॉम्बो: नोट्स + 20 टेस्ट" : "Combo: Notes + 20 Tests", sub: [hi ? "₹49 की बचत" : "Save ₹49"],
-      tags: hi ? ["MP हाई कोर्ट", "कॉम्बो"] : ["MP High Court", "Combo"], meta: [hi ? "शामिल" : "Includes", hi ? "PDF नोट्स + टेस्ट सीरीज़" : "PDF notes + test series"],
-      title: hi ? "MP हाई कोर्ट AG-3 कॉम्बो — PDF नोट्स + 20 मॉक टेस्ट" : "MP High Court AG-3 Combo — PDF notes + 20 mock tests",
-      desc: hi ? "✅ हिंदी या English नोट्स चुनें ✅ पूरी 20 टेस्ट सीरीज़ ✅ पढ़ें, फिर टेस्ट से जाँचें" : "✅ Choose Hindi or English notes ✅ Full 20-test series ✅ Study, then test yourself",
-      price: 449, mrp: 498, href: "/mp-high-court-assistant-grade-3-notes#buy",
+      f: ["tests"], tone: "ink", art: "test",
+      kick: hi ? "TET • शिक्षक पात्रता परीक्षा" : "TET • Teacher Eligibility Test", big: hi ? "TET मॉक टेस्ट सीरीज़" : "TET Mock Test Series",
+      sub: hi ? ["20 फुल टेस्ट", "टेस्ट 1–2 फ्री"] : ["20 full tests", "Tests 1–2 free"],
+      tags: hi ? ["TET", "टेस्ट सीरीज़"] : ["TET", "Test series"], meta: [hi ? "हर टेस्ट" : "Each test", hi ? "150 प्रश्न · 150 मिनट" : "150 Qs · 150 min"],
+      title: hi ? "TET मॉक टेस्ट सीरीज़ — 20 फुल-लेंथ टेस्ट (हिंदी/English)" : "TET Mock Test Series — 20 full-length tests (Hindi/English)",
+      desc: hi ? "✅ टेस्ट 1 व 2 बिल्कुल फ्री ✅ बाकी 18 टेस्ट एक बंडल में ✅ असली परीक्षा जैसा इंटरफ़ेस" : "✅ Tests 1 & 2 free ✅ Other 18 in one bundle ✅ Real exam interface",
+      price: 199, href: "/tests.html", abs: true,
     },
     {
       f: ["notes"], tone: "indigo", art: "book",
-      kick: "MP High Court • 1174 posts", big: "Assistant Grade-3 Notes", sub: ["English", "324 pages", "18 chapters"],
-      tags: ["MP High Court", "English"], meta: ["PDF", "Instant download"],
-      title: "MP High Court Assistant Grade-3 2026 — Complete Notes (English PDF)",
-      desc: "✅ Full official syllabus ✅ All 5 subjects ✅ Exam-focused ✅ Download right after payment",
-      price: 299, href: "/mp-high-court-assistant-grade-3-notes?lang=en",
-    },
-    {
-      f: ["tests", "free"], tone: "sage", art: "test",
-      kick: hi ? "बिना भुगतान" : "No payment", big: hi ? "फ्री मॉक टेस्ट 1" : "Free Mock Test 1", sub: [hi ? "100 प्रश्न" : "100 Qs", hi ? "120 मिनट" : "120 min", "हिंदी / English"],
-      tags: hi ? ["MP हाई कोर्ट", "फ्री"] : ["MP High Court", "Free"], meta: [hi ? "समय" : "Time", hi ? "120 मिनट" : "120 minutes"],
-      title: hi ? "MP हाई कोर्ट AG-3 — फ्री फुल मॉक टेस्ट (टेस्ट 1)" : "MP High Court AG-3 — Free full mock test (Test 1)",
-      desc: hi ? "✅ असली पैटर्न पर 100 प्रश्न ✅ तुरंत रिज़ल्ट और खंड-वार विश्लेषण ✅ हर प्रश्न की व्याख्या" : "✅ 100 questions on the real pattern ✅ Instant section-wise result ✅ Explanations",
-      price: 0, href: "/mock-tests/ag3/test.html?t=01",
+      kick: "NIOS • B.Ed", big: hi ? "ब्रिज कोर्स नोट्स" : "Bridge Course Notes", sub: hi ? ["डिजिटल नोट्स", "तुरंत एक्सेस"] : ["Digital notes", "Instant access"],
+      tags: hi ? ["B.Ed ब्रिज कोर्स", "PDF नोट्स"] : ["B.Ed Bridge Course", "PDF notes"], meta: [hi ? "प्रकार" : "Type", hi ? "डिजिटल नोट्स" : "Digital notes"],
+      title: hi ? "NIOS B.Ed ब्रिज कोर्स — संपूर्ण डिजिटल नोट्स" : "NIOS B.Ed Bridge Course — Complete digital notes",
+      desc: hi ? "✅ ब्रिज कोर्स के सभी विषय ✅ परीक्षा व असाइनमेंट के लिए ✅ भुगतान के बाद तुरंत एक्सेस" : "✅ All bridge course subjects ✅ For exams and assignments ✅ Instant access after payment",
+      price: 199, href: "/bridge-course/", abs: true,
     },
   ];
 };
@@ -115,8 +104,8 @@ export function CourseCatalog({ lang }: { lang: Lang }) {
   const [q, setQ] = useState("");
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const chips: [string, string][] = lang === "hi"
-    ? [["all", "सभी"], ["new", "नए कोर्स"], ["notes", "PDF नोट्स"], ["tests", "टेस्ट सीरीज़"], ["free", "फ्री"]]
-    : [["all", "All"], ["new", "New"], ["notes", "PDF notes"], ["tests", "Test series"], ["free", "Free"]];
+    ? [["all", "सभी"], ["new", "नए कोर्स"], ["notes", "PDF नोट्स"], ["tests", "टेस्ट सीरीज़"]]
+    : [["all", "All"], ["new", "New"], ["notes", "PDF notes"], ["tests", "Test series"]];
   const shown = courses.filter((c) => {
     const okF = filter === "all" || c.f.includes(filter);
     const hay = [c.title, c.big, c.kick, c.desc, ...c.tags, ...c.sub].join(" ").toLowerCase();
@@ -143,7 +132,7 @@ export function CourseCatalog({ lang }: { lang: Lang }) {
 
       <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {shown.map((c) => {
-          const external = c.href.endsWith(".html") || c.href.includes(".html?");
+          const external = c.abs || c.href.endsWith(".html") || c.href.includes(".html?");
           const inner = (
             <>
               <div className={`relative flex aspect-[16/9] flex-col justify-between overflow-hidden p-5 ${TONES[c.tone]}`}>
@@ -174,6 +163,7 @@ export function CourseCatalog({ lang }: { lang: Lang }) {
                   <span className="text-2xl font-extrabold text-ink-900">
                     {c.price ? `₹${c.price}` : <span className="text-brand-700">{lang === "hi" ? "फ्री" : "Free"}</span>}
                     {c.mrp ? <s className="ml-1.5 text-base font-medium text-ink-500">₹{c.mrp}</s> : null}
+                    {c.from ? <small className="ml-1.5 text-sm font-semibold text-ink-500">{lang === "hi" ? "से शुरू" : "onwards"}</small> : null}
                   </span>
                   <span className="grid h-9 w-9 place-items-center rounded-full bg-ink-900 text-white" aria-hidden="true">
                     <ArrowUpRight className="h-4 w-4" />
@@ -185,7 +175,7 @@ export function CourseCatalog({ lang }: { lang: Lang }) {
           const cls = "flex h-full flex-col overflow-hidden rounded-2xl border border-ink-200 bg-surface transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]";
           return (
             <li key={c.title}>
-              {external ? <a href={`${base}${c.href}`} className={cls}>{inner}</a> : <Link href={c.href} className={cls}>{inner}</Link>}
+              {external ? <a href={c.abs ? c.href : `${base}${c.href}`} className={cls}>{inner}</a> : <Link href={c.href} className={cls}>{inner}</Link>}
             </li>
           );
         })}
