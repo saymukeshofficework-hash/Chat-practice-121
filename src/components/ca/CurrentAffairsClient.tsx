@@ -170,7 +170,7 @@ export function CurrentAffairsClient() {
           margin: [8, 8, 10, 8],
           filename: `TETTESTHUB-Current-Affairs-${day.day}-${lang}.pdf`,
           image: { type: "jpeg", quality: 0.92 },
-          html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+          html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff", scrollX: 0, scrollY: 0, x: 0, y: 0, windowWidth: 734 },
           jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
           pagebreak: { mode: ["css", "legacy"], avoid: [".ca-avoid"] },
         })
@@ -410,8 +410,8 @@ export function CurrentAffairsClient() {
           </div>
 
           {/* hidden print layout for the PDF */}
-          <div aria-hidden="true" style={{ position: "fixed", left: -10000, top: 0, width: 760 }}>
-            <div ref={printRef} style={{ width: 760, background: "#fff", color: "#14181f", fontFamily: "'Noto Sans Devanagari', 'Inter Variable', sans-serif", fontSize: 12.5, lineHeight: 1.55, padding: "6px 4px" }}>
+          <div aria-hidden="true" style={{ position: "fixed", left: -10000, top: 0, width: 734 }}>
+            <div ref={printRef} style={{ width: "100%", boxSizing: "border-box", background: "#fff", color: "#14181f", fontFamily: "'Noto Sans Devanagari', 'Inter Variable', sans-serif", fontSize: 12.5, lineHeight: 1.55, padding: "6px 4px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: "2px solid #0f766e", paddingBottom: 8, marginBottom: 12 }}>
                 <div>
                   <div style={{ fontWeight: 800, fontSize: 20 }}>TETTEST<span style={{ color: "#0f766e" }}>HUB</span></div>
@@ -424,7 +424,7 @@ export function CurrentAffairsClient() {
                 if (!list.length) return null;
                 return (
                   <div key={rg} style={{ marginBottom: 10 }}>
-                    <div style={{ background: "#0f766e", color: "#fff", fontWeight: 700, padding: "4px 10px", borderRadius: 6, margin: "8px 0" }}>{L(REGION_LABEL[rg])}</div>
+                    <div className="ca-avoid" style={{ background: "#0f766e", color: "#fff", fontWeight: 700, padding: "4px 10px", borderRadius: 6, margin: "8px 0" }}>{L(REGION_LABEL[rg])}</div>
                     {list.map((it) => (
                       <div key={it.id} className="ca-avoid" style={{ border: "1px solid #e3e6e3", borderRadius: 8, padding: "8px 10px", marginBottom: 8 }}>
                         <div style={{ fontSize: 10.5, color: "#0f766e", fontWeight: 700 }}>{L(CATS[it.cat] ?? CATS.other)}</div>
@@ -446,7 +446,7 @@ export function CurrentAffairsClient() {
               ) : null}
               {day.quiz?.length ? (
                 <div style={{ marginTop: 10 }}>
-                  <div style={{ background: "#1f2937", color: "#fff", fontWeight: 700, padding: "4px 10px", borderRadius: 6, margin: "8px 0" }}>{lang === "hi" ? "क्विज़ (उत्तर अंत में)" : "Quiz (answers at the end)"}</div>
+                  <div className="ca-avoid" style={{ background: "#1f2937", color: "#fff", fontWeight: 700, padding: "4px 10px", borderRadius: 6, margin: "8px 0" }}>{lang === "hi" ? "क्विज़ (उत्तर अंत में)" : "Quiz (answers at the end)"}</div>
                   {day.quiz.map((qz, qi) => (
                     <div key={qi} className="ca-avoid" style={{ marginBottom: 6 }}>
                       <b>{qi + 1}. {L(qz.q)}</b>
