@@ -5,7 +5,7 @@ import { CalendarDays, Check, CreditCard, Download, Globe2, Landmark, Lock, MapP
 import { buyNotes, checkout } from "@/lib/checkout";
 
 /**
- * Daily current affairs (MP, India, World) behind a ₹99 / 30-day pass.
+ * Daily current affairs (MP, India, World) behind a ₹49 / 30-day pass.
  * Content lives in Supabase (table ca_days) and is served only to valid pass holders
  * by the notes-checkout edge function (actions ca_index / ca_day).
  */
@@ -237,7 +237,7 @@ export function CurrentAffairsClient() {
             ) : null}
             <p className="text-sm font-bold text-brand-700">{lang === "hi" ? "30 दिन का पास" : "30-day pass"}</p>
             <p className="mt-1 text-5xl font-extrabold text-ink-900">
-              ₹99<span className="ml-2 text-base font-semibold text-ink-500">{lang === "hi" ? "/ 30 दिन" : "/ 30 days"}</span>
+              ₹49<span className="ml-2 text-base font-semibold text-ink-500">{lang === "hi" ? "/ 30 दिन" : "/ 30 days"}</span>
             </p>
             <ul className="mt-5 space-y-2.5 text-[15px] text-ink-700">
               {perks.map((p) => (
@@ -249,7 +249,7 @@ export function CurrentAffairsClient() {
             </ul>
             <button type="button" onClick={buy} disabled={!canBuy || payState !== "idle"} className="btn-primary mt-6 w-full text-base disabled:opacity-60">
               <CreditCard className="h-4 w-4" aria-hidden="true" />
-              {payState !== "idle" ? (lang === "hi" ? "कृपया प्रतीक्षा करें…" : "Please wait…") : canBuy ? (lang === "hi" ? "पास लें — ₹99" : "Get the pass — ₹99") : lang === "hi" ? "जल्द उपलब्ध" : "Coming soon"}
+              {payState !== "idle" ? (lang === "hi" ? "कृपया प्रतीक्षा करें…" : "Please wait…") : canBuy ? (lang === "hi" ? "पास लें — ₹49" : "Get the pass — ₹49") : lang === "hi" ? "जल्द उपलब्ध" : "Coming soon"}
             </button>
             {payErr ? <p role="alert" className="mt-2 text-sm text-danger-700">{payErr}</p> : null}
             <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-ink-500">

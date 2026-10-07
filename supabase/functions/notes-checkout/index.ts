@@ -43,8 +43,22 @@ const PRODUCTS: Record<string, { amount: number; file: string; downloadName: str
     downloadName: "TETTESTHUB-MP-High-Court-AG3-2026-Hindi-Notes.pdf",
     title: "कॉम्बो: MP हाई कोर्ट सहायक ग्रेड-3 2026 हिंदी नोट्स (PDF) + 20 मॉक टेस्ट",
   },
+  "pcgd-tests": {
+    amount: 19900,
+    kind: "tests",
+    file: "pcgd", // bucket "tests": pcgd/03.json … (tests 1–2 are free, public)
+    downloadName: "",
+    title: "MP पुलिस आरक्षक (जी.डी.) 2026 — 25 फुल मॉक टेस्ट",
+  },
+  "asi-tests": {
+    amount: 19900,
+    kind: "tests",
+    file: "asi", // bucket "tests": asi/03.json … (tests 1–2 are free, public)
+    downloadName: "",
+    title: "MP पुलिस सूबेदार (शीघ्रलेखक) / ASI 2026 — 25 फुल मॉक टेस्ट",
+  },
   "ca-30": {
-    amount: 9900,
+    amount: 4900,
     kind: "ca",
     file: "",
     downloadName: "",
@@ -215,7 +229,10 @@ Deno.serve(async (req) => {
       const { data: ord } = await db.from("orders").select("product,status").eq("download_token", token).eq("status", "paid").maybeSingle();
       const p = ord ? PRODUCTS[ord.product] : null;
       if (!p || (p.kind !== "tests" && p.kind !== "combo")) return json({ error: "not_found" }, 404);
-      const { data, error } = await db.storage.from("tests").download(`${TESTS_FOLDER}/${String(n).padStart(2, "0")}.json`);
+      // each token only opens its own series folder (combo tokens → the AG-3 series)
+      const folder = p.kind === "tests" ? p.file : TESTS_FOLDER;
+      if (body.series && body.series !== folder) return json({ error: "wrong_series" }, 403);
+      const { data, error } = await db.storage.from("tests").download(`${folder}/${String(n).padStart(2, "0")}.json`);
       if (error || !data) return json({ error: "no_test" }, 404);
       return new Response(await data.text(), { headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "private, max-age=600" } });
     }
