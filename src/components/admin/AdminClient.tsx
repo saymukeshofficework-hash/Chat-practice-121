@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Ban, Copy, LogOut, MessageCircle, RefreshCw, RotateCcw, Search, ShieldCheck, Undo2 } from "lucide-react";
 import { adminCall, downloadPath } from "@/lib/checkout";
+import { UploadTests } from "@/components/admin/UploadTests";
 
 type Order = {
   id: string;
@@ -280,6 +281,7 @@ export function AdminClient() {
           );
         })}
       </ul>
+      <UploadTests pw={pw} />
       <p className="mt-6 text-xs text-ink-500">Showing the latest 100 matching orders. Refunds themselves are done in the Razorpay dashboard; cancel access here after refunding.</p>
     </div>
   );

@@ -4,6 +4,8 @@
 //   login                       → stats
 //   list   {q?, status?}        → recent orders (search by payment id / order id / email / phone)
 //   update {id, op}             → op: "reset" (downloads = 0) | "cancel" (status = cancelled) | "restore" (status = paid)
+//   upload_test {series, n, data} → saves a mock test paper to the private bucket "tests" at <series>/NN.json
+//   list_tests {series}         → test numbers stored for a series
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -26,6 +28,7 @@ function safeEqual(a: string, b: string) {
   for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);
   return r === 0;
 }
+const SERIES = ["ag3", "pcgd", "asi"];
 const COLS = "id,product,amount,status,rzp_order_id,rzp_payment_id,email,phone,downloads,download_token,created_at,paid_at";
 
 Deno.serve(async (req) => {
@@ -33,7 +36,8 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "method" }, 405);
   const pw = (Deno.env.get("ADMIN_PASSWORD") ?? "").trim();
   if (pw.length < 10) return json({ error: "admin_not_configured" }, 503);
-  let body: Record<string, string>;
+  // deno-lint-ignore no-explicit-any
+  let body: Record<string, any>;
   try {
     body = await req.json();
   } catch {
@@ -90,6 +94,26 @@ Deno.serve(async (req) => {
       const { data, error } = await db.from("orders").update(patch).eq("id", id).select(COLS).maybeSingle();
       if (error) return json({ error: "db" }, 500);
       return json({ order: data });
+    }
+    case "upload_test": {
+      const series = String(body.series ?? "");
+      const n = parseInt(String(body.n ?? ""), 10);
+      if (!SERIES.includes(series) || !(n >= 1 && n <= 50)) return json({ error: "bad_request" }, 400);
+      const d = typeof body.data === "string" ? JSON.parse(body.data) : body.data;
+      const qs = d?.questions;
+      const okQ = Array.isArray(qs) && qs.length >= 50 && qs.every((q: any) =>
+        q && typeof q.s === "string" && [0, 1, 2, 3].includes(q.a) && q.q?.hi && q.q?.en && q.o?.hi?.length === 4 && q.o?.en?.length === 4);
+      if (!Array.isArray(d?.sections) || !okQ) return json({ error: "bad_test_file" }, 400);
+      const path = `${series}/${String(n).padStart(2, "0")}.json`;
+      const { error } = await db.storage.from("tests").upload(path, new Blob([JSON.stringify(d)], { type: "application/json" }), { upsert: true, contentType: "application/json" });
+      if (error) return json({ error: "storage", detail: error.message }, 500);
+      return json({ ok: true, path, questions: qs.length });
+    }
+    case "list_tests": {
+      const series = String(body.series ?? "");
+      if (!SERIES.includes(series)) return json({ error: "bad_request" }, 400);
+      const { data } = await db.storage.from("tests").list(series, { limit: 100 });
+      return json({ tests: (data ?? []).filter((f) => f.name.endsWith(".json")).map((f) => parseInt(f.name, 10)).filter((x) => x > 0).sort((a, b) => a - b) });
     }
   }
   return json({ error: "unknown_action" }, 400);
