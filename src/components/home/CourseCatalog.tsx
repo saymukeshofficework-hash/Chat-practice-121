@@ -59,6 +59,15 @@ const COURSES = (lang: Lang): Course[] => {
       price: 49, href: "/current-affairs",
     },
     {
+      f: ["new", "tests"], tone: "indigo", art: "test", isNew: true,
+      kick: hi ? "MP पुलिस • 7500 पद" : "MP Police • 7500 posts", big: hi ? "आरक्षक (जी.डी.) 2026" : "Constable (GD) 2026",
+      sub: hi ? ["25 फुल टेस्ट", "टेस्ट 1–2 फ्री"] : ["25 full tests", "Tests 1–2 free"],
+      tags: hi ? ["MP पुलिस", "टेस्ट सीरीज़"] : ["MP Police", "Test series"], meta: [hi ? "हर टेस्ट" : "Each test", hi ? "100 प्रश्न · 120 मिनट" : "100 Qs · 120 min"],
+      title: hi ? "MP पुलिस आरक्षक (जी.डी.) 2026 — 25 फुल मॉक टेस्ट" : "MP Police Constable (GD) 2026 — 25 full mock tests",
+      desc: hi ? "✅ MPESB पैटर्न: 3 खंड, 100 प्रश्न ✅ टेस्ट 1 व 2 फ्री ✅ हिंदी/English, हर प्रश्न की व्याख्या" : "✅ MPESB pattern: 3 sections, 100 Qs ✅ Tests 1 & 2 free ✅ Hindi/English, explanation for every question",
+      price: 199, href: "/mp-police-constable-gd-mock-tests",
+    },
+    {
       f: ["tests"], tone: "ink", art: "test",
       kick: hi ? "TET • शिक्षक पात्रता परीक्षा" : "TET • Teacher Eligibility Test", big: hi ? "TET मॉक टेस्ट सीरीज़" : "TET Mock Test Series",
       sub: hi ? ["20 फुल टेस्ट", "टेस्ट 1–2 फ्री"] : ["20 full tests", "Tests 1–2 free"],

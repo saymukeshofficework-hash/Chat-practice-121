@@ -60,6 +60,12 @@ export const exams: Exam[] = [
     featured: true,
     popular: true,
     source: { label: "MPESB Rulebook (revised page 1, 15.09.2026)", url: `${ESB_RB}PCRT_2026_Rulebook_Revised_Page_01_15092026.pdf`, checkedOn: CHECKED },
+    testSeries: {
+      href: "/mp-police-constable-gd-mock-tests/",
+      title: { hi: "आरक्षक (जी.डी.) 2026 — 25 फुल मॉक टेस्ट", en: "Police Constable GD 2026 — 25 full mock tests" },
+      sub: { hi: "MPESB पैटर्न: 100 प्रश्न · 120 मिनट · 3 खंड · टेस्ट 1 व 2 फ्री, बाकी 23 टेस्ट ₹199 में", en: "MPESB pattern: 100 Qs · 120 min · 3 sections · Tests 1 & 2 free, other 23 for ₹199" },
+      cta: { hi: "टेस्ट देखें", en: "View tests" },
+    },
     updatedAt: CHECKED,
   },
   {

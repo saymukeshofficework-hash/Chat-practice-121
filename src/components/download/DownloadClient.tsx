@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MOCK_SERIES } from "@/data/mockTests";
 import { CheckCircle2, Download, KeyRound, Loader2 } from "lucide-react";
 import { checkout, downloadPath } from "@/lib/checkout";
 import { site } from "@/lib/site";
@@ -128,7 +129,7 @@ export function DownloadClient() {
         <CheckCircle2 className="mx-auto h-12 w-12 text-success-700" aria-hidden="true" />
         <h1 className="mt-3 text-2xl font-bold text-brand-900">टेस्ट सीरीज़ अनलॉक! / Test series unlocked!</h1>
         <p className="mt-2 text-ink-700">{info.title}</p>
-        <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/mp-high-court-assistant-grade-3-mock-tests/`} className="btn-primary mt-6 w-full text-base">
+        <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${(Object.values(MOCK_SERIES).find((m) => m.product === info.product)?.listPath ?? "/mp-high-court-assistant-grade-3-mock-tests")}/`} className="btn-primary mt-6 w-full text-base">
           टेस्ट शुरू करें / Go to tests
         </a>
         <p className="mt-4 text-xs text-ink-500">

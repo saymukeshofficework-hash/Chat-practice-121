@@ -23,6 +23,14 @@ export default async function Page() {
         </div>
         <span className="btn-primary shrink-0">{lang === "hi" ? "देखें — ₹199" : "View — ₹199"}</span>
       </Link>
+      <Link href="/mp-police-constable-gd-mock-tests" className="card mt-4 flex flex-col gap-3 border-2 border-brand-700 p-5 transition hover:shadow-md sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wide text-accent-700">{lang === "hi" ? "नया" : "New"}</p>
+          <p className="mt-1 text-lg font-extrabold text-brand-900">{lang === "hi" ? "MP पुलिस आरक्षक (जी.डी.) 2026 — 25 फुल मॉक टेस्ट" : "MP Police Constable (GD) 2026 — 25 full mock tests"}</p>
+          <p className="mt-1 text-sm text-ink-600">{lang === "hi" ? "MPESB पैटर्न · हिंदी/English · टेस्ट 1 व 2 फ्री" : "MPESB pattern · Hindi/English · Tests 1 & 2 free"}</p>
+        </div>
+        <span className="btn-primary shrink-0">{lang === "hi" ? "देखें — ₹199" : "View — ₹199"}</span>
+      </Link>
     </div>
     <SectionLanding
       lang={lang}
