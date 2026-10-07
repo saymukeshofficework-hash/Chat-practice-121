@@ -9,7 +9,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 // kind "pdf": one private file in bucket "notes"; kind "tests": unlocks private test files in bucket "tests";
 // kind "combo": the PDF in `file` + the test series (bucket "tests", folder TESTS_FOLDER)
 const TESTS_FOLDER = "ag3";
-const PRODUCTS: Record<string, { amount: number; file: string; downloadName: string; title: string; kind?: "pdf" | "tests" | "combo" }> = {
+const PRODUCTS: Record<string, { amount: number; file: string; downloadName: string; title: string; kind?: "pdf" | "tests" | "combo" | "ca" }> = {
   "ag3-en": {
     amount: 29900, // paise
     file: "TESTHUB_AG3_2026_ENGLISH_COMPLETE_NOTES.pdf",
@@ -43,7 +43,15 @@ const PRODUCTS: Record<string, { amount: number; file: string; downloadName: str
     downloadName: "TETTESTHUB-MP-High-Court-AG3-2026-Hindi-Notes.pdf",
     title: "कॉम्बो: MP हाई कोर्ट सहायक ग्रेड-3 2026 हिंदी नोट्स (PDF) + 20 मॉक टेस्ट",
   },
+  "ca-30": {
+    amount: 9900,
+    kind: "ca",
+    file: "",
+    downloadName: "",
+    title: "करेंट अफेयर्स — 30 दिन का पास (MP, भारत, अंतरराष्ट्रीय)",
+  },
 };
+const PASS_DAYS = 30; // current affairs pass length
 const MAX_DOWNLOADS = 10;
 const LINK_SECONDS = 600;
 
@@ -102,6 +110,7 @@ Deno.serve(async (req) => {
     case "status": {
       const p = PRODUCTS[body.product ?? ""];
       if (!p) return json({ ready: false });
+      if (p.kind === "ca") return json({ ready, amount: p.amount, days: PASS_DAYS });
       if (p.kind === "tests") {
         const { data } = await db.storage.from("tests").list(p.file, { limit: 100 });
         const files = (data ?? []).filter((f) => f.name.endsWith(".json")).map((f) => parseInt(f.name, 10)).filter((n) => n > 0).sort((a, b) => a - b);
@@ -165,13 +174,37 @@ Deno.serve(async (req) => {
       const { data: ord } = await db.from("orders").select("*").eq("download_token", token).eq("status", "paid").maybeSingle();
       if (!ord) return json({ error: "not_found" }, 404);
       const p = PRODUCTS[ord.product];
-      if (body.peek) return json({ product: ord.product, kind: p.kind ?? "pdf", title: p.title, downloads: ord.downloads, max: MAX_DOWNLOADS, payment_id: ord.rzp_payment_id });
-      if (p.kind === "tests") return json({ error: "not_a_pdf" }, 400);
+      if (body.peek) {
+        const expires_at = p.kind === "ca" && ord.paid_at ? new Date(new Date(ord.paid_at).getTime() + PASS_DAYS * 86400e3).toISOString() : undefined;
+        return json({ product: ord.product, kind: p.kind ?? "pdf", title: p.title, downloads: ord.downloads, max: MAX_DOWNLOADS, payment_id: ord.rzp_payment_id, expires_at });
+      }
+      if (p.kind === "tests" || p.kind === "ca") return json({ error: "not_a_pdf" }, 400);
       if (ord.downloads >= MAX_DOWNLOADS) return json({ error: "limit", max: MAX_DOWNLOADS }, 429);
       const { data, error } = await db.storage.from("notes").createSignedUrl(p.file, LINK_SECONDS, { download: p.downloadName });
       if (error || !data) return json({ error: "storage" }, 500);
       await db.from("orders").update({ downloads: ord.downloads + 1 }).eq("id", ord.id);
       return json({ url: data.signedUrl, title: p.title, downloads: ord.downloads + 1, max: MAX_DOWNLOADS });
+    }
+
+    case "ca_index": {
+      // public: which days are published (no content)
+      const { data } = await db.from("ca_days").select("day,items").order("day", { ascending: false }).limit(90);
+      return json({ days: data ?? [], amount: PRODUCTS["ca-30"].amount, pass_days: PASS_DAYS, ready });
+    }
+
+    case "ca_day": {
+      // paid: one day's current affairs for a valid 30-day pass
+      const token = body.token ?? "";
+      if (token.length < 20) return json({ error: "bad_token" }, 400);
+      const { data: ord } = await db.from("orders").select("product,status,paid_at").eq("download_token", token).eq("status", "paid").maybeSingle();
+      if (!ord || PRODUCTS[ord.product]?.kind !== "ca" || !ord.paid_at) return json({ error: "not_found" }, 404);
+      const expires = new Date(new Date(ord.paid_at).getTime() + PASS_DAYS * 86400e3);
+      if (expires.getTime() < Date.now()) return json({ error: "expired", expires_at: expires.toISOString() }, 403);
+      let q = db.from("ca_days").select("day,data").order("day", { ascending: false }).limit(1);
+      if (body.day && /^\d{4}-\d{2}-\d{2}$/.test(body.day)) q = db.from("ca_days").select("day,data").eq("day", body.day).limit(1);
+      const { data: rows } = await q;
+      const row = rows?.[0];
+      return json({ expires_at: expires.toISOString(), day: row?.day ?? null, data: row?.data ?? null });
     }
 
     case "test": {

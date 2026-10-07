@@ -26,8 +26,9 @@ const PRODUCT: Record<string, string> = {
   "ag3-tests": "Test series (20 tests)",
   "ag3-combo-hi": "Combo — Hindi notes + tests",
   "ag3-combo-en": "Combo — English notes + tests",
+  "ca-30": "Current affairs — 30-day pass",
 };
-const hasPdf = (p: string) => p !== "ag3-tests";
+const hasPdf = (p: string) => p !== "ag3-tests" && p !== "ca-30";
 const MAX_DL = 10;
 const PW_KEY = "testhub_admin_pw";
 const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");

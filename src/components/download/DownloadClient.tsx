@@ -37,7 +37,15 @@ export function DownloadClient() {
     }
     checkout<Info>({ action: "download", token: tk, peek: true }).then((r) => {
       if (r.error) setState("notfound");
-      else if (r.kind === "tests") {
+      else if (r.kind === "ca") {
+        // current affairs pass: remember it on this device and open the reader
+        try {
+          localStorage.setItem("testhub_dl_ca-30", tk);
+        } catch {
+          /* ignore */
+        }
+        window.location.replace(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/current-affairs/`);
+      } else if (r.kind === "tests") {
         try {
           localStorage.setItem(`testhub_dl_${r.product}`, tk);
         } catch {

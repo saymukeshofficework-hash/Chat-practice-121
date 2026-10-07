@@ -49,6 +49,16 @@ const COURSES = (lang: Lang): Course[] => {
       price: 199, from: true, href: "/mp-high-court-assistant-grade-3-notes",
     },
     {
+      f: ["new", "notes"], tone: "amber", art: "book", isNew: true,
+      kick: hi ? "रोज़ अपडेट • MP + भारत + विश्व" : "Daily • MP + India + World", big: hi ? "दैनिक करेंट अफेयर्स" : "Daily Current Affairs",
+      sub: hi ? ["रोज़ की खबरें", "PDF डाउनलोड", "क्विज़"] : ["Daily news", "PDF download", "Quiz"],
+      tags: hi ? ["करेंट अफेयर्स", "नया"] : ["Current affairs", "New"],
+      meta: [hi ? "पास" : "Pass", hi ? "30 दिन · ₹99" : "30 days · ₹99"],
+      title: hi ? "दैनिक करेंट अफेयर्स — मध्यप्रदेश, भारत व अंतरराष्ट्रीय" : "Daily Current Affairs — Madhya Pradesh, India & World",
+      desc: hi ? "✅ हर दिन MP, भारत व विश्व की प्रमुख खबरें ✅ वन-लाइनर व क्विज़ ✅ आज के करेंट अफेयर्स की PDF डाउनलोड" : "✅ Key MP, India and world news every day ✅ One-liners and quiz ✅ Download today's current affairs as PDF",
+      price: 99, href: "/current-affairs",
+    },
+    {
       f: ["tests"], tone: "ink", art: "test",
       kick: hi ? "TET • शिक्षक पात्रता परीक्षा" : "TET • Teacher Eligibility Test", big: hi ? "TET मॉक टेस्ट सीरीज़" : "TET Mock Test Series",
       sub: hi ? ["20 फुल टेस्ट", "टेस्ट 1–2 फ्री"] : ["20 full tests", "Tests 1–2 free"],
