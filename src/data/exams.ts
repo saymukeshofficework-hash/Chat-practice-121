@@ -97,6 +97,12 @@ export const exams: Exam[] = [
     featured: true,
     popular: true,
     source: { label: "MPESB Rulebook (17.09.2026)", url: `${ESB_RB}Steno_ASI_2026_Rulebook_17092026.pdf`, checkedOn: CHECKED },
+    testSeries: {
+      href: "/mp-police-subedar-asi-mock-tests/",
+      title: { hi: "सूबेदार / ASI 2026 — 20 फुल मॉक टेस्ट", en: "Subedar / ASI 2026 — 20 full mock tests" },
+      sub: { hi: "MPESB पैटर्न: 100 प्रश्न · 120 मिनट · 3 खंड · टेस्ट 1 व 2 फ्री, बाकी 18 टेस्ट ₹199 में", en: "MPESB pattern: 100 Qs · 120 min · 3 sections · Tests 1 & 2 free, other 18 for ₹199" },
+      cta: { hi: "टेस्ट देखें", en: "View tests" },
+    },
     updatedAt: CHECKED,
   },
   {

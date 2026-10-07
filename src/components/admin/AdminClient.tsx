@@ -28,7 +28,7 @@ const PRODUCT: Record<string, string> = {
   "ag3-combo-hi": "Combo — Hindi notes + tests",
   "ag3-combo-en": "Combo — English notes + tests",
   "pcgd-tests": "Police Constable GD — 25 tests",
-  "asi-tests": "Police Subedar/ASI — 25 tests",
+  "asi-tests": "Police Subedar/ASI — 20 tests",
   "ca-30": "Current affairs — 30-day pass",
 };
 const hasPdf = (p: string) => !p.endsWith("-tests") && p !== "ca-30";
