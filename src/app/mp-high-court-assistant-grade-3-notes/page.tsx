@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { AG3Landing } from "@/components/landing/AG3Landing";
+import { SimpleNotesLanding } from "@/components/landing/SimpleNotesLanding";
 import { JsonLd } from "@/components/ui/Primitives";
 import { getLang } from "@/i18n/server";
 import { getExamBySlug, getNoteBySlug } from "@/lib/repo";
@@ -50,7 +50,7 @@ export default async function Page() {
 
   return (
     <>
-      <AG3Landing exam={exam} notes={{ hi, en }} initialLang={lang} notifyHref={notifyHref} />
+      <SimpleNotesLanding exam={exam} notes={{ hi, en }} initialLang={lang} />
       <JsonLd data={faqSchema} />
       {productSchemas.map((p, i) => (
         <JsonLd key={i} data={p} />
