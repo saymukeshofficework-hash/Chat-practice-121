@@ -37,7 +37,6 @@ export default async function Page() {
     ].map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
   };
 
-  // Product schema only once a PDF can actually be bought.
   const live = [hi, en].filter((n) => n?.status === "AVAILABLE" && n.paymentUrl);
   const productSchemas = live.map((n) => ({
     "@context": "https://schema.org",
@@ -50,7 +49,7 @@ export default async function Page() {
 
   return (
     <>
-      <SimpleNotesLanding exam={exam} notes={{ hi, en }} initialLang={lang} />
+      <SimpleNotesLanding exam={exam} notes={{ hi, en }} initialLang={lang} notifyHref={notifyHref} />
       <JsonLd data={faqSchema} />
       {productSchemas.map((p, i) => (
         <JsonLd key={i} data={p} />
