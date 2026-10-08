@@ -108,6 +108,7 @@ export function MobileControls({ lang }: { lang: Lang }) {
 
   return (
     <div className="flex items-center gap-1 xl:hidden">
+      <Link href="/login.html" aria-label="लॉगिन या रजिस्टर" className="inline-flex h-10 items-center rounded-xl border border-brand-200 bg-brand-50 px-2.5 text-xs font-semibold text-brand-700 hover:bg-brand-100 sm:px-3 sm:text-sm">लॉगिन / रजिस्टर</Link>
       <Link href="/search" aria-label={tr(dict.nav.search, lang)} className="grid h-11 w-11 place-items-center rounded-xl text-ink-700 hover:bg-ink-100">
         <Search className="h-5 w-5" aria-hidden="true" />
       </Link>
