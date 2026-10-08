@@ -39,6 +39,7 @@ export function Header({ lang }: { lang: Lang }) {
               <LanguageSwitcher lang={lang} />
             </div>
           )}
+          <Link href="/login.html" aria-label="लॉगिन या रजिस्टर" className="hidden xl:inline-flex h-10 items-center rounded-xl border border-brand-200 bg-brand-50 px-3 text-sm font-semibold text-brand-700 hover:bg-brand-100">लॉगिन / रजिस्टर</Link>
           <MobileControls lang={lang} />
         </div>
       </div>
