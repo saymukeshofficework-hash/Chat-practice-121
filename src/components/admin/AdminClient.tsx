@@ -24,7 +24,7 @@ type Stats = { todayCount: number; todayAmount: number; weekCount: number; weekA
 const PRODUCT: Record<string, string> = {
   "ag3-hi": "Notes — Hindi PDF",
   "ag3-en": "Notes — English PDF",
-  "ag3-tests": "Test series (20 tests)",
+  "ag3-tests": "High Court AG-3 — 25 tests",
   "ag3-combo-hi": "Combo — Hindi notes + tests",
   "ag3-combo-en": "Combo — English notes + tests",
   "pcgd-tests": "Police Constable GD — 25 tests",

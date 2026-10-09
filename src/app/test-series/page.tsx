@@ -18,7 +18,7 @@ export default async function Page() {
       <Link href="/mp-high-court-assistant-grade-3-mock-tests" className="card flex flex-col gap-3 border-2 border-brand-700 p-5 transition hover:shadow-md sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-wide text-accent-700">{lang === "hi" ? "अभी उपलब्ध" : "Available now"}</p>
-          <p className="mt-1 text-lg font-extrabold text-brand-900">{lang === "hi" ? "MP हाई कोर्ट सहायक ग्रेड-3 — 20 फुल मॉक टेस्ट" : "MP High Court Assistant Grade-3 — 20 full mock tests"}</p>
+          <p className="mt-1 text-lg font-extrabold text-brand-900">{lang === "hi" ? "MP हाई कोर्ट सहायक ग्रेड-3 — 25 फुल मॉक टेस्ट" : "MP High Court Assistant Grade-3 — 25 full mock tests"}</p>
           <p className="mt-1 text-sm text-ink-600">{lang === "hi" ? "हिंदी/English · हर प्रश्न की व्याख्या · टेस्ट 1 फ्री" : "Hindi/English · explanation for every question · Test 1 free"}</p>
         </div>
         <span className="btn-primary shrink-0">{lang === "hi" ? "देखें — ₹199" : "View — ₹199"}</span>

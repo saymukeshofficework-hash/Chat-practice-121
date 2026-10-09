@@ -174,10 +174,10 @@ export const exams: Exam[] = [
     },
     testSeries: {
       href: "/tests.html",
-      title: { hi: "TET मॉक टेस्ट सीरीज़ — 20 फुल-लेंथ टेस्ट", en: "TET Mock Test Series — 20 full-length tests" },
+      title: { hi: "TET मॉक टेस्ट सीरीज़ — 25 फुल-लेंथ टेस्ट", en: "TET Mock Test Series — 25 full-length tests" },
       sub: {
-        hi: "हर टेस्ट में 150 प्रश्न · 150 मिनट · हिंदी/English · टेस्ट 1 फ्री, बाकी 19 टेस्ट ₹199 में",
-        en: "150 questions · 150 minutes each · Hindi/English · Test 1 free, other 19 for ₹199",
+        hi: "हर टेस्ट में 150 प्रश्न · 150 मिनट · हिंदी/English · टेस्ट 1 फ्री, बाकी 24 टेस्ट ₹199 में",
+        en: "150 questions · 150 minutes each · Hindi/English · Test 1 free, other 24 for ₹199",
       },
       cta: { hi: "टेस्ट सीरीज़ देखें", en: "See test series" },
     },
@@ -382,8 +382,8 @@ export const exams: Exam[] = [
     },
     testSeries: {
       href: "/mp-high-court-assistant-grade-3-mock-tests/",
-      title: { hi: "हाई कोर्ट सहायक ग्रेड-III — 20 फुल मॉक टेस्ट", en: "High Court Assistant Grade-III — 20 full mock tests" },
-      sub: { hi: "आधिकारिक पैटर्न: 100 प्रश्न · 120 मिनट · 5 खंड · टेस्ट 1 फ्री, बाकी 19 टेस्ट ₹199 में", en: "Official pattern: 100 Qs · 120 min · 5 sections · Test 1 free, other 19 for ₹199" },
+      title: { hi: "हाई कोर्ट सहायक ग्रेड-III — 25 फुल मॉक टेस्ट", en: "High Court Assistant Grade-III — 25 full mock tests" },
+      sub: { hi: "आधिकारिक पैटर्न: 100 प्रश्न · 120 मिनट · 5 खंड · टेस्ट 1 फ्री, बाकी 24 टेस्ट ₹199 में", en: "Official pattern: 100 Qs · 120 min · 5 sections · Test 1 free, other 24 for ₹199" },
       cta: { hi: "टेस्ट देखें", en: "View tests" },
     },
     updatedAt: "2026-10-01",

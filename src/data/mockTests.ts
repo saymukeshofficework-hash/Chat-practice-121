@@ -42,14 +42,14 @@ const POLICE_NEG: Bi = { hi: "MPESB नियम पुस्तिका 2026 �
 export const MOCK_SERIES: Record<string, MockSeries> = {
   ag3: {
     id: "ag3",
-    total: 20,
+    total: 25,
     free: [1],
     product: "ag3-tests",
     price: 199,
     enginePath: "/mock-tests/ag3/test.html",
     scorePrefix: "testhub_ag3_mock_",
     listPath: "/mp-high-court-assistant-grade-3-mock-tests",
-    title: { hi: "MP हाई कोर्ट सहायक ग्रेड-III — 20 फुल मॉक टेस्ट", en: "MP High Court Assistant Grade-III — 20 Full Mock Tests" },
+    title: { hi: "MP हाई कोर्ट सहायक ग्रेड-III — 25 फुल मॉक टेस्ट", en: "MP High Court Assistant Grade-III — 25 Full Mock Tests" },
     sub: {
       hi: "आधिकारिक पैटर्न (विज्ञापन 614/परीक्षा/2026) पर: 100 प्रश्न, 120 मिनट, 5 खंड। हर प्रश्न हिंदी/English में, व्याख्या सहित।",
       en: "On the official pattern (advt. 614/Exam/2026): 100 questions, 120 minutes, 5 sections. Every question in Hindi/English with an explanation.",
@@ -75,10 +75,10 @@ export const MOCK_SERIES: Record<string, MockSeries> = {
       hi: "आधिकारिक विज्ञापन में ऋणात्मक अंकन का उल्लेख नहीं है, इसलिए इन टेस्ट में अंक नहीं कटते।",
       en: "The official advertisement does not mention negative marking, so none is applied in these tests.",
     },
-    unlockTitle: { hi: "पूरी टेस्ट सीरीज़ — 20 फुल मॉक टेस्ट", en: "Full test series — 20 full mock tests" },
+    unlockTitle: { hi: "पूरी टेस्ट सीरीज़ — 25 फुल मॉक टेस्ट", en: "Full test series — 25 full mock tests" },
     unlockSub: {
-      hi: "टेस्ट 1 फ्री है। बाकी 19 टेस्ट एक बार ₹199 देकर अनलॉक करें — इसी डिवाइस पर तुरंत खुल जाएंगे।",
-      en: "Test 1 is free. Unlock the other 19 tests once for ₹199 — they open instantly on this device.",
+      hi: "टेस्ट 1 फ्री है। बाकी 24 टेस्ट एक बार ₹199 देकर अनलॉक करें — इसी डिवाइस पर तुरंत खुल जाएंगे।",
+      en: "Test 1 is free. Unlock the other 24 tests once for ₹199 — they open instantly on this device.",
     },
     unlockBtn: { hi: "सभी टेस्ट अनलॉक करें — ₹199", en: "Unlock all tests — ₹199" },
     links: [
