@@ -39,14 +39,14 @@ const COURSES = (lang: Lang): Course[] => {
   const hi = lang === "hi";
   return [
     {
-      f: ["new", "notes", "tests"], tone: "teal", art: "combo", isNew: true,
+      f: ["new", "tests"], tone: "teal", art: "test", isNew: true,
       kick: hi ? "MP हाई कोर्ट • 1174 पद" : "MP High Court • 1174 posts", big: hi ? "सहायक ग्रेड-3 2026" : "Assistant Grade-3 2026",
-      sub: hi ? ["PDF नोट्स", "20 मॉक टेस्ट", "टेस्ट 1 फ्री"] : ["PDF notes", "20 mock tests", "Test 1 free"],
-      tags: hi ? ["MP हाई कोर्ट", "नया कोर्स"] : ["MP High Court", "New"],
-      meta: [hi ? "विकल्प" : "Options", hi ? "नोट्स ₹299 · टेस्ट ₹199 · कॉम्बो ₹449" : "Notes ₹299 · Tests ₹199 · Combo ₹449"],
-      title: hi ? "MP हाई कोर्ट सहायक ग्रेड-3 2026 — नोट्स + टेस्ट सीरीज़" : "MP High Court Assistant Grade-3 2026 — Notes + Test Series",
-      desc: hi ? "✅ हिंदी/English PDF नोट्स (18 अध्याय) ✅ 20 फुल मॉक टेस्ट, टेस्ट 1 फ्री ✅ कॉम्बो में ₹49 की बचत" : "✅ Hindi/English PDF notes (18 chapters) ✅ 20 full mock tests, Test 1 free ✅ Save ₹49 with the combo",
-      price: 199, from: true, href: "/mp-high-court-assistant-grade-3-notes",
+      sub: hi ? ["20 फुल टेस्ट", "टेस्ट 1 फ्री"] : ["20 full tests", "Test 1 free"],
+      tags: hi ? ["MP हाई कोर्ट", "टेस्ट सीरीज़"] : ["MP High Court", "Test series"],
+      meta: [hi ? "हर टेस्ट" : "Each test", hi ? "100 प्रश्न · 120 मिनट" : "100 Qs · 120 min"],
+      title: hi ? "MP हाई कोर्ट सहायक ग्रेड-3 2026 — 20 फुल मॉक टेस्ट" : "MP High Court Assistant Grade-3 2026 — 20 full mock tests",
+      desc: hi ? "✅ आधिकारिक पैटर्न: 5 खंड, 100 प्रश्न ✅ टेस्ट 1 फ्री ✅ हिंदी/English, हर प्रश्न की व्याख्या" : "✅ Official pattern: 5 sections, 100 Qs ✅ Test 1 free ✅ Hindi/English, explanation for every question",
+      price: 199, href: "/mp-high-court-assistant-grade-3-mock-tests",
     },
     {
       f: ["new", "notes"], tone: "amber", art: "book", isNew: true,

@@ -51,8 +51,8 @@ export const MOCK_SERIES: Record<string, MockSeries> = {
     listPath: "/mp-high-court-assistant-grade-3-mock-tests",
     title: { hi: "MP हाई कोर्ट सहायक ग्रेड-III — 20 फुल मॉक टेस्ट", en: "MP High Court Assistant Grade-III — 20 Full Mock Tests" },
     sub: {
-      hi: "आधिकारिक पैटर्न (विज्ञापन 614/परीक्षा/2026) पर आधारित, हमारे नोट्स से बने प्रश्न। हिंदी/English दोनों में।",
-      en: "Built on the official pattern (advt. 614/Exam/2026) with questions from our notes. In Hindi and English.",
+      hi: "आधिकारिक पैटर्न (विज्ञापन 614/परीक्षा/2026) पर: 100 प्रश्न, 120 मिनट, 5 खंड। हर प्रश्न हिंदी/English में, व्याख्या सहित।",
+      en: "On the official pattern (advt. 614/Exam/2026): 100 questions, 120 minutes, 5 sections. Every question in Hindi/English with an explanation.",
     },
     rows: {
       hi: [
@@ -82,8 +82,7 @@ export const MOCK_SERIES: Record<string, MockSeries> = {
     },
     unlockBtn: { hi: "सभी टेस्ट अनलॉक करें — ₹199", en: "Unlock all tests — ₹199" },
     links: [
-      { href: "/mp-high-court-assistant-grade-3-test-series/#demo", label: { hi: "टेस्ट सीरीज़ का डेमो देखें →", en: "See the test series demo →" }, tone: "brand" },
-      { href: "/mp-high-court-assistant-grade-3-notes/#buy", label: { hi: "नोट्स भी चाहिए? कॉम्बो ऑफ़र: नोट्स + 20 टेस्ट सिर्फ़ ₹449 →", en: "Need the notes too? Combo: notes + 20 tests just ₹449 →" }, tone: "accent" },
+      { href: "/exams/mp-high-court-assistant-grade-3-2026/", label: { hi: "परीक्षा की पूरी जानकारी →", en: "Full exam details →" }, tone: "brand" },
     ],
   },
   pcgd: {

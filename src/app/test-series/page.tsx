@@ -15,7 +15,7 @@ export default async function Page() {
   return (
     <>
     <div className="container-page pt-6">
-      <Link href="/mp-high-court-assistant-grade-3-test-series" className="card flex flex-col gap-3 border-2 border-brand-700 p-5 transition hover:shadow-md sm:flex-row sm:items-center sm:justify-between">
+      <Link href="/mp-high-court-assistant-grade-3-mock-tests" className="card flex flex-col gap-3 border-2 border-brand-700 p-5 transition hover:shadow-md sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-wide text-accent-700">{lang === "hi" ? "अभी उपलब्ध" : "Available now"}</p>
           <p className="mt-1 text-lg font-extrabold text-brand-900">{lang === "hi" ? "MP हाई कोर्ट सहायक ग्रेड-3 — 20 फुल मॉक टेस्ट" : "MP High Court Assistant Grade-3 — 20 full mock tests"}</p>
