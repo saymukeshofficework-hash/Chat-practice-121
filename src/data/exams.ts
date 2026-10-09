@@ -380,6 +380,12 @@ export const exams: Exam[] = [
       url: "https://mphc.gov.in/storage/PDF/web_pdf/ME/Advertisement%20AG-III%20District%20Court-2026.pdf",
       checkedOn: "2026-10-01",
     },
+    testSeries: {
+      href: "/mp-high-court-assistant-grade-3-mock-tests/",
+      title: { hi: "हाई कोर्ट सहायक ग्रेड-III — 20 फुल मॉक टेस्ट", en: "High Court Assistant Grade-III — 20 full mock tests" },
+      sub: { hi: "आधिकारिक पैटर्न: 100 प्रश्न · 120 मिनट · 5 खंड · टेस्ट 1 फ्री, बाकी 19 टेस्ट ₹199 में", en: "Official pattern: 100 Qs · 120 min · 5 sections · Test 1 free, other 19 for ₹199" },
+      cta: { hi: "टेस्ट देखें", en: "View tests" },
+    },
     updatedAt: "2026-10-01",
   },
   {
