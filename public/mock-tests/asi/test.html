@@ -756,7 +756,7 @@ function loadTest() {
   let tok = null; try { tok = localStorage.getItem("testhub_dl_asi-tests"); } catch (e) {}
   if (!tok) return Promise.reject(new Error("locked"));
   return fetch(CHECKOUT_URL, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "test", token: tok, n: +TEST_NO, series: "asi" }) })
-    .then((r) => { if (!r.ok) throw new Error(r.status === 404 ? "notready" : "x"); return r.json(); });
+    .then((r) => { if (r.status === 404 || r.status === 403) { try { localStorage.removeItem("testhub_dl_asi-tests"); } catch (e) {} throw new Error("locked"); } if (!r.ok) throw new Error("x"); return r.json(); });
 }
 loadTest()
   .then((d) => { SECTIONS = d.sections; Q = d.questions; boot(); })
