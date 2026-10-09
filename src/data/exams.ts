@@ -63,7 +63,7 @@ export const exams: Exam[] = [
     testSeries: {
       href: "/mp-police-constable-gd-mock-tests/",
       title: { hi: "आरक्षक (जी.डी.) 2026 — 25 फुल मॉक टेस्ट", en: "Police Constable GD 2026 — 25 full mock tests" },
-      sub: { hi: "MPESB पैटर्न: 100 प्रश्न · 120 मिनट · 3 खंड · टेस्ट 1 व 2 फ्री, बाकी 23 टेस्ट ₹199 में", en: "MPESB pattern: 100 Qs · 120 min · 3 sections · Tests 1 & 2 free, other 23 for ₹199" },
+      sub: { hi: "MPESB पैटर्न: 100 प्रश्न · 120 मिनट · 3 खंड · टेस्ट 1 फ्री, बाकी 24 टेस्ट ₹199 में", en: "MPESB pattern: 100 Qs · 120 min · 3 sections · Test 1 free, other 24 for ₹199" },
       cta: { hi: "टेस्ट देखें", en: "View tests" },
     },
     updatedAt: CHECKED,
@@ -99,8 +99,8 @@ export const exams: Exam[] = [
     source: { label: "MPESB Rulebook (17.09.2026)", url: `${ESB_RB}Steno_ASI_2026_Rulebook_17092026.pdf`, checkedOn: CHECKED },
     testSeries: {
       href: "/mp-police-subedar-asi-mock-tests/",
-      title: { hi: "सूबेदार / ASI 2026 — 20 फुल मॉक टेस्ट", en: "Subedar / ASI 2026 — 20 full mock tests" },
-      sub: { hi: "MPESB पैटर्न: 100 प्रश्न · 120 मिनट · 3 खंड · टेस्ट 1 व 2 फ्री, बाकी 18 टेस्ट ₹199 में", en: "MPESB pattern: 100 Qs · 120 min · 3 sections · Tests 1 & 2 free, other 18 for ₹199" },
+      title: { hi: "सूबेदार / ASI 2026 — 25 फुल मॉक टेस्ट", en: "Subedar / ASI 2026 — 25 full mock tests" },
+      sub: { hi: "MPESB पैटर्न: 100 प्रश्न · 120 मिनट · 3 खंड · टेस्ट 1 फ्री, बाकी 24 टेस्ट ₹199 में", en: "MPESB pattern: 100 Qs · 120 min · 3 sections · Test 1 free, other 24 for ₹199" },
       cta: { hi: "टेस्ट देखें", en: "View tests" },
     },
     updatedAt: CHECKED,
@@ -176,8 +176,8 @@ export const exams: Exam[] = [
       href: "/tests.html",
       title: { hi: "TET मॉक टेस्ट सीरीज़ — 20 फुल-लेंथ टेस्ट", en: "TET Mock Test Series — 20 full-length tests" },
       sub: {
-        hi: "हर टेस्ट में 150 प्रश्न · 150 मिनट · हिंदी/English · टेस्ट 1 व 2 फ्री, बाकी 18 टेस्ट ₹199 में",
-        en: "150 questions · 150 minutes each · Hindi/English · Tests 1 & 2 free, other 18 for ₹199",
+        hi: "हर टेस्ट में 150 प्रश्न · 150 मिनट · हिंदी/English · टेस्ट 1 फ्री, बाकी 19 टेस्ट ₹199 में",
+        en: "150 questions · 150 minutes each · Hindi/English · Test 1 free, other 19 for ₹199",
       },
       cta: { hi: "टेस्ट सीरीज़ देखें", en: "See test series" },
     },
