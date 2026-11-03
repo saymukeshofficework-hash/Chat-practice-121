@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Size Splitter</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --text:#1c1f24; --muted:#5f6670; --border:#dde1e6; --accent:#2563eb; --accent-text:#fff; --ok:#15803d; --warn:#b45309; --err:#b91c1c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14161a; --card:#1d2026; --text:#e6e8eb; --muted:#9aa2ad; --border:#30353d; --accent:#4f8cff; --accent-text:#fff; --ok:#4ade80; --warn:#fbbf24; --err:#f87171; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 32px auto; padding: 0 16px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p.sub { color: var(--muted); margin: 0 0 20px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+  #drop { border: 2px dashed var(--border); border-radius: 10px; padding: 28px 16px; text-align: center; cursor: pointer; }
+  #drop.over { border-color: var(--accent); }
+  #drop strong { color: var(--accent); }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 14px; }
+  label { color: var(--muted); }
+  input[type=number] { width: 90px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; }
+  button { padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--card); color: var(--text); font: inherit; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  #fileinfo { margin-top: 10px; color: var(--muted); word-break: break-all; }
+  progress { width: 100%; height: 10px; margin-top: 12px; }
+  #status { margin-top: 8px; color: var(--muted); }
+  #status.err { color: var(--err); }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+  th { color: var(--muted); font-weight: 500; font-size: 13px; }
+  td.warn { color: var(--warn); }
+  .hidden { display: none; }
+  @media (max-width: 520px) { th:nth-child(3), td:nth-child(3) { display: none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>PDF Size Splitter</h1>
+  <p class="sub">Split a large PDF into smaller PDFs, each under a size limit. Everything runs in your browser; the file is never uploaded.</p>
+
+  <div class="card">
+    <div id="drop">
+      <div><strong>Choose a PDF</strong> or drop it here</div>
+      <input id="file" type="file" accept="application/pdf,.pdf" class="hidden">
+    </div>
+    <div id="fileinfo"></div>
+    <div class="row">
+      <label for="limit">Max size per part (MB)</label>
+      <input id="limit" type="number" min="1" step="1" value="30">
+      <button id="go" class="primary" disabled>Split PDF</button>
+    </div>
+    <progress id="prog" value="0" max="1" class="hidden"></progress>
+    <div id="status"></div>
+  </div>
+
+  <div class="card hidden" id="results">
+    <div class="row" style="margin-top:0; justify-content:space-between">
+      <strong id="summary"></strong>
+      <button id="zip" class="primary">Download all as ZIP</button>
+    </div>
+    <table>
+      <thead><tr><th>Part</th><th>Pages</th><th>Page count</th><th>Size</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const MB = 1024 * 1024;
+let srcFile = null, parts = [];
+
+function fmt(bytes) { return bytes >= MB ? (bytes / MB).toFixed(2) + ' MB' : (bytes / 1024).toFixed(1) + ' KB'; }
+function setStatus(msg, isErr) { $('status').textContent = msg; $('status').className = isErr ? 'err' : ''; }
+const tick = () => new Promise(r => setTimeout(r, 0));
+
+function pickFile(f) {
+  if (!f) return;
+  if (!/\.pdf$/i.test(f.name) && f.type !== 'application/pdf') { setStatus('Please choose a PDF file.', true); return; }
+  srcFile = f;
+  $('fileinfo').textContent = f.name + ' (' + fmt(f.size) + ')';
+  $('go').disabled = false;
+  $('results').classList.add('hidden');
+  setStatus('');
+}
+$('drop').onclick = () => $('file').click();
+$('file').onchange = e => pickFile(e.target.files[0]);
+['dragover', 'dragenter'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.remove('over'); }));
+$('drop').addEventListener('drop', e => pickFile(e.dataTransfer.files[0]));
+
+// Build a PDF containing pages [start, start+count) of src and return its bytes.
+async function buildPart(src, start, count) {
+  const out = await PDFLib.PDFDocument.create();
+  const idx = Array.from({ length: count }, (_, i) => start + i);
+  const pages = await out.copyPages(src, idx);
+  pages.forEach(p => out.addPage(p));
+  return out.save({ useObjectStreams: true });
+}
+
+// Greedy split: for each part, find the largest page count whose saved size fits the limit.
+// Sizes are measured by actually saving, so shared fonts/images are counted correctly.
+async function split(src, limit, onProgress) {
+  const total = src.getPageCount();
+  const result = [];
+  let start = 0;
+  let perPage = Math.max(1, srcFile.size / total); // initial guess, refined as we go
+  while (start < total) {
+    const remaining = total - start;
+    let guess = Math.min(remaining, Math.max(1, Math.floor(limit * 0.92 / perPage)));
+    let lo = 0, loBytes = null; // largest count known to fit
+    let hi = remaining + 1;     // smallest count known NOT to fit
+    for (let iter = 0; iter < 12 && hi - lo > 1; iter++) {
+      onProgress(start, total, 'Sizing part ' + (result.length + 1) + ' (trying ' + guess + ' pages)…');
+      await tick();
+      const bytes = await buildPart(src, start, guess);
+      const per = bytes.length / guess;
+      if (bytes.length <= limit) {
+        lo = guess; loBytes = bytes; perPage = per;
+        if (guess === remaining) break;
+        // grow toward the limit, but stay below the known-bad bound
+        let next = Math.floor(limit * 0.97 / per);
+        if (next <= guess) next = guess + Math.max(1, Math.floor((hi - guess) / 2));
+        guess = Math.min(next, hi - 1, remaining);
+        if (guess <= lo) break;
+      } else {
+        hi = guess;
+        if (guess === 1) break;
+        let next = Math.floor(limit * 0.95 / per);
+        if (next >= guess) next = guess - 1;
+        guess = Math.max(lo + 1, Math.min(next, hi - 1));
+        if (guess <= lo) break;
+      }
+    }
+    let count = lo, oversize = false;
+    if (lo === 0) { // a single page is already over the limit: put it alone
+      count = 1; oversize = true;
+      loBytes = await buildPart(src, start, 1);
+    }
+    result.push({ start, count, bytes: loBytes, oversize });
+    start += count;
+    onProgress(start, total, 'Part ' + result.length + ' done (' + fmt(loBytes.length) + ').');
+  }
+  return result;
+}
+
+$('go').onclick = async () => {
+  const limitMB = parseFloat($('limit').value);
+  if (!(limitMB > 0)) { setStatus('Enter a size limit above 0 MB.', true); return; }
+  const limit = limitMB * MB;
+  $('go').disabled = true;
+  $('results').classList.add('hidden');
+  const prog = $('prog'); prog.classList.remove('hidden'); prog.removeAttribute('value');
+  try {
+    setStatus('Reading ' + srcFile.name + '…');
+    await tick();
+    const buf = await srcFile.arrayBuffer();
+    let src;
+    try {
+      src = await PDFLib.PDFDocument.load(buf, { ignoreEncryption: true, updateMetadata: false });
+    } catch (e) {
+      throw new Error('Could not open this PDF (it may be damaged or password protected). ' + e.message);
+    }
+    const total = src.getPageCount();
+    if (srcFile.size <= limit) setStatus('This file is already under ' + limitMB + ' MB; it will come out as one part.');
+    parts = await split(src, limit, (done, tot, msg) => { prog.max = tot; prog.value = done; setStatus(msg); });
+    showResults(total, limitMB);
+    setStatus('Done.');
+  } catch (e) {
+    console.error(e);
+    setStatus(e.message || String(e), true);
+  } finally {
+    $('go').disabled = false;
+    prog.classList.add('hidden');
+  }
+};
+
+function baseName() { return srcFile.name.replace(/\.pdf$/i, ''); }
+function partName(i) { return baseName() + '_part' + String(i + 1).padStart(Math.max(2, String(parts.length).length), '0') + '.pdf'; }
+function download(blob, name) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+}
+
+function showResults(total, limitMB) {
+  const rows = $('rows'); rows.innerHTML = '';
+  parts.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    const sizeCls = p.oversize ? ' class="warn" title="This single page is larger than the limit"' : '';
+    tr.innerHTML = '<td>' + (i + 1) + '</td><td>' + (p.start + 1) + '–' + (p.start + p.count) + '</td><td>' + p.count +
+      '</td><td' + sizeCls + '>' + fmt(p.bytes.length) + (p.oversize ? ' ⚠' : '') + '</td><td><button>Download</button></td>';
+    tr.querySelector('button').onclick = () => download(new Blob([p.bytes], { type: 'application/pdf' }), partName(i));
+    rows.appendChild(tr);
+  });
+  const over = parts.filter(p => p.oversize).length;
+  $('summary').textContent = total + ' pages split into ' + parts.length + ' part' + (parts.length > 1 ? 's' : '') +
+    ' (max ' + limitMB + ' MB each)' + (over ? ', ' + over + ' single page(s) exceed the limit' : '');
+  $('results').classList.remove('hidden');
+}
+
+$('zip').onclick = async () => {
+  const btn = $('zip'); btn.disabled = true; const label = btn.textContent;
+  try {
+    const zip = new JSZip();
+    // PDFs are already compressed, so STORE keeps zipping fast.
+    parts.forEach((p, i) => zip.file(partName(i), p.bytes, { compression: 'STORE' }));
+    const blob = await zip.generateAsync({ type: 'blob' }, m => { btn.textContent = 'Zipping ' + Math.round(m.percent) + '%'; });
+    download(blob, baseName() + '_split.zip');
+  } catch (e) { setStatus('Could not build ZIP: ' + e.message, true); }
+  finally { btn.disabled = false; btn.textContent = label; }
+};
+</script>
+</body>
+</html>
