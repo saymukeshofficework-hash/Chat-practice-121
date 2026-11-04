@@ -75,6 +75,8 @@ main .wrap{padding-block:14px 40px;display:grid;gap:14px}
 .empty h2{font-family:var(--display);font-weight:400;margin:0 0 6px;font-size:1.3rem}
 .empty p{margin:0 0 10px;color:var(--muted)}
 .foot{font-size:.82rem;color:var(--muted);text-align:center}
+.credit{border-top:1px solid var(--line)}
+.credit .wrap{padding-block:14px 24px;text-align:center;font-size:.85rem;font-weight:500;color:var(--muted);letter-spacing:.02em}
 dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);width:min(560px,calc(100% - 24px));padding:0;max-height:88vh}
 dialog::backdrop{background:rgba(0,0,0,.4)}
 .dlg{padding:16px;display:grid;gap:14px}
@@ -125,6 +127,7 @@ dialog::backdrop{background:rgba(0,0,0,.4)}
   </div>
 </div></header>
 <main><div class="wrap" id="out"></div></main>
+<footer class="credit"><div class="wrap">Developed by Mukesh</div></footer>
 
 <dialog id="dlg"><form class="dlg" method="dialog" id="setForm">
   <h2>कैलेंडर सेटिंग</h2>
