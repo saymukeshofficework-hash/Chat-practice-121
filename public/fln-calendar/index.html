@@ -143,7 +143,7 @@ dialog::backdrop{background:rgba(0,0,0,.4)}
     <button class="navbtn" id="next" aria-label="अगला दिन">›</button>
   </div>
   <div class="week" id="week"></div>
-  <div class="seg subj" role="group" aria-label="विषय चुनें"><button id="subHi" aria-pressed="true">हिन्दी</button><button id="subEn" aria-pressed="false">English</button><button id="subMa" aria-pressed="false">गणित</button><button id="subK3" aria-pressed="false">कक्षा 3 हल</button></div>
+  <div class="seg subj" role="group" aria-label="विषय चुनें"><button id="subHi" aria-pressed="true">हिन्दी</button><button id="subEn" aria-pressed="false">English</button><button id="subMa" aria-pressed="false">गणित</button><button id="subK3" aria-pressed="false">कक्षा 4 हल</button></div>
   <div class="ctl">
     <div class="seg" role="group" aria-label="कक्षा चुनें">
       <button class="k1" id="cls1" aria-pressed="true">कक्षा 1</button>
@@ -273,10 +273,10 @@ function k3HTML(sl){
   if(!day){const f=PLAN_K3[0],l=PLAN_K3[PLAN_K3.length-1];
     return '<div class="empty"><h2>सप्ताह '+sl.w+' दिवस '+sl.d+' का हल अभी नहीं जुड़ा</h2><p>अभी सप्ताह '+f[0]+' दिवस '+f[1]+' से सप्ताह '+l[0]+' दिवस '+l[1]+' तक के हल जुड़े हैं'+(k==='17-1'?' (सप्ताह 17 दिवस 1, पृष्ठ 66-67 की फोटो नहीं मिली)':'')+'। नीचे से कोई दिवस चुनें, या सेटिंग में आज का सप्ताह/दिवस ठीक करें।</p>'+k3Bar('')+'</div>'}
   K3PAGES=day[4];
-  let h='<div class="k3h"><span class="k">कक्षा 3 · पर्यावरण अध्ययन अभ्यास पुस्तिका · सप्ताह '+day[0]+' दिवस '+day[1]+'</span><h2>'+esc(day[2])+'</h2><p><b>सीखने के बिन्दु:</b> '+esc(day[3])+'</p>'+(day[5]?'<p class="note">'+esc(day[5])+'</p>':'')+k3Bar(k)+'</div>';
+  let h='<div class="k3h"><span class="k">कक्षा 4 · पर्यावरण अध्ययन अभ्यास पुस्तिका · सप्ताह '+day[0]+' दिवस '+day[1]+'</span><h2>'+esc(day[2])+'</h2><p><b>सीखने के बिन्दु:</b> '+esc(day[3])+'</p>'+(day[5]?'<p class="note">'+esc(day[5])+'</p>':'')+k3Bar(k)+'</div>';
   h+='<section class="sec k3"><div class="hd"><div class="t"><span class="who">पुस्तिका के पृष्ठ (फोटो)</span>पृष्ठ '+day[4].join(', ')+'</div><span class="min">छूकर बड़ा करें</span></div><div class="bd"><div class="pages">'+day[4].map((p,i)=>'<button data-i="'+i+'"><img loading="lazy" src="k3/'+p+'.jpg" alt="पृष्ठ '+p+'"><span>पृष्ठ '+p+'</span></button>').join('')+'</div></div></section>';
   h+='<section class="sec k3"><div class="hd"><div class="t"><span class="who">हल / उत्तर</span>'+day[6].length+' प्रश्न</div></div><div>'+day[6].map(q=>'<div class="qa">'+(q[0]?'<span class="grp">'+esc(q[0])+'</span>':'')+'<p class="q">'+esc(q[1])+'</p><div class="a">'+q[2]+'</div></div>').join('')+'</div></section>';
-  return h+'<p class="foot">स्रोत: कक्षा 3 पर्यावरण अभ्यास पुस्तिका (फोटो से पढ़ा गया)। खुले प्रश्नों के उत्तर नमूना उत्तर हैं, बच्चे अपने शब्दों में लिख सकते हैं।</p>';
+  return h+'<p class="foot">स्रोत: कक्षा 4 पर्यावरण अभ्यास पुस्तिका (फोटो से पढ़ा गया)। खुले प्रश्नों के उत्तर नमूना उत्तर हैं, बच्चे अपने शब्दों में लिख सकते हैं।</p>';
 }
 function dateFor(w,dd){const target=(w-1)*6+dd-1;let c=new Date(cur),i=slot(c).before?-1:indexOf(c);
   if(isOff(c)){c=nextSchool(c,1);i=indexOf(c)}
