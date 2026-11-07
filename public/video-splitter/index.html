@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Size Splitter — वीडियो को 28 MB के भागों में बाँटें</title>
+<script src="vendor/ffmpeg.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --text:#1c1f24; --muted:#5f6670; --border:#dde1e6; --accent:#2563eb; --accent-text:#fff; --ok:#15803d; --warn:#b45309; --err:#b91c1c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14161a; --card:#1d2026; --text:#e6e8eb; --muted:#9aa2ad; --border:#30353d; --accent:#4f8cff; --accent-text:#fff; --ok:#4ade80; --warn:#fbbf24; --err:#f87171; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+  main { max-width: 760px; margin: 32px auto; padding: 0 16px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p.sub { color: var(--muted); margin: 0 0 20px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+  #drop { border: 2px dashed var(--border); border-radius: 10px; padding: 28px 16px; text-align: center; cursor: pointer; }
+  #drop.over { border-color: var(--accent); }
+  #drop strong { color: var(--accent); }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 14px; }
+  label { color: var(--muted); }
+  input[type=number] { width: 90px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; }
+  button, a.btn { padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--card); color: var(--text); font: inherit; cursor: pointer; text-decoration: none; display: inline-block; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  #fileinfo { margin-top: 10px; color: var(--muted); word-break: break-all; }
+  progress { width: 100%; height: 10px; margin-top: 12px; }
+  #status { margin-top: 8px; color: var(--muted); }
+  #status.err { color: var(--err); }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; vertical-align: middle; }
+  th { color: var(--muted); font-weight: 500; font-size: 13px; }
+  td.act { white-space: nowrap; text-align: right; }
+  td.act > * { margin-left: 4px; padding: 6px 10px; font-size: 14px; }
+  .ok { color: var(--ok); }
+  .hidden { display: none; }
+  .note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+  @media (max-width: 520px) { th:nth-child(2), td:nth-child(2) { display: none; } }
+</style>
+</head>
+<body>
+<script src="../diwali/banner.js" defer></script>
+<script src="../diwali/intro.js" defer></script>
+<main>
+  <h1>Video Size Splitter</h1>
+  <p class="sub">बड़े वीडियो को छोटे भागों में बाँटें। हर भाग तय साइज़ (डिफ़ॉल्ट 28 MB) से छोटा होगा और अलग से चलेगा, जिससे WhatsApp पर भेजना आसान हो। सब कुछ आपके ब्राउज़र में होता है, वीडियो कहीं upload नहीं होता।</p>
+
+  <div class="card">
+    <div id="drop">
+      <div><strong>वीडियो चुनें</strong> या यहाँ छोड़ें</div>
+      <div class="note" style="margin-top:4px">MP4, MOV, MKV, WEBM, 3GP…</div>
+      <input id="file" type="file" accept="video/*,.mkv,.mov,.mp4,.webm,.3gp,.avi" class="hidden">
+    </div>
+    <div id="fileinfo"></div>
+    <div class="row">
+      <label for="limit">हर भाग का अधिकतम साइज़ (MB)</label>
+      <input id="limit" type="number" min="2" step="1" value="28">
+      <button id="go" class="primary" disabled>वीडियो बाँटें</button>
+    </div>
+    <progress id="prog" value="0" max="1" class="hidden"></progress>
+    <div id="status"></div>
+    <p class="note">पहली बार इस्तेमाल पर लगभग 30 MB का वीडियो-इंजन डाउनलोड होता है (एक बार)। कटाई keyframe पर होती है, quality बिल्कुल नहीं घटती।</p>
+  </div>
+
+  <div class="card hidden" id="results">
+    <div class="row" style="margin-top:0; justify-content:space-between">
+      <strong id="summary"></strong>
+      <button id="zip" class="primary">सभी भाग ZIP में</button>
+    </div>
+    <table>
+      <thead><tr><th>भाग</th><th>समय</th><th>साइज़</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const MB = 1024 * 1024;
+const CORE = new URLSearchParams(location.search).get("core") ||
+  "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd";
+let srcFile = null, parts = [], ffmpeg = null, logBuf = "";
+
+function fmt(b) { return b >= MB ? (b / MB).toFixed(2) + " MB" : (b / 1024).toFixed(1) + " KB"; }
+function tm(s) { s = Math.max(0, s); const m = Math.floor(s / 60), r = Math.floor(s % 60); return m + ":" + String(r).padStart(2, "0"); }
+function status(msg, err) { $("status").textContent = msg; $("status").className = err ? "err" : ""; }
+function prog(v) { const p = $("prog"); if (v == null) p.classList.add("hidden"); else { p.classList.remove("hidden"); if (v < 0) p.removeAttribute("value"); else p.value = v; } }
+
+function pick(f) {
+  if (!f) return;
+  srcFile = f;
+  $("fileinfo").textContent = f.name + " — " + fmt(f.size);
+  $("go").disabled = false;
+  $("results").classList.add("hidden");
+  status("");
+}
+$("drop").onclick = () => $("file").click();
+$("file").onchange = e => pick(e.target.files[0]);
+["dragover", "dragenter"].forEach(ev => $("drop").addEventListener(ev, e => { e.preventDefault(); $("drop").classList.add("over"); }));
+["dragleave", "drop"].forEach(ev => $("drop").addEventListener(ev, e => { e.preventDefault(); $("drop").classList.remove("over"); }));
+$("drop").addEventListener("drop", e => pick(e.dataTransfer.files[0]));
+
+async function toBlobURL(url, type) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error("डाउनलोड नहीं हुआ: " + url);
+  return URL.createObjectURL(new Blob([await r.arrayBuffer()], { type }));
+}
+
+async function loadFF() {
+  if (ffmpeg) return ffmpeg;
+  status("वीडियो-इंजन लोड हो रहा है… (पहली बार थोड़ा समय लगेगा)"); prog(-1);
+  const ff = new FFmpegWASM.FFmpeg();
+  ff.on("log", ({ message }) => { logBuf += message + "\n"; });
+  await ff.load({
+    coreURL: await toBlobURL(CORE + "/ffmpeg-core.js", "text/javascript"),
+    wasmURL: await toBlobURL(CORE + "/ffmpeg-core.wasm", "application/wasm"),
+  });
+  ffmpeg = ff;
+  return ff;
+}
+
+function outExt(name) {
+  const e = (name.split(".").pop() || "").toLowerCase();
+  if (["mkv", "webm"].includes(e)) return e;
+  return "mp4"; // mp4, mov, 3gp, m4v, avi… → mp4 container
+}
+
+async function listParts(ff) {
+  const items = await ff.listDir("/out");
+  return items.filter(i => !i.isDir && /^part\d+\./.test(i.name)).map(i => i.name).sort();
+}
+
+async function clearOut(ff) {
+  try { for (const n of await ff.listDir("/out")) if (!n.isDir) await ff.deleteFile("/out/" + n.name); } catch (e) {}
+}
+
+$("go").onclick = async () => {
+  if (!srcFile) return;
+  const limitMB = parseFloat($("limit").value);
+  if (!(limitMB >= 2)) { status("कम से कम 2 MB लिखें।", true); return; }
+  const limit = limitMB * MB;
+  $("go").disabled = true; $("results").classList.add("hidden");
+  parts.forEach(p => URL.revokeObjectURL(p.url)); parts = [];
+  try {
+    const ff = await loadFF();
+
+    if (srcFile.size <= limit) {
+      status("यह वीडियो पहले से " + limitMB + " MB से छोटा है, बाँटने की ज़रूरत नहीं।"); prog(null); $("go").disabled = false; return;
+    }
+
+    // Input: mount the file directly (no copy into memory) when possible.
+    let inPath;
+    try { await ff.createDir("/in"); } catch (e) {}
+    try { await ff.createDir("/out"); } catch (e) {}
+    try { await ff.unmount("/in"); } catch (e) {}
+    try {
+      await ff.mount("WORKERFS", { files: [srcFile] }, "/in");
+      inPath = "/in/" + srcFile.name;
+    } catch (e) {
+      status("वीडियो पढ़ा जा रहा है…");
+      inPath = "/input." + (srcFile.name.split(".").pop() || "mp4");
+      await ff.writeFile(inPath, new Uint8Array(await srcFile.arrayBuffer()));
+    }
+
+    // Duration
+    status("वीडियो की लंबाई जाँची जा रही है…");
+    logBuf = "";
+    await ff.exec(["-hide_banner", "-i", inPath]);
+    const m = logBuf.match(/Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)/);
+    if (!m) throw new Error("यह फ़ाइल वीडियो के रूप में पढ़ी नहीं जा सकी।");
+    const dur = (+m[1]) * 3600 + (+m[2]) * 60 + parseFloat(m[3]);
+
+    const ext = outExt(srcFile.name);
+    let segT = Math.max(1, dur * (limit * 0.93) / srcFile.size);
+    let names = [], sizes = [], times = [], ok = false;
+
+    for (let attempt = 1; attempt <= 7 && !ok; attempt++) {
+      await clearOut(ff);
+      status("भाग बनाए जा रहे हैं… (प्रयास " + attempt + ", लगभग " + Math.ceil(dur / segT) + " भाग)");
+      ff.on("progress", onProg);
+      await ff.exec(["-hide_banner", "-i", inPath, "-map", "0:v?", "-map", "0:a?", "-c", "copy",
+        "-f", "segment", "-segment_time", segT.toFixed(2), "-reset_timestamps", "1",
+        "-avoid_negative_ts", "make_zero", "-segment_list", "/out/list.csv", "-segment_list_type", "csv",
+        "/out/part%03d." + ext]);
+      ff.off("progress", onProg);
+
+      names = await listParts(ff);
+      if (!names.length) throw new Error("भाग नहीं बन पाए। कृपया MP4 वीडियो आज़माएँ।");
+      sizes = [];
+      for (const n of names) { const d = await ff.readFile("/out/" + n); sizes.push(d.length); }
+      const big = Math.max(...sizes);
+      if (big <= limit) { ok = true; break; }
+      const newT = segT * (limit * 0.9) / big;
+      if (newT < 0.5 || attempt === 7) break;
+      segT = newT;
+    }
+
+    // Time ranges from the segment list
+    try {
+      const csv = new TextDecoder().decode(await ff.readFile("/out/list.csv"));
+      csv.trim().split(/\r?\n/).forEach(line => { const c = line.split(","); times.push([parseFloat(c[1]), parseFloat(c[2])]); });
+    } catch (e) {}
+
+    const base = srcFile.name.replace(/\.[^.]+$/, "");
+    for (let i = 0; i < names.length; i++) {
+      const data = await ff.readFile("/out/" + names[i]);
+      const type = ext === "mp4" ? "video/mp4" : ext === "webm" ? "video/webm" : "video/x-matroska";
+      const blob = new Blob([data.buffer], { type });
+      parts.push({ name: base + "_part" + String(i + 1).padStart(2, "0") + "." + ext, blob, url: URL.createObjectURL(blob), size: blob.size, t: times[i] });
+    }
+    await clearOut(ff);
+    try { await ff.unmount("/in"); } catch (e) {}
+    try { await ff.deleteFile(inPath); } catch (e) {}
+
+    render(limit);
+    prog(null);
+    if (ok) status("हो गया ✓");
+    else status("कुछ भाग " + limitMB + " MB से बड़े रह गए, क्योंकि वीडियो में keyframe दूर-दूर हैं। उन्हें इसी tool में दोबारा डालकर बाँट सकते हैं।", true);
+  } catch (e) {
+    console.error(e); prog(null);
+    status("गड़बड़ी: " + (e && e.message ? e.message : e) + " — इंटरनेट जाँचें या छोटा वीडियो आज़माएँ।", true);
+  }
+  $("go").disabled = false;
+};
+
+function onProg({ progress }) { if (progress >= 0 && progress <= 1) prog(progress); }
+
+function render(limit) {
+  const tb = $("rows"); tb.innerHTML = "";
+  const canShare = !!(navigator.canShare && parts[0] && navigator.canShare({ files: [new File([parts[0].blob], parts[0].name, { type: parts[0].blob.type })] }));
+  parts.forEach((p, i) => {
+    const tr = document.createElement("tr");
+    const tt = p.t ? tm(p.t[0]) + " – " + tm(p.t[1]) : "";
+    tr.innerHTML = "<td>भाग " + (i + 1) + "</td><td>" + tt + "</td><td class='" + (p.size <= limit ? "ok" : "err") + "'>" + fmt(p.size) + "</td><td class='act'></td>";
+    const act = tr.querySelector(".act");
+    const a = document.createElement("a"); a.className = "btn"; a.href = p.url; a.download = p.name; a.textContent = "⬇ डाउनलोड"; act.appendChild(a);
+    if (canShare) {
+      const b = document.createElement("button"); b.textContent = "↗ भेजें";
+      b.onclick = () => navigator.share({ files: [new File([p.blob], p.name, { type: p.blob.type })], title: p.name }).catch(() => {});
+      act.appendChild(b);
+    }
+    tb.appendChild(tr);
+  });
+  $("summary").textContent = parts.length + " भाग बने — कुल " + fmt(parts.reduce((s, p) => s + p.size, 0));
+  $("results").classList.remove("hidden");
+}
+
+$("zip").onclick = async () => {
+  if (!parts.length) return;
+  const btn = $("zip"); btn.disabled = true; const old = btn.textContent; btn.textContent = "ZIP बन रहा है…";
+  try {
+    const zip = new JSZip();
+    parts.forEach(p => zip.file(p.name, p.blob));
+    const blob = await zip.generateAsync({ type: "blob", compression: "STORE" }, m => prog(m.percent / 100));
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = srcFile.name.replace(/\.[^.]+$/, "") + "_parts.zip"; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+  } finally { btn.disabled = false; btn.textContent = old; prog(null); }
+};
+</script>
+</body>
+</html>
