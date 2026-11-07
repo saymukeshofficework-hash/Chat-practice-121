@@ -386,7 +386,6 @@ function tin(t,v=.12){ const o=ac.createOscillator(), g=ac.createGain(); o.type=
 /* sequencer: one call per eighth note */
 function step(t){
   const s=A.step++, st=A.stage, B=s%8;
-  if(s%2===0){ const k=(s/2)%4; string(t,[mf(57),mf(62),mf(62),mf(50)][k],.11); }           // tanpura: Pa Sa Sa Sa-low
   if(st>=1){
     if(Math.random()<.4) noise(t+Math.random()*BEAT,{dur:.03,type:'highpass',f:2500,v:.05,pan:Math.random()*.6-.3});   // diya crackle
     const p=st===1?.42:st===2?.58:.72;
