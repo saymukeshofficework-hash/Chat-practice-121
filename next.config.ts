@@ -11,6 +11,19 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || undefined;
 
 const nextConfig: NextConfig = isStatic
   ? { output: "export", basePath, trailingSlash: true, images: { unoptimized: true } }
-  : {};
+  : {
+      // Hidden Diwali page: reachable only by direct link, never indexed or listed.
+      async rewrites() {
+        return [
+          { source: "/w/:name", destination: "/wish-3d/index.html" },
+        ];
+      },
+      async headers() {
+        return [
+          { source: "/wish-3d/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] },
+          { source: "/w/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] },
+        ];
+      },
+    };
 
 export default nextConfig;
