@@ -128,9 +128,11 @@
       }
       boom();
     }
+    function light(withSound) { if (lit) return; lit = true; litAt = performance.now(); wrap.classList.add("dw-on"); if (withSound) chime(); }
+    window.addEventListener("diwali-intro-done", function () { light(false); });
     wrap.addEventListener("click", function (e) {
       var r = wrap.getBoundingClientRect();
-      if (!lit) { lit = true; litAt = performance.now(); wrap.classList.add("dw-on"); chime(); return; }
+      if (!lit) { light(true); return; }
       launch(e.clientX - r.left, e.clientY - r.top);
     });
 

@@ -15,13 +15,12 @@ const nextConfig: NextConfig = isStatic
       // Hidden Diwali page: reachable only by direct link, never indexed or listed.
       async rewrites() {
         return [
-          { source: "/diwali", destination: "/diwali/index.html" },
-          { source: "/w/:name", destination: "/diwali/index.html" },
+          { source: "/w/:name", destination: "/wish-3d/index.html" },
         ];
       },
       async headers() {
         return [
-          { source: "/diwali/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] },
+          { source: "/wish-3d/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] },
           { source: "/w/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] },
         ];
       },
