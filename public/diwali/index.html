@@ -75,7 +75,7 @@
 
 <div id="tap"><div class="line"></div><div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="#3a1c05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5a2 2 0 014 0v6"/><path d="M13 10a2 2 0 014 0v3a7 7 0 01-7 7h-1a5 5 0 01-4-2l-2-3a2 2 0 013-2l1 1"/></svg>Tap here</div><div class="ring"></div></div>
 
-<div id="wish"><div class="msg">ऊर्जावान शिक्षक परिवार की और से<br>आप को दीपावली की हार्दिक शुभकामनाएं</div><h1>Happy Diwali</h1><p id="from"></p></div>
+<div id="wish"><div class="msg">ऊर्जावान शिक्षक परिवार की ओर से<br>आप को दीपावली की हार्दिक शुभकामनाएं</div><h1>Happy Diwali</h1></div>
 <div id="end"><button id="share"><svg viewBox="0 0 24 24" fill="none" stroke="#3a1c05" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg>Add your name &amp; share</button><button id="again">Watch again</button></div>
 
 <script type="module">
@@ -94,7 +94,7 @@ function readName(){
 }
 let NAME = readName();
 const $ = id => document.getElementById(id);
-const setFrom = () => { $('from').textContent = 'from ' + NAME; };
+const setFrom = () => {};
 setFrom();
 
 /* ------------------------------------------------------------ renderer */
