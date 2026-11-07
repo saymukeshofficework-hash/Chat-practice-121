@@ -11,6 +11,20 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || undefined;
 
 const nextConfig: NextConfig = isStatic
   ? { output: "export", basePath, trailingSlash: true, images: { unoptimized: true } }
-  : {};
+  : {
+      // Hidden Diwali page: reachable only by direct link, never indexed or listed.
+      async rewrites() {
+        return [
+          { source: "/diwali", destination: "/diwali/index.html" },
+          { source: "/w/:name", destination: "/diwali/index.html" },
+        ];
+      },
+      async headers() {
+        return [
+          { source: "/diwali/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] },
+          { source: "/w/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] },
+        ];
+      },
+    };
 
 export default nextConfig;

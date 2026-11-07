@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#0a0e14">
+<meta name="robots" content="noindex,nofollow,noarchive">
 <title>Happy Diwali</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -51,8 +52,6 @@
   #wish.on h1,#wish.on p{opacity:1;filter:none;transform:none}
   #end{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 26px);z-index:8;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 22px;opacity:0;transform:translateY(20px);transition:all 1s ease;pointer-events:none}
   #end.on{opacity:1;transform:none;pointer-events:auto}
-  #share{width:100%;max-width:420px;padding:17px;border:0;border-radius:16px;font-size:16px;font-weight:700;color:#3a1c05;background:linear-gradient(180deg,#ffb94f,#f39a28);box-shadow:0 0 30px rgba(255,160,40,.5);display:flex;gap:9px;align-items:center;justify-content:center}
-  #share svg{width:18px;height:18px}
   #again{background:none;border:0;color:rgba(255,255,255,.65);font-size:13px;padding:6px 12px}
 </style>
 </head>
@@ -76,7 +75,7 @@
 <div id="tap"><div class="line"></div><div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="#3a1c05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5a2 2 0 014 0v6"/><path d="M13 10a2 2 0 014 0v3a7 7 0 01-7 7h-1a5 5 0 01-4-2l-2-3a2 2 0 013-2l1 1"/></svg>Tap here</div><div class="ring"></div></div>
 
 <div id="wish"><div class="msg">ऊर्जावान शिक्षक परिवार की ओर से<br>आप को दीपावली की हार्दिक शुभकामनाएं</div><h1>Happy Diwali</h1></div>
-<div id="end"><button id="share"><svg viewBox="0 0 24 24" fill="none" stroke="#3a1c05" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg>Add your name &amp; share</button><button id="again">Watch again</button></div>
+<div id="end"><button id="again">Watch again</button></div>
 
 <script type="module">
 import * as THREE from './three.module.min.js';
@@ -476,12 +475,6 @@ function reset(){
   begin();
 }
 $('again').addEventListener('click',reset);
-$('share').addEventListener('click',async()=>{
-  let n=prompt('Enter your name to make your own Diwali wish',''); if(!n) return; n=n.trim().slice(0,24); if(!/^[\p{L}\p{N} .'-]+$/u.test(n)) return;
-  const url=location.origin+location.pathname+'#'+btoa(unescape(encodeURIComponent(n)));
-  const data={title:'Happy Diwali from '+n,text:'🪔 A Diwali wish from '+n,url};
-  try{ if(navigator.share){ await navigator.share(data); } else { await navigator.clipboard.writeText(url); alert('Link copied!\n'+url); } }catch(e){}
-});
 window.addEventListener('hashchange',()=>{ NAME=readName(); setFrom(); });
 
 /* splash → scene */
