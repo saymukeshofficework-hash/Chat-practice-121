@@ -43,7 +43,9 @@
   @keyframes pulse{from{opacity:.3;transform:scale(.7)}to{opacity:1;transform:scale(1.1)}}
   #hit{position:fixed;inset:0;z-index:6}
   /* final */
-  #wish{position:fixed;left:0;right:0;top:19%;z-index:7;text-align:center;pointer-events:none;padding:0 20px}
+  #wish .msg{margin:0 auto 18px;max-width:520px;font-family:'Noto Sans Devanagari','Mukta','Kohinoor Devanagari','Nirmala UI',sans-serif;font-weight:700;font-size:clamp(17px,4.8vw,28px);line-height:1.55;color:#ffd98a;opacity:0;filter:blur(10px);transform:translateY(-10px);transition:opacity 2s ease,filter 2s ease,transform 2s ease;text-shadow:0 0 12px rgba(255,170,60,.85),0 0 30px rgba(255,110,10,.5),0 1px 0 rgba(90,40,5,.7)}
+  #wish.on .msg{opacity:1;filter:none;transform:none}
+  #wish{position:fixed;left:0;right:0;top:11%;z-index:7;text-align:center;pointer-events:none;padding:0 20px}
   #wish h1{font-family:'Palatino Linotype',Palatino,Georgia,serif;font-weight:800;font-size:clamp(38px,11vw,76px);letter-spacing:.01em;color:#fff2cf;opacity:0;filter:blur(18px);transform:scale(1.15);transition:opacity 2.2s ease,filter 2.2s ease,transform 2.2s ease;text-shadow:0 0 14px rgba(255,190,90,.9),0 0 38px rgba(255,130,20,.65),0 2px 0 rgba(120,60,10,.6)}
   #wish p{margin-top:8px;font-family:'Palatino Linotype',Palatino,Georgia,serif;font-weight:700;font-size:clamp(22px,6vw,40px);color:#f6a63a;opacity:0;filter:blur(10px);transition:opacity 2s .9s ease,filter 2s .9s ease;text-shadow:0 0 16px rgba(255,120,10,.8)}
   #wish.on h1,#wish.on p{opacity:1;filter:none;transform:none}
@@ -73,7 +75,7 @@
 
 <div id="tap"><div class="line"></div><div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="#3a1c05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5a2 2 0 014 0v6"/><path d="M13 10a2 2 0 014 0v3a7 7 0 01-7 7h-1a5 5 0 01-4-2l-2-3a2 2 0 013-2l1 1"/></svg>Tap here</div><div class="ring"></div></div>
 
-<div id="wish"><h1>Happy Diwali</h1><p id="from"></p></div>
+<div id="wish"><div class="msg">ऊर्जावान शिक्षक परिवार की और से<br>आप को दीपावली की हार्दिक शुभकामनाएं</div><h1>Happy Diwali</h1><p id="from"></p></div>
 <div id="end"><button id="share"><svg viewBox="0 0 24 24" fill="none" stroke="#3a1c05" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg>Add your name &amp; share</button><button id="again">Watch again</button></div>
 
 <script type="module">
