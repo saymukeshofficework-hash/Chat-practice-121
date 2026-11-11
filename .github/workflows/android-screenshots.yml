@@ -34,7 +34,9 @@ jobs:
           profile: pixel_6
           working-directory: starlight-astro-android
           script: |
-            ./gradlew --no-daemon connectedDebugAndroidTest
+            ./gradlew --no-daemon installDebug installDebugAndroidTest
+            adb shell am instrument -w -e class com.starlightastro.app.ScreenshotTest com.starlightastro.app.test/androidx.test.runner.AndroidJUnitRunner | tee instrument.log
+            grep -q '^OK' instrument.log
             mkdir -p ../docs/screenshots
             adb pull /sdcard/Android/data/com.starlightastro.app/files/shots/. ../docs/screenshots/
 
