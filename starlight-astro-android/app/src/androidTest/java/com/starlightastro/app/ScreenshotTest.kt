@@ -31,7 +31,10 @@ class ScreenshotTest {
     }
 
     private fun tap(text: String, substring: Boolean = false, index: Int = 0) {
-        rule.onAllNodesWithText(text, substring = substring)[index].performScrollTo().performClick()
+        val node = rule.onAllNodesWithText(text, substring = substring)[index]
+        // Tabs aren't inside a scroll container, so scrolling is best-effort.
+        runCatching { node.performScrollTo() }
+        node.performClick()
         rule.waitForIdle()
     }
 
