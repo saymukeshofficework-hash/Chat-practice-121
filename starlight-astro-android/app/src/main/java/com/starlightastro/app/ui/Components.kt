@@ -44,7 +44,6 @@ fun Page(
         Modifier
             .fillMaxSize()
             .background(Astro.Background)
-            .statusBarsPadding()
     ) {
         Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             if (onBack != null) {
