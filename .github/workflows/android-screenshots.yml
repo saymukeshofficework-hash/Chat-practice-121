@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [claude/practical-planck-3qqqvh]
-    paths: [".github/workflows/android-screenshots.yml", "starlight-astro-android/app/src/androidTest/**"]
+    paths: [".github/workflows/android-screenshots.yml", "starlight-astro-android/app/src/**"]
 
 permissions:
   contents: write
