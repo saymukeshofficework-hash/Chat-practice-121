@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>कक्षा 10 विकल्प प्रश्न</title>
+<title>कक्षा 10 विकल्पात्मक प्रश्न</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Rozha+One&display=swap">
 <style>
 /* Minimal layout: hairline cards, slim sticky timer, one meta line, bottom submit bar */
@@ -36,6 +36,7 @@ input[type=text]:focus{outline:2px solid var(--accent);outline-offset:1px;backgr
 .subj .btn:hover{background:var(--accent);color:#fff}
 .btn:focus-visible,.opt:focus-within{outline:2px solid var(--accent);outline-offset:2px}
 .timer{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);display:flex;justify-content:center;align-items:baseline;gap:10px;padding:8px 0;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+.timer{position:sticky}.bk{position:absolute;left:max(12px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);font:inherit;font-size:15px;font-weight:600;color:var(--accent);background:var(--accent-soft);border:0;border-radius:999px;padding:5px 12px;cursor:pointer}
 .timer .l{font-size:13px;color:var(--muted)}
 .timer .t{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.03em}
 .timer.low .t{color:var(--bad)}
@@ -62,6 +63,8 @@ input[type=text]:focus{outline:2px solid var(--accent);outline-offset:1px;backgr
 .score{font-family:var(--display);font-size:52px;line-height:1;margin:0;text-align:center}
 #scorecard{align-items:center;text-align:center;background:var(--soft);border-color:transparent}
 .rname{font-size:16px;font-weight:600;margin:0;color:var(--muted)}
+.credit{display:block;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:15px;color:var(--ink)}.credit b{color:var(--accent)}
+h1{margin-bottom:6px!important}
 footer{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
 .nerr{color:var(--bad);font-size:14px;margin:0}
 .side{position:fixed;z-index:-1;pointer-events:none;background:url(saraswati.webp) center/cover no-repeat}
@@ -73,17 +76,17 @@ footer{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
 
 <div class="side" aria-hidden="true"></div>
 <div class="wrap">
-  <h1 id="htitle">कक्षा 10 विकल्प प्रश्न</h1>
-  <p class="desc" id="desc">संकलनकर्ता: <b>मुकेश दाहिया</b></p>
+  <h1 id="htitle">कक्षा 10 विकल्पात्मक प्रश्न</h1>
+  
 
   <section id="home" style="display:flex;flex-direction:column;gap:18px">
     <div class="card field"><label for="sname">विद्यार्थी का नाम</label><input type="text" id="sname" placeholder="अपना नाम लिखें" autocomplete="off"><p class="nerr" id="nerr" hidden>टेस्ट शुरू करने से पहले अपना नाम लिखें।</p></div>
     <div id="subjects" style="display:flex;flex-direction:column;gap:18px"></div>
-    <footer>हर प्रश्न के साथ वह वर्ष लिखा है जब वह MP Board में पूछा गया: “बोर्ड” = वार्षिक परीक्षा, “मॉडल” = मंडल का आदर्श प्रश्न पत्र।</footer>
+    <footer>हर प्रश्न के साथ वह वर्ष लिखा है जब वह MP Board में पूछा गया: “बोर्ड” = वार्षिक परीक्षा, “मॉडल” = मंडल का आदर्श प्रश्न पत्र।<span class="credit">संकलनकर्ता एवं लेआउट – <b>मुकेश दाहिया</b></span></footer>
   </section>
 
   <section id="quiz" hidden style="display:flex;flex-direction:column;gap:18px">
-    <div class="timer" id="timer"><span class="l">समय शेष</span><span class="t" id="tt">20:00</span></div>
+    <div class="timer" id="timer"><button class="bk" id="bk" aria-label="वापस">← वापस</button><span class="l">समय शेष</span><span class="t" id="tt">20:00</span></div>
     <div class="meta"><span><b id="wname"></b> · <span id="wset"></span></span><span><span id="tq">15</span> प्रश्न · <span id="tm">15</span> अंक</span></div>
     <div class="card" id="scorecard" hidden>
       <p class="rname" id="rname"></p>
@@ -375,7 +378,7 @@ function start(k,i){
   $("nerr").hidden=true;try{localStorage.setItem("qname",nm)}catch(e){}
   $("wname").textContent=nm;$("wset").textContent=`${DATA[k].name} · सेट ${i+1}`;
   const s=DATA[k],qs=sets(s.qs)[i];cur={k,i,qs};done=false;
-  $("htitle").hidden=true;$("desc").hidden=true;
+  $("htitle").hidden=true;
   $("tm").textContent=qs.length;$("tq").textContent=qs.length;$("tot").textContent=qs.length;$("ans").textContent=0;
   $("scorecard").hidden=true;$("ask").hidden=true;$("timer").classList.remove("low");
   const box=$("qs");box.innerHTML="";
@@ -418,6 +421,7 @@ function submit(){
 }
 $("again").onclick=()=>{document.querySelector(".dock .cnt").innerHTML=`Answered <b id="ans">0</b> of <span id="tot">15</span>`;start(cur.k,cur.i)};
 $("back").onclick=()=>{document.querySelector(".dock .cnt").innerHTML=`Answered <b id="ans">0</b> of <span id="tot">15</span>`;clearInterval(timerId);$("quiz").hidden=true;$("dock").hidden=true;$("home").hidden=false;
-  $("htitle").hidden=false;$("desc").hidden=false;window.scrollTo(0,0)};
+  $("htitle").hidden=false;window.scrollTo(0,0)};
+$("bk").onclick=()=>$("back").onclick();
 </script>
 </body></html>
