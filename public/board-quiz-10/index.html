@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>बोर्ड परीक्षा तैयारी कक्षा 10</title>
+<title>मॉक टेस्ट कक्षा 10</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Rozha+One&display=swap">
 <style>
 /* Minimal layout: hairline cards, slim sticky timer, one meta line, bottom submit bar */
@@ -69,8 +69,8 @@ footer{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
 </head><body>
 
 <div class="wrap">
-  <h1>बोर्ड परीक्षा तैयारी 3.0</h1>
-  <p class="desc" id="desc">यह प्रश्नोत्तरी कक्षा 10वीं के विद्यार्थियों की बोर्ड परीक्षा तैयारी के लिए है। संकलनकर्ता <b>मुकेश दाहिया</b></p>
+  <h1 id="htitle">मॉक टेस्ट</h1>
+  <p class="desc" id="desc">संकलनकर्ता: <b>मुकेश दाहिया</b></p>
 
   <section id="home" style="display:flex;flex-direction:column;gap:18px">
     <div class="card field"><label for="sname">विद्यार्थी का नाम</label><input type="text" id="sname" placeholder="अपना नाम लिखें" autocomplete="off"><p class="nerr" id="nerr" hidden>टेस्ट शुरू करने से पहले अपना नाम लिखें।</p></div>
@@ -371,7 +371,7 @@ function start(k,i){
   $("nerr").hidden=true;try{localStorage.setItem("qname",nm)}catch(e){}
   $("wname").textContent=nm;$("wset").textContent=`${DATA[k].name} · सेट ${i+1}`;
   const s=DATA[k],qs=sets(s.qs)[i];cur={k,i,qs};done=false;
-  $("desc").innerHTML=`यह प्रश्नोत्तरी कक्षा 10वीं विषय ${s.name} (सेट ${i+1}) की तैयारी के लिए है। संकलनकर्ता <b>मुकेश दाहिया</b>`;
+  $("htitle").hidden=true;$("desc").hidden=true;
   $("tm").textContent=qs.length;$("tq").textContent=qs.length;$("tot").textContent=qs.length;$("ans").textContent=0;
   $("scorecard").hidden=true;$("ask").hidden=true;$("timer").classList.remove("low");
   const box=$("qs");box.innerHTML="";
@@ -414,6 +414,6 @@ function submit(){
 }
 $("again").onclick=()=>{document.querySelector(".dock .cnt").innerHTML=`Answered <b id="ans">0</b> of <span id="tot">15</span>`;start(cur.k,cur.i)};
 $("back").onclick=()=>{document.querySelector(".dock .cnt").innerHTML=`Answered <b id="ans">0</b> of <span id="tot">15</span>`;clearInterval(timerId);$("quiz").hidden=true;$("dock").hidden=true;$("home").hidden=false;
-  $("desc").innerHTML="यह प्रश्नोत्तरी कक्षा 10वीं के विद्यार्थियों की बोर्ड परीक्षा तैयारी के लिए है। संकलनकर्ता <b>मुकेश दाहिया</b>";window.scrollTo(0,0)};
+  $("htitle").hidden=false;$("desc").hidden=false;window.scrollTo(0,0)};
 </script>
 </body></html>
