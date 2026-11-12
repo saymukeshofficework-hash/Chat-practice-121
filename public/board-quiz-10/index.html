@@ -6,60 +6,65 @@
 <title>बोर्ड परीक्षा तैयारी कक्षा 10</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Rozha+One&display=swap">
 <style>
-/* Layout: Quizzory-style single page — header, stats strip, stacked question cards, sticky timer on top, sticky answered/submit bar at bottom */
+/* Minimal layout: hairline cards, slim sticky timer, one meta line, bottom submit bar */
 :root{
-  --bg:#ffffff; --card:#ffffff; --ink:#1d2a24; --muted:#5d6b64; --line:#d3dad6; --strip:#7d8a84; --strip-ink:#ffffff;
-  --accent:#0f6b4f; --accent-soft:#e1f0ea; --year:#8a4b0f; --year-soft:#fbeedd;
-  --good:#1c7a3e; --good-soft:#dff3e5; --bad:#b3261e; --bad-soft:#fbe3e1;
+  --bg:#ffffff; --card:#ffffff; --ink:#18201c; --muted:#6b756f; --line:#e4e8e6; --soft:#f6f8f7;
+  --accent:#0f6b4f; --accent-soft:#eaf4ef; --year:#8a4b0f; --year-soft:#fbf1e4;
+  --good:#1c7a3e; --good-soft:#e6f5ea; --bad:#b3261e; --bad-soft:#fcebea;
   --display:"Rozha One","Tiro Devanagari Hindi",Georgia,serif;
   --body:"Mukta","Noto Sans Devanagari",system-ui,sans-serif;
 }
 :root{color-scheme:light}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;margin:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.wrap{max-width:680px;margin:0 auto;padding-block:20px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
-h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,8vw,42px);line-height:1.15;margin:0;text-align:center;text-wrap:balance}
-.desc{text-align:center;margin:0;font-size:19px}
-.desc b{color:var(--accent)}
-.stats{display:grid;grid-template-columns:1fr 1fr;background:var(--strip);color:var(--strip-ink);text-align:center;padding:14px 0}
-.stats div+div{border-left:1px solid var(--strip-ink)}
-.stats b{display:block;font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
-.card{background:var(--card);box-shadow:0 2px 6px rgba(0,0,0,.12);padding:20px;display:flex;flex-direction:column;gap:12px}
-.field label{font-weight:600;display:block;margin-bottom:6px}
-input[type=text]{font:inherit;width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
-.subj{display:flex;flex-direction:column;gap:10px}
-.subj h2{font-family:var(--display);font-weight:400;font-size:26px;margin:0}
-.subj p{margin:0;color:var(--muted);font-size:15px}
-.sets{display:flex;gap:10px;flex-wrap:wrap}
-.btn{font:inherit;font-weight:700;padding:10px 18px;border-radius:8px;border:0;background:var(--accent);color:var(--card);cursor:pointer}
-.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
-.btn:focus-visible,.opt:focus-within{outline:3px solid var(--year);outline-offset:2px}
-.timer{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--strip);color:var(--strip-ink);text-align:center;padding:6px 0 8px;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
-.timer .t{font-size:44px;font-variant-numeric:tabular-nums;letter-spacing:.04em;line-height:1.1}
-.timer .l{display:flex;justify-content:center;gap:34px;font-size:12px;letter-spacing:.06em}
-.timer.low{background:var(--bad)}
-.qtext{font-size:21px;margin:0}
-.qen{font-size:15px;color:var(--muted);margin:-6px 0 0}
-.mark{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:16px}
-.chip{font-size:13px;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--year-soft);color:var(--year)}
-.opts{display:flex;flex-direction:column;gap:6px}
-.opt{display:flex;gap:14px;align-items:center;padding:8px 10px;border-radius:8px;cursor:pointer;border:1.5px solid transparent}
-.opt input{width:24px;height:24px;margin:0;accent-color:var(--accent);flex:none}
+.wrap{max-width:640px;margin:0 auto;padding-block:28px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:14px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(28px,7vw,36px);line-height:1.15;margin:0;text-align:center;text-wrap:balance}
+.desc{text-align:center;margin:0 0 8px;font-size:15px;color:var(--muted)}
+.desc b{color:var(--accent);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.field label{font-weight:600;display:block;font-size:15px;color:var(--muted)}
+input[type=text]{font:inherit;width:100%;box-sizing:border-box;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--ink)}
+input[type=text]:focus{outline:2px solid var(--accent);outline-offset:1px;background:var(--bg)}
+.subj{gap:4px}
+.subj h2{font-family:var(--display);font-weight:400;font-size:24px;margin:0;line-height:1.2}
+.subj h2 small{font-family:var(--body);font-size:14px;color:var(--muted)}
+.subj p{margin:0 0 8px;color:var(--muted);font-size:14px}
+.sets{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:inherit;font-size:16px;font-weight:600;padding:8px 16px;border-radius:999px;border:0;background:var(--accent);color:#fff;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--line)}
+.subj .btn{background:var(--accent-soft);color:var(--accent)}
+.subj .btn:hover{background:var(--accent);color:#fff}
+.btn:focus-visible,.opt:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.timer{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);display:flex;justify-content:center;align-items:baseline;gap:10px;padding:8px 0;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+.timer .l{font-size:13px;color:var(--muted)}
+.timer .t{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.03em}
+.timer.low .t{color:var(--bad)}
+.meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:15px;color:var(--muted);padding:2px 2px 0}
+.meta b{color:var(--ink);font-size:17px}
+.qtext{font-size:19px;margin:0;font-weight:500}
+.qen{font-size:14px;color:var(--muted);margin:-8px 0 0}
+.mark{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.chip{font-size:12px;font-weight:600;padding:1px 10px;border-radius:999px;background:var(--year-soft);color:var(--year)}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:12px;align-items:center;padding:9px 12px;border-radius:10px;cursor:pointer;border:1px solid var(--line);font-size:17px}
+.opt:hover{background:var(--soft)}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.opt input{width:20px;height:20px;margin:0;accent-color:var(--accent);flex:none}
 .opt.right{background:var(--good-soft);border-color:var(--good)}
 .opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
-.req{align-self:flex-start;background:var(--bg);color:var(--muted);font-size:14px;padding:3px 12px;border-radius:6px}
-.res{font-weight:700;margin:0}.res.ok{color:var(--good)}.res.no{color:var(--bad)}
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--card);box-shadow:0 -2px 10px rgba(0,0,0,.15);border-radius:18px 18px 0 0;padding:12px max(20px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px))}
-.dock .in{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.dock .cnt{flex:1;text-align:center;font-size:17px}.dock .cnt b{font-size:24px;font-variant-numeric:tabular-nums}
-.dock button.check{font-size:30px;line-height:1;background:none;border:0;color:var(--ink);cursor:pointer;padding:4px 8px}
-.ask{max-width:680px;margin:10px auto 0;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:16px}
-.score{font-family:var(--display);font-size:54px;line-height:1;margin:0;text-align:center}
-footer{font-size:13px;color:var(--muted);text-align:center}
+.req{display:none}
+.res{font-weight:600;margin:0;font-size:15px}.res.ok{color:var(--good)}.res.no{color:var(--bad)}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(255,255,255,.97);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.dock .in{max-width:640px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dock .cnt{font-size:15px;color:var(--muted)}.dock .cnt b{font-size:20px;color:var(--ink);font-variant-numeric:tabular-nums}
+.dock button.check{font:inherit;font-size:16px;font-weight:600;background:var(--accent);color:#fff;border:0;border-radius:999px;padding:8px 18px;cursor:pointer}
+.ask{max-width:640px;margin:10px auto 0;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:15px}
+.score{font-family:var(--display);font-size:52px;line-height:1;margin:0;text-align:center}
+#scorecard{align-items:center;text-align:center;background:var(--soft);border-color:transparent}
+.rname{font-size:16px;font-weight:600;margin:0;color:var(--muted)}
+footer{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
+.nerr{color:var(--bad);font-size:14px;margin:0}
 [hidden]{display:none!important}
-.who{flex-direction:row!important;padding:14px 18px;font-size:17px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}.who b{font-size:19px}.who span{color:var(--muted);font-size:15px}
-.rname{text-align:center;font-size:19px;font-weight:700;margin:0}
-.nerr{color:#c0392b;font-size:15px;margin:6px 0 0}
 </style>
 </head><body>
 
@@ -74,9 +79,8 @@ footer{font-size:13px;color:var(--muted);text-align:center}
   </section>
 
   <section id="quiz" hidden style="display:flex;flex-direction:column;gap:18px">
-    <div class="timer" id="timer"><div class="t" id="tt">00 : 20 : 00</div><div class="l"><span>HOURS</span><span>MINUTES</span><span>SECONDS</span></div></div>
-    <div class="card who">विद्यार्थी: <b id="wname"></b><span id="wset"></span></div>
-    <div class="stats"><div>Total Marks<b id="tm">15</b></div><div>Total Questions<b id="tq">15</b></div></div>
+    <div class="timer" id="timer"><span class="l">समय शेष</span><span class="t" id="tt">20:00</span></div>
+    <div class="meta"><span><b id="wname"></b> · <span id="wset"></span></span><span><span id="tq">15</span> प्रश्न · <span id="tm">15</span> अंक</span></div>
     <div class="card" id="scorecard" hidden>
       <p class="rname" id="rname"></p>
       <p class="score" id="rscore"></p>
@@ -88,7 +92,7 @@ footer{font-size:13px;color:var(--muted);text-align:center}
 </div>
 
 <div class="dock" id="dock" hidden>
-  <div class="in"><span class="cnt">Answered <b id="ans">0</b> of <span id="tot">15</span></span><button class="check" id="submit" aria-label="जमा करें">✔</button></div>
+  <div class="in"><span class="cnt">Answered <b id="ans">0</b> of <span id="tot">15</span></span><button class="check" id="submit" aria-label="जमा करें">जमा करें ✔</button></div>
   <div class="ask" id="ask" hidden><span id="askmsg"></span><button class="btn" id="yes">हाँ, जमा करें</button><button class="btn ghost" id="no">रुकें</button></div>
 </div>
 
@@ -354,13 +358,13 @@ const sbox=$("subjects");
 Object.entries(DATA).forEach(([k,s])=>{
   const ss=sets(s.qs);
   const d=document.createElement("div");d.className="card subj";
-  d.innerHTML=`<h2>${s.name} <small style="font-family:var(--body);font-size:15px;color:var(--muted)">${s.en}</small></h2><p>${s.chapters} · हर सेट में ${PER} प्रश्न, ${PER} अंक, ${MINS} मिनट</p><div class="sets"></div>`;
-  ss.forEach((qs,i)=>{const b=document.createElement("button");b.className="btn";b.id=`set-${k}-${i}`;b.textContent=`सेट ${i+1} शुरू करें`;b.onclick=()=>start(k,i);d.querySelector(".sets").appendChild(b)});
+  d.innerHTML=`<h2>${s.name} <small style="font-family:var(--body);font-size:15px;color:var(--muted)">${s.en}</small></h2><p>${s.chapters} · हर सेट ${PER} प्रश्न, ${MINS} मिनट</p><div class="sets"></div>`;
+  ss.forEach((qs,i)=>{const b=document.createElement("button");b.className="btn";b.id=`set-${k}-${i}`;b.textContent=`सेट ${i+1}`;b.onclick=()=>start(k,i);d.querySelector(".sets").appendChild(b)});
   sbox.appendChild(d);
 });
 try{const v=localStorage.getItem("qname");if(v)$("sname").value=v}catch(e){}
 $("sname").oninput=()=>{if($("sname").value.trim())$("nerr").hidden=true};
-function fmt(t){const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60;return [h,m,s].map(x=>String(x).padStart(2,"0")).join(" : ")}
+function fmt(t){const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60;return [m+h*60,s].map(x=>String(x).padStart(2,"0")).join(":")}
 function start(k,i){
   const nm=$("sname").value.trim();
   if(!nm){$("nerr").hidden=false;$("sname").focus();$("sname").scrollIntoView({behavior:"smooth",block:"center"});return}
