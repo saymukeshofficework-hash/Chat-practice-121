@@ -1,4 +1,4 @@
-# Publishes a static demo of Exam Hub to GitHub Pages.
+# Publishes a static demo of Exam Hub to GitHub Pages at the custom domain shiksha.buzz.
 # The demo is Hindi-only and has no contact/purchase backend (static hosting).
 name: Deploy demo to GitHub Pages
 
@@ -32,8 +32,8 @@ jobs:
       - name: Build static export
         env:
           NEXT_PUBLIC_STATIC_EXPORT: "1"
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
-          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          NEXT_PUBLIC_BASE_PATH: ""
+          NEXT_PUBLIC_SITE_URL: https://shiksha.buzz
         run: |
           # API routes need a server; the static demo doesn't ship them.
           rm -rf src/app/api
