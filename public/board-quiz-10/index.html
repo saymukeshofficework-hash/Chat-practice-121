@@ -57,23 +57,28 @@ input[type=text]{font:inherit;width:100%;box-sizing:border-box;padding:10px 12px
 .score{font-family:var(--display);font-size:54px;line-height:1;margin:0;text-align:center}
 footer{font-size:13px;color:var(--muted);text-align:center}
 [hidden]{display:none!important}
+.who{flex-direction:row!important;padding:14px 18px;font-size:17px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}.who b{font-size:19px}.who span{color:var(--muted);font-size:15px}
+.rname{text-align:center;font-size:19px;font-weight:700;margin:0}
+.nerr{color:#c0392b;font-size:15px;margin:6px 0 0}
 </style>
 </head><body>
 
 <div class="wrap">
   <h1>बोर्ड परीक्षा तैयारी 3.0</h1>
-  <p class="desc" id="desc">यह प्रश्नोत्तरी कक्षा 10वीं के विद्यार्थियों की बोर्ड परीक्षा तैयारी के लिए है। प्रस्तुतकर्ता <b>मुकेश दाहिया</b></p>
+  <p class="desc" id="desc">यह प्रश्नोत्तरी कक्षा 10वीं के विद्यार्थियों की बोर्ड परीक्षा तैयारी के लिए है। संकलनकर्ता <b>मुकेश दाहिया</b></p>
 
   <section id="home" style="display:flex;flex-direction:column;gap:18px">
-    <div class="card field"><label for="sname">विद्यार्थी का नाम</label><input type="text" id="sname" placeholder="अपना नाम लिखें" autocomplete="off"></div>
+    <div class="card field"><label for="sname">विद्यार्थी का नाम</label><input type="text" id="sname" placeholder="अपना नाम लिखें" autocomplete="off"><p class="nerr" id="nerr" hidden>टेस्ट शुरू करने से पहले अपना नाम लिखें।</p></div>
     <div id="subjects" style="display:flex;flex-direction:column;gap:18px"></div>
     <footer>हर प्रश्न के साथ वह वर्ष लिखा है जब वह MP Board में पूछा गया: “बोर्ड” = वार्षिक परीक्षा, “मॉडल” = मंडल का आदर्श प्रश्न पत्र।</footer>
   </section>
 
   <section id="quiz" hidden style="display:flex;flex-direction:column;gap:18px">
     <div class="timer" id="timer"><div class="t" id="tt">00 : 20 : 00</div><div class="l"><span>HOURS</span><span>MINUTES</span><span>SECONDS</span></div></div>
+    <div class="card who">विद्यार्थी: <b id="wname"></b><span id="wset"></span></div>
     <div class="stats"><div>Total Marks<b id="tm">15</b></div><div>Total Questions<b id="tq">15</b></div></div>
     <div class="card" id="scorecard" hidden>
+      <p class="rname" id="rname"></p>
       <p class="score" id="rscore"></p>
       <p id="rmsg" style="margin:0;text-align:center"></p>
       <div class="sets" style="justify-content:center"><button class="btn" id="again">फिर से हल करें</button><button class="btn ghost" id="back">दूसरा क्विज़</button></div>
@@ -353,10 +358,16 @@ Object.entries(DATA).forEach(([k,s])=>{
   ss.forEach((qs,i)=>{const b=document.createElement("button");b.className="btn";b.id=`set-${k}-${i}`;b.textContent=`सेट ${i+1} शुरू करें`;b.onclick=()=>start(k,i);d.querySelector(".sets").appendChild(b)});
   sbox.appendChild(d);
 });
+try{const v=localStorage.getItem("qname");if(v)$("sname").value=v}catch(e){}
+$("sname").oninput=()=>{if($("sname").value.trim())$("nerr").hidden=true};
 function fmt(t){const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60;return [h,m,s].map(x=>String(x).padStart(2,"0")).join(" : ")}
 function start(k,i){
+  const nm=$("sname").value.trim();
+  if(!nm){$("nerr").hidden=false;$("sname").focus();$("sname").scrollIntoView({behavior:"smooth",block:"center"});return}
+  $("nerr").hidden=true;try{localStorage.setItem("qname",nm)}catch(e){}
+  $("wname").textContent=nm;$("wset").textContent=`${DATA[k].name} · सेट ${i+1}`;
   const s=DATA[k],qs=sets(s.qs)[i];cur={k,i,qs};done=false;
-  $("desc").innerHTML=`यह प्रश्नोत्तरी कक्षा 10वीं विषय ${s.name} (सेट ${i+1}) की तैयारी के लिए है। प्रस्तुतकर्ता <b>मुकेश दाहिया</b>`;
+  $("desc").innerHTML=`यह प्रश्नोत्तरी कक्षा 10वीं विषय ${s.name} (सेट ${i+1}) की तैयारी के लिए है। संकलनकर्ता <b>मुकेश दाहिया</b>`;
   $("tm").textContent=qs.length;$("tq").textContent=qs.length;$("tot").textContent=qs.length;$("ans").textContent=0;
   $("scorecard").hidden=true;$("ask").hidden=true;$("timer").classList.remove("low");
   const box=$("qs");box.innerHTML="";
@@ -392,12 +403,13 @@ function submit(){
     r.textContent=v===q.a?"✓ सही उत्तर":(v<0?"हल नहीं किया। ":"✗ गलत। ")+"सही उत्तर: "+q.o[q.a]});
   const t=cur.qs.length,p=Math.round(sc/t*100),nm=$("sname").value.trim();
   $("rscore").textContent=`${sc} / ${t}`;
-  $("rmsg").textContent=(nm?nm+" · ":"")+p+"% · "+(p>=80?"शाबाश! बोर्ड के लिए अच्छी तैयारी है।":p>=50?"अच्छा प्रयास। गलत प्रश्न दोबारा पढ़ें।":"इन अध्यायों को फिर से दोहराएँ।");
+  $("rname").textContent="विद्यार्थी: "+nm+" · "+DATA[cur.k].name+" सेट "+(cur.i+1);
+  $("rmsg").textContent=p+"% · "+(p>=80?"शाबाश! बोर्ड के लिए अच्छी तैयारी है।":p>=50?"अच्छा प्रयास। गलत प्रश्न दोबारा पढ़ें।":"इन अध्यायों को फिर से दोहराएँ।");
   $("ans").textContent=`${sc}`;document.querySelector(".dock .cnt").innerHTML=`प्राप्तांक <b>${sc}</b> / ${t}`;
   $("scorecard").hidden=false;window.scrollTo({top:0,behavior:"smooth"});
 }
 $("again").onclick=()=>{document.querySelector(".dock .cnt").innerHTML=`Answered <b id="ans">0</b> of <span id="tot">15</span>`;start(cur.k,cur.i)};
 $("back").onclick=()=>{document.querySelector(".dock .cnt").innerHTML=`Answered <b id="ans">0</b> of <span id="tot">15</span>`;clearInterval(timerId);$("quiz").hidden=true;$("dock").hidden=true;$("home").hidden=false;
-  $("desc").innerHTML="यह प्रश्नोत्तरी कक्षा 10वीं के विद्यार्थियों की बोर्ड परीक्षा तैयारी के लिए है। प्रस्तुतकर्ता <b>मुकेश दाहिया</b>";window.scrollTo(0,0)};
+  $("desc").innerHTML="यह प्रश्नोत्तरी कक्षा 10वीं के विद्यार्थियों की बोर्ड परीक्षा तैयारी के लिए है। संकलनकर्ता <b>मुकेश दाहिया</b>";window.scrollTo(0,0)};
 </script>
 </body></html>
