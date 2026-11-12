@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>मॉक टेस्ट कक्षा 10</title>
+<title>कक्षा 10 विकल्प प्रश्न</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Rozha+One&display=swap">
 <style>
 /* Minimal layout: hairline cards, slim sticky timer, one meta line, bottom submit bar */
@@ -64,12 +64,16 @@ input[type=text]:focus{outline:2px solid var(--accent);outline-offset:1px;backgr
 .rname{font-size:16px;font-weight:600;margin:0;color:var(--muted)}
 footer{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
 .nerr{color:var(--bad);font-size:14px;margin:0}
+.side{position:fixed;z-index:-1;pointer-events:none;background:url(saraswati.webp) center/cover no-repeat}
+@media (min-width:1000px){.side{left:0;top:0;bottom:0;width:calc((100vw - 640px)/2 - 24px);-webkit-mask-image:linear-gradient(to right,#000 55%,transparent);mask-image:linear-gradient(to right,#000 55%,transparent)}}
+@media (max-width:999px){.side{left:-34vw;top:18vh;width:100vw;height:100vw;opacity:.32;-webkit-mask-image:radial-gradient(circle,#000 35%,transparent 70%);mask-image:radial-gradient(circle,#000 35%,transparent 70%)}.card{background:rgba(255,255,255,.86)}}
 [hidden]{display:none!important}
 </style>
 </head><body>
 
+<div class="side" aria-hidden="true"></div>
 <div class="wrap">
-  <h1 id="htitle">मॉक टेस्ट</h1>
+  <h1 id="htitle">कक्षा 10 विकल्प प्रश्न</h1>
   <p class="desc" id="desc">संकलनकर्ता: <b>मुकेश दाहिया</b></p>
 
   <section id="home" style="display:flex;flex-direction:column;gap:18px">
@@ -92,8 +96,8 @@ footer{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
 </div>
 
 <div class="dock" id="dock" hidden>
-  <div class="in"><span class="cnt">Answered <b id="ans">0</b> of <span id="tot">15</span></span><button class="check" id="submit" aria-label="जमा करें">जमा करें ✔</button></div>
-  <div class="ask" id="ask" hidden><span id="askmsg"></span><button class="btn" id="yes">हाँ, जमा करें</button><button class="btn ghost" id="no">रुकें</button></div>
+  <div class="in"><span class="cnt">Answered <b id="ans">0</b> of <span id="tot">15</span></span><button class="check" id="submit" aria-label="Submit">Submit ✔</button></div>
+  <div class="ask" id="ask" hidden><span id="askmsg"></span><button class="btn" id="yes">हाँ, Submit करें</button><button class="btn ghost" id="no">रुकें</button></div>
 </div>
 
 <script>
@@ -392,7 +396,7 @@ function start(k,i){
 function answered(){return cur.qs.filter((q,n)=>document.querySelector(`input[name=q${n}]:checked`)).length}
 function count(){if(!done)$("ans").textContent=answered()}
 $("submit").onclick=()=>{const a=answered(),t=cur.qs.length;
-  if(a<t){$("askmsg").textContent=`अभी ${t-a} प्रश्न बाकी हैं। फिर भी जमा करें?`;$("ask").hidden=false}else{$("askmsg").textContent="सभी प्रश्न हल हो गए। जमा करें?";$("ask").hidden=false}};
+  if(a<t){$("askmsg").textContent=`अभी ${t-a} प्रश्न बाकी हैं। फिर भी Submit करें?`;$("ask").hidden=false}else{$("askmsg").textContent="सभी प्रश्न हल हो गए। Submit करें?";$("ask").hidden=false}};
 $("no").onclick=()=>$("ask").hidden=true;
 $("yes").onclick=submit;
 function submit(){
