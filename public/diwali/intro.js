@@ -10,6 +10,8 @@
  */
 (function () {
   "use strict";
+  // Festival over: stop showing on tool pages after this date (dedicated /diwali/ page still works).
+  if (!window.DIWALI_INTRO_ALWAYS && Date.now() > new Date("2026-11-12T00:00:00+05:30").getTime()) return;
   if (window.__diwaliIntro) return;
   window.__diwaliIntro = true;
 
