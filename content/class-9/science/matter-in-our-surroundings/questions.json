@@ -1,0 +1,79 @@
+{
+  "practice": [
+    {
+      "id": "p-1",
+      "prompt": "Which state usually fills the entire container?",
+      "choices": [
+        "Solid",
+        "Liquid",
+        "Gas",
+        "All states"
+      ],
+      "correct": 2,
+      "explanation": "A gas expands to occupy its container."
+    },
+    {
+      "id": "p-2",
+      "prompt": "What is solid to liquid called?",
+      "choices": [
+        "Condensation",
+        "Melting",
+        "Freezing",
+        "Sublimation"
+      ],
+      "correct": 1,
+      "explanation": "Melting is the change from solid to liquid."
+    },
+    {
+      "id": "p-3",
+      "prompt": "Which condition tends to speed up drying?",
+      "choices": [
+        "High humidity",
+        "Still air",
+        "Lower temperature",
+        "Moving air"
+      ],
+      "correct": 3,
+      "explanation": "Moving air carries water vapour away."
+    },
+    {
+      "id": "p-4",
+      "prompt": "Which state can usually be compressed the most?",
+      "choices": [
+        "Solid",
+        "Liquid",
+        "Gas",
+        "All equally"
+      ],
+      "correct": 2,
+      "explanation": "Gas particles have relatively large spaces between them."
+    },
+    {
+      "id": "p-5",
+      "prompt": "What is gas turning into liquid called?",
+      "choices": [
+        "Condensation",
+        "Melting",
+        "Sublimation",
+        "Boiling"
+      ],
+      "correct": 0,
+      "explanation": "Condensation changes gas to liquid."
+    }
+  ],
+  "timed": [
+    {
+      "id": "t-1",
+      "prompt": "Why does evaporation cool the remaining liquid?",
+      "choices": [
+        "The slowest particles escape",
+        "Higher-energy particles escape",
+        "New particles enter",
+        "The particle mass decreases"
+      ],
+      "correct": 1,
+      "explanation": "Particles that escape tend to take above-average kinetic energy with them."
+    }
+  ],
+  "minutes": 3
+}

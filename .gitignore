@@ -42,3 +42,10 @@ next-env.d.ts
 
 # keep the template
 !.env.example
+
+# Shiksha.buzz study library
+/apps/shiksha/node_modules/
+/apps/shiksha/dist/
+/apps/shiksha/.astro/
+/apps/shiksha/.vite/
+!apps/shiksha/.env.example

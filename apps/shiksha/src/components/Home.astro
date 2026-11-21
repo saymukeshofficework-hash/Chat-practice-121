@@ -1,0 +1,65 @@
+---
+import { EXAM_DATE, EXAM_NAME } from 'astro:env/server';
+import { classPath, gradeName, grades, localPath, type Catalog, type Locale } from '../lib/catalog';
+import ChapterCard from './ChapterCard.astro';
+
+interface Props { catalog: Catalog; locale: Locale; }
+const { catalog, locale } = Astro.props;
+const hi = locale === 'hi';
+const chapters = catalog.chapters.filter((chapter) => chapter.locale === locale);
+const featured = ['polynomials', 'light', 'real-numbers', 'number-systems', 'matter-in-our-surroundings'].flatMap((slug) => chapters.filter((chapter) => chapter.slug === slug));
+const popular = (featured.length ? featured : chapters).slice(0, 3);
+const papers = catalog.papers.filter(({ resource }) => resource.locale === locale).slice(0, 3);
+const search = localPath(locale, '/search/');
+const validExam = EXAM_NAME && EXAM_DATE && /^\d{4}-\d{2}-\d{2}$/.test(EXAM_DATE) && Number.isFinite(Date.parse(EXAM_DATE)) && new Date(EXAM_DATE).toISOString().slice(0, 10) === EXAM_DATE;
+---
+<div class="wrap home">
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="hero-kicker"><span></span>{hi ? 'CBSE अध्ययन पुस्तकालय' : 'CBSE STUDY LIBRARY'}</div>
+      <h1>{hi ? <>समझकर पढ़ें।<br /><em>अभ्यास से सीखें।</em></> : <>Study a little.<br /><em>Understand a lot.</em></>}</h1>
+      <p>{hi ? 'गणित और विज्ञान के अध्याय पढ़ें, हल किए हुए उदाहरण देखें और अपनी तैयारी जाँचें।' : 'Clear explanations, worked examples and quick tests for CBSE Maths and Science.'}</p>
+      <form class="hero-search" action={search} role="search">
+        <label class="sr-only" for="home-search">{hi ? 'अध्याय खोजें' : 'Search for a chapter'}</label>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.2"/><path d="m15 15 5 5"/></svg>
+        <input id="home-search" name="q" type="search" maxlength="120" placeholder={hi ? 'जैसे बहुपद या प्रकाश' : 'Try “Polynomials” or “Light”'} required />
+        <button type="submit">{hi ? 'खोजें' : 'Search'}</button>
+      </form>
+      <a class="resume" href={search} data-resume hidden>{hi ? 'आगे पढ़ें' : 'Continue where you left off'}</a>
+    </div>
+    <div class="study-visual" aria-hidden="true">
+      <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+      <span class="visual-dot dot-one"></span><span class="visual-dot dot-two"></span>
+      <span class="visual-plus">+</span>
+      <div class="visual-sheet sheet-back"></div>
+      <div class="visual-sheet sheet-front">
+        <div class="sheet-label">{hi ? 'गणित' : 'MATHS'} <span>01</span></div>
+        <div class="sheet-formula">y = x² − 4</div>
+        <svg viewBox="0 0 220 120" fill="none" width="220" height="120">
+          <path d="M15 24h190m-190 24h190m-190 24h190m-190 24h190M38 10v102m36-102v102m36-102v102m36-102v102m36-102v102" stroke="#e2e4fb" />
+          <path d="M15 69h191M110 10v102" stroke="#9ca1d4" stroke-width="1.5" />
+          <path d="M46 -24Q110 248 174 -24" stroke="#5950cb" stroke-width="4" stroke-linecap="round" />
+          <circle cx="74" cy="69" r="4" fill="#df9a21"/><circle cx="146" cy="69" r="4" fill="#df9a21"/>
+        </svg>
+      </div>
+      <div class="visual-check">✓</div>
+    </div>
+  </section>
+
+  <section class="home-classes" aria-labelledby="class-heading">
+    <h2 id="class-heading">{hi ? 'अपनी कक्षा चुनें' : 'Choose your class'}</h2>
+    <div class="class-chips">{grades.map((grade) => <a class:list={['class-chip', { available: chapters.some((chapter) => chapter.grade === grade) }]} href={classPath(grade, locale)}>{gradeName(grade, locale)}</a>)}</div>
+  </section>
+  {popular.length > 0 && <section class="home-section" aria-labelledby="popular-heading">
+    <div class="section-top"><h2 id="popular-heading">{hi ? 'चुनिंदा अध्याय' : 'Start with these chapters'}</h2>{popular.some(({ overview }) => overview.entry.data.status === 'sample') && <span class="tag sample-tag">{hi ? 'नमूने शामिल हैं' : 'Includes sample lessons'}</span>}</div>
+    <div class="chapter-grid">{popular.map((chapter) => <ChapterCard {chapter} />)}</div>
+  </section>}
+  {(validExam || papers.length > 0) && <section class="home-section extras" aria-label={hi ? 'परीक्षा की तैयारी' : 'Exam preparation'}>
+    {papers.length > 0 && <div class="panel"><h2>{hi ? 'नए नमूना प्रश्नपत्र' : 'Latest sample papers'}</h2><ul class="plain-list">{papers.map(({ resource }) => <li><a href={resource.path}>{resource.entry.data.title} ↗</a></li>)}</ul></div>}
+    {validExam && <div class="panel" data-exam-date={EXAM_DATE}><h2>{EXAM_NAME}</h2><time datetime={EXAM_DATE}>{new Intl.DateTimeFormat(locale === 'hi' ? 'hi-IN' : 'en-IN', { dateStyle: 'medium', timeZone: 'Asia/Kolkata' }).format(new Date(EXAM_DATE))}</time><p data-days></p></div>}
+  </section>}
+  <section class="trust panel">
+    <div><h2>{hi ? 'पाठों की जाँच कैसे होती है' : 'How lessons are checked'}</h2><p>{hi ? 'प्रकाशन से पहले विषय लेखक और एक अलग समीक्षक हर हल को पाठ्यक्रम से मिलाते हैं।' : 'A subject writer solves each problem, and a second reviewer checks the solution against the current syllabus before publication.'}</p></div>
+    {chapters.every(({ overview }) => overview.entry.data.status === 'sample') && <span class="tag sample-tag">{hi ? 'अभी नमूने उपलब्ध हैं' : 'Preview content'}</span>}
+  </section>
+</div>

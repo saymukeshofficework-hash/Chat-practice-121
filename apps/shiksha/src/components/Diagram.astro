@@ -1,0 +1,19 @@
+---
+const { hi } = Astro.props;
+---
+<figure class="diagram">
+  <svg viewBox="0 0 440 220" role="img" aria-label={hi ? 'समतल दर्पण पर किरणों का परावर्तन' : 'An incident and reflected ray make equal angles from the normal of a plane mirror.'}>
+    <defs>
+      <marker id="ray-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="currentColor" /></marker>
+    </defs>
+    <path d="M45 165H395M65 165l-11 17m40-17-11 17m40-17-11 17m40-17-11 17m40-17-11 17m40-17-11 17m40-17-11 17m40-17-11 17m40-17-11 17m40-17-11 17m40-17-11 17" fill="none" stroke="currentColor" stroke-width="2" />
+    <path d="M220 165V29" stroke="currentColor" stroke-dasharray="6 5" />
+    <path d="M103 48l65 65 52 52m0 0 52-52 65-65" fill="none" stroke="currentColor" stroke-width="3" marker-mid="url(#ray-arrow)" />
+    <path d="M185 130a50 50 0 0 1 35-15 50 50 0 0 1 35 15" stroke="currentColor" fill="none" />
+    <g fill="currentColor" font-size="14" text-anchor="middle">
+      <text x="223" y="20">{hi ? 'अभिलंब' : 'Normal'}</text><text x="107" y="39">{hi ? 'आपतित किरण' : 'Incident ray'}</text><text x="337" y="39">{hi ? 'परावर्तित किरण' : 'Reflected ray'}</text>
+      <text x="200" y="111">i</text><text x="240" y="111">r</text><text x="220" y="207">{hi ? 'समतल दर्पण' : 'Plane mirror'}</text>
+    </g>
+  </svg>
+  <figcaption>{hi ? 'आपतन कोण और परावर्तन कोण बराबर होते हैं।' : 'Measure both angles from the normal. The diagram shows i = r.'}</figcaption>
+</figure>

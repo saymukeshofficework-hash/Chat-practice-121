@@ -1,0 +1,16 @@
+---
+import { gradeName, subjectName, type Chapter } from '../lib/catalog';
+interface Props { chapter: Chapter; }
+const { chapter } = Astro.props;
+const hi = chapter.locale === 'hi';
+const maths = chapter.subject === 'maths';
+---
+<a class="chapter-card" href={chapter.path}>
+  <span class:list={['subject-icon', maths ? 'math-icon' : 'science-icon']} aria-hidden="true">
+    {maths ? <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 19 12 5l8 14H4Zm4-6 3 2 5-5"/></svg> : <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6m-5 0v6l-5 8a1.5 1.5 0 0 0 1.3 2h11.4A1.5 1.5 0 0 0 19 18l-5-8V4M8 15h8"/><path d="M10 17h.01m4 1h.01"/></svg>}
+  </span>
+  <span class="card-meta">{gradeName(chapter.grade, chapter.locale)} · {subjectName(chapter.subject, chapter.locale)}</span>
+  <strong>{chapter.overview.entry.data.title}</strong>
+  <span class="card-desc">{chapter.overview.entry.data.description}</span>
+  <span class="card-end">{hi ? 'अध्याय खोलें' : 'Open chapter'} <span aria-hidden="true">↗</span><span class="completed" hidden data-progress={chapter.path}>{hi ? 'अभ्यास पूरा' : 'Practice complete'}</span></span>
+</a>

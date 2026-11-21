@@ -1,0 +1,165 @@
+---
+import { render } from 'astro:content';
+import Layout from '../components/Layout.astro';
+import Home from '../components/Home.astro';
+import Search from '../components/Search.astro';
+import Quiz from '../components/Quiz.astro';
+import Diagram from '../components/Diagram.astro';
+import ChapterCard from '../components/ChapterCard.astro';
+import { classPath, enginePath, gradeName, localPath, settings, subjectName, subjectsFor, testPath, type Catalog } from '../lib/catalog';
+import { getPages, twinFor, type Page } from '../lib/routes';
+
+export async function getStaticPaths() {
+  const { pages, catalog } = await getPages();
+  return pages.map((page) => ({
+    params: { slug: page.path.slice(1, -1) || undefined },
+    props: { page, catalog, twin: twinFor(page, pages) },
+  }));
+}
+
+interface Props { page: Page; catalog: Catalog; twin?: Page; }
+const { page, catalog, twin } = Astro.props;
+const { locale } = page;
+const hi = locale === 'hi';
+const chapter = 'chapter' in page ? page.chapter : undefined;
+const resource = 'resource' in page ? page.resource : undefined;
+const allChapters = catalog.chapters.filter((item) => item.locale === locale);
+const siblings = chapter ? allChapters.filter((item) => item.grade === chapter.grade && item.subject === chapter.subject) : [];
+const classChapters = 'grade' in page ? allChapters.filter((item) => item.grade === page.grade) : [];
+const subjectChapters = 'subject' in page ? classChapters.filter((item) => item.subject === page.subject) : [];
+const classPapers = 'grade' in page ? catalog.papers.filter((item) => item.grade === page.grade && item.resource.locale === locale && (!('subject' in page) || item.subject === page.subject)).map(({ resource: paper }) => paper) : [];
+const classSubjects = page.type === 'class' ? subjectsFor(catalog, page.grade, locale) : [];
+const examples = chapter?.resources.filter(({ kind }) => kind === 'exercise') ?? [];
+const notes = chapter?.resources.find(({ kind }) => kind === 'notes');
+const mcq = chapter?.resources.find(({ kind }) => kind === 'mcq');
+const important = chapter?.resources.find(({ kind }) => kind === 'important-questions');
+const test = chapter && testPath(chapter);
+const practiceHref = mcq && page.path !== mcq.path ? mcq.path : page.type !== 'test' ? test : chapter?.path;
+const relatedChapters = siblings.filter((item) => item.path !== chapter?.path);
+const chapterIndex = chapter ? siblings.indexOf(chapter) : -1;
+const nextChapter = siblings[chapterIndex + 1];
+const previousChapter = siblings[chapterIndex - 1];
+const exerciseIndex = resource ? examples.indexOf(resource) : -1;
+const previousExercise = exerciseIndex > 0 ? examples[exerciseIndex - 1] : undefined;
+const nextExercise = exerciseIndex >= 0 ? examples[exerciseIndex + 1] : undefined;
+const { Content, headings = [] } = resource && resource.kind !== 'mcq' ? await render(resource.entry) : {};
+const minutes = resource ? Math.max(1, Math.ceil(resource.entry.body?.split(/\s+/).length / 180 || 1)) : 1;
+const chapterTitle = chapter?.overview.entry.data.title;
+const review = resource?.entry.data.status === 'reviewed' ? resource.entry.data.review : undefined;
+const localSample = page.type === 'test' || resource?.entry.data.status === 'sample';
+const hubSample = (page.type === 'class' || page.type === 'subject') && !page.index;
+const search = localPath(locale, '/search/');
+const absolute = (path: string) => new URL(path, Astro.site).href;
+const fullTest = subjectChapters.find((item) => enginePath(item));
+const tabs = chapter ? [
+  { label: hi ? 'हल' : 'Solutions', href: examples[0]?.path, active: resource?.kind === 'exercise' },
+  { label: hi ? 'नोट्स' : 'Notes', href: notes?.path, active: page.path === notes?.path },
+  { label: hi ? 'बहुविकल्पीय प्रश्न' : 'MCQs', href: mcq?.path, active: page.path === mcq?.path },
+  { label: hi ? 'महत्त्वपूर्ण प्रश्न' : 'Important questions', href: important?.path, active: page.path === important?.path },
+  { label: hi ? 'परीक्षा' : 'Chapter test', href: test, active: page.path === test },
+].filter(({ href }) => href) : [];
+const linkedSchema = page.type === 'home'
+  ? { '@context': 'https://schema.org', '@graph': [
+    { '@type': 'Organization', name: 'Shiksha.buzz', url: absolute('/'), logo: absolute('/mark.svg') },
+    { '@type': 'WebSite', name: 'Shiksha.buzz', url: absolute('/'), potentialAction: { '@type': 'SearchAction', target: absolute(search) + '?q={search_term_string}', 'query-input': 'required name=search_term_string' } },
+  ] }
+  : page.index && resource?.kind === 'notes'
+    ? { '@context': 'https://schema.org', '@type': 'LearningResource', name: page.title, url: absolute(page.path), learningResourceType: 'Notes', inLanguage: locale }
+    : page.index && resource?.kind === 'mcq' && chapter
+      ? { '@context': 'https://schema.org', '@type': 'Quiz', name: page.title, hasPart: chapter.questions.practice.map((item) => ({ '@type': 'Question', name: item.prompt, acceptedAnswer: { '@type': 'Answer', text: item.choices[item.correct] } })) }
+      : undefined;
+---
+<Layout {page} {twin} schema={linkedSchema} {practiceHref}>
+  {page.type === 'home' && <Home {catalog} {locale} />}
+  {page.type === 'search' && <Search {locale} />}
+  {page.type === 'profile' && <section class="wrap reading section-page">
+    <header class="page-heading"><h1>{page.profile.name}</h1><p>{page.profile.role}</p></header>
+    <article class="prose"><p>{page.profile.biography}</p><h2>Teaching credentials</h2><ul>{page.profile.credentials.map((credential) => <li>{credential}</li>)}</ul></article>
+  </section>}
+  {page.type === 'offline' && <section class="wrap reading section-page"><h1>{page.title}</h1><p>{page.description}</p><a class="button" href={localPath(locale, '/')}>{hi ? 'होम पर लौटें' : 'Back to home'}</a></section>}
+
+  {(page.type === 'class' || page.type === 'subject') && <div class="wrap section-page">
+    <header class="page-heading">
+      <div class="eyebrow">{hi ? 'CBSE पाठ्यक्रम' : 'CBSE STUDY LIBRARY'}</div>
+      <h1>{page.title}</h1><p>{page.description}</p>
+    </header>
+    {page.type === 'class' && classSubjects.length > 0 && <section class="subject-grid" aria-label={hi ? 'विषय' : 'Subjects'}>
+      {classSubjects.map((subject) => <a class="subject-card" href={`${classPath(page.grade, locale)}${subject}/`}><strong>{subjectName(subject, locale)}</strong><span>{classChapters.filter((item) => item.subject === subject).length} {hi ? 'अध्याय' : 'chapters'} <span aria-hidden="true">↗</span></span></a>)}
+    </section>}
+    {page.type === 'subject' && subjectChapters.length > 0 && <section class="chapter-grid" aria-label={hi ? 'अध्याय' : 'Chapters'}>{subjectChapters.map((item) => <ChapterCard chapter={item} />)}</section>}
+    {!classChapters.length && !classPapers.length && <div class="panel"><p>{hi ? 'इस कक्षा के पाठ अभी उपलब्ध नहीं हैं।' : 'Lessons for this class are in preparation.'}</p><a href={classPath(10, locale)}>{hi ? 'कक्षा 10 देखें' : 'Browse Class 10'} ↗</a></div>}
+    <div class="syllabus panel"><h2>{hi ? 'पाठ्यक्रम' : 'Syllabus'}</h2><p>{settings.session} · <a href={settings.curriculum}>{hi ? 'आधिकारिक CBSE पाठ्यक्रम' : 'Official CBSE curriculum'} ↗</a></p>{hubSample && <span class="tag sample-tag">{hi ? 'समीक्षा लंबित' : 'Syllabus review pending'}</span>}</div>
+    {classPapers.length > 0 && <section class="panel"><h2>{hi ? 'प्रश्नपत्र' : 'Sample and previous-year papers'}</h2><ul class="plain-list">{classPapers.map((paper) => <li><a href={paper.path}>{paper.entry.data.title} ↗</a></li>)}</ul></section>}
+    {settings.series && fullTest && <a class="button" href={settings.series}>{hi ? 'पूर्ण पाठ्यक्रम परीक्षा' : 'Full-syllabus tests'} →</a>}
+  </div>}
+
+  {(page.type === 'chapter' || page.type === 'resource' || page.type === 'paper' || page.type === 'test') && <div class:list={['wrap', 'reading', 'section-page', 'lesson-page', { 'answer-first': resource?.kind === 'exercise' }]} data-lesson={page.type === 'test' ? undefined : chapterTitle}>
+    <header class="page-heading">
+      {page.type !== 'test' && chapter && <div class="eyebrow">{gradeName(chapter.grade, locale)} · {subjectName(chapter.subject, locale)} · {hi ? 'अध्याय' : 'Chapter'} {chapter.number}</div>}
+      <h1 data-pagefind-meta="title">{page.title}</h1>
+      {review && <p class="meta">
+        {hi ? 'लेखक' : 'Written by'} {review.writerProfile ? <a href={`/people/${review.writerProfile}/`}>{review.writer}</a> : review.writer} ·
+        {hi ? 'समीक्षक' : 'Reviewed by'} {review.reviewerProfile ? <a href={`/people/${review.reviewerProfile}/`}>{review.reviewer}</a> : review.reviewer} ·
+        {hi ? 'अंतिम जाँच' : 'Last checked'} <time datetime={review.checkedOn}>{review.checkedOn}</time> · <a href={review.source}>{review.session} {hi ? 'पाठ्यक्रम' : 'syllabus'}</a>
+      </p>}
+      {localSample && <div class="sample-line"><span class="tag sample-tag">{hi ? 'नमूना' : 'Sample'}</span><span>{page.type === 'test' ? (hi ? 'परीक्षा का प्रदर्शन' : 'Timed test demo') : (hi ? 'मूल नमूना सामग्री · समीक्षा लंबित' : 'Original demo content · review pending')}</span></div>}
+      {resource?.kind !== 'exercise' && <p class="intro">{page.description}</p>}
+    </header>
+
+    {chapter && page.type !== 'test' && tabs.length > 0 && <nav class="resource-tabs" aria-label={hi ? 'अध्ययन सामग्री' : 'Chapter resources'} data-pagefind-ignore>
+      {tabs.map(({ href, label, active }) => <a href={href} aria-current={active ? 'page' : undefined}>{label}</a>)}
+    </nav>}
+
+    {resource?.kind === 'exercise' && examples.length > 1 && <nav class="exercise-chips" aria-label={hi ? 'अभ्यास बदलें' : 'Choose an exercise'}>
+      {examples.map((item) => <a class="tag" href={item.path} aria-current={item.path === page.path ? 'page' : undefined}>{hi ? 'अभ्यास' : 'Exercise'} {item.slug.replace('exercise-', '').replaceAll('-', '.')}</a>)}
+    </nav>}
+
+    {resource?.kind === 'notes' && headings.length > 0 && <nav class="panel toc" aria-label={hi ? 'विषय सूची' : 'Table of contents'}>
+      <h2>{hi ? 'इस पृष्ठ पर' : 'On this page'}</h2>
+      <p class="meta">{minutes} {hi ? 'मिनट में पढ़ें' : 'min read'}</p>
+      <ol>{headings.filter(({ depth }) => depth === 2).map(({ slug, text }) => <li><a href={`#${slug}`}>{text}</a></li>)}</ol>
+    </nav>}
+
+    {Content && <article class:list={['prose', { worked: ['exercise', 'important-questions', 'sample-papers', 'pyq'].includes(resource?.kind ?? '') }]}><Content />{resource?.entry.data.diagram === 'light-reflection' && <Diagram {hi} />}</article>}
+
+    {page.type === 'chapter' && examples.length > 0 && <section class="panel"><h2>{hi ? 'अभ्यास के हल' : 'Worked exercises'}</h2><ul class="plain-list">
+      {examples.map((item) => <li><a href={item.path}>{item.entry.data.title} ↗</a></li>)}
+    </ul></section>}
+
+    {(previousExercise || nextExercise) && <nav class="direction-links" aria-label={hi ? 'अन्य अभ्यास' : 'Other exercises'}>
+      {previousExercise && <a href={previousExercise.path}>← {hi ? 'पिछला अभ्यास' : 'Previous exercise'}</a>}
+      {nextExercise && <a href={nextExercise.path}>{hi ? 'अगला अभ्यास' : 'Next exercise'} →</a>}
+    </nav>}
+
+    {chapter && (resource?.kind === 'mcq' || resource?.kind === 'exercise') && <section class="practice-section">
+      {resource.kind === 'exercise' && <h2>{hi ? 'पाँच सवालों की छोटी जाँच' : '5-question quick check'}</h2>}
+      <Quiz {hi} chapterPath={chapter.path} questions={resource.kind === 'exercise' ? chapter.questions.practice.slice(0, 5) : chapter.questions.practice} />
+    </section>}
+
+    {resource?.kind === 'notes' && <div class="action-row">
+      {settings.signup ? <a class="secondary button" href={settings.signup}>{hi ? 'प्रिंट करने के लिए साइन अप करें' : 'Sign up for printable access'}</a> : <a class="secondary button" href="#main" data-print>{hi ? 'नोट्स प्रिंट करें' : 'Print or save notes as PDF'}</a>}
+      {mcq && <a href={mcq.path}>{hi ? 'बहुविकल्पीय प्रश्न हल करें' : 'Try the MCQs'} →</a>}
+    </div>}
+
+    {page.type === 'chapter' && relatedChapters.length > 0 && <nav class="panel" aria-label={hi ? 'संबंधित अध्याय' : 'Related chapters'}>
+      <h2>{hi ? 'संबंधित अध्याय' : 'Related chapters'}</h2><ul class="plain-list">{relatedChapters.map((item) => <li><a href={item.path}>{item.overview.entry.data.title} ↗</a></li>)}</ul>
+      <div class="direction-links">{previousChapter && <a href={previousChapter.path}>← {hi ? 'पिछला अध्याय' : 'Previous chapter'}</a>}{nextChapter && <a href={nextChapter.path}>{hi ? 'अगला अध्याय' : 'Next chapter'} →</a>}</div>
+    </nav>}
+
+    {chapter && page.type === 'test' && <>
+      {enginePath(chapter) && <div class="panel"><a class="button" href={enginePath(chapter)}>{hi ? 'TETTESTHUB पर परीक्षा दें' : 'Take the test on TETTESTHUB'} ↗</a></div>}
+      <Quiz {hi} chapterPath={chapter.path} questions={chapter.questions.timed} minutes={chapter.questions.minutes} />
+      <div class="action-row">{settings.signup && <a class="button secondary" href={settings.signup}>{hi ? 'प्रगति सहेजने के लिए साइन अप करें' : 'Sign up to save progress'} ↗</a>}{settings.series && <a href={settings.series}>{hi ? 'भुगतान वाली टेस्ट सीरीज़' : 'Explore the paid test series'} ↗</a>}</div>
+    </>}
+
+    {chapter && test && page.type !== 'test' && <section class="next-panel" data-pagefind-ignore>
+      <div><h2>{hi ? 'अपनी तैयारी जाँचें' : 'Ready for a timed check?'}</h2><p>{hi ? 'अध्याय की नमूना परीक्षा हल करें।' : 'Try the sample chapter test and review your answers.'}</p></div>
+      <a class="button" href={test}>{hi ? 'परीक्षा दें' : 'Take chapter test'} →</a>
+    </section>}
+    {page.type === 'paper' && <section class="next-panel"><h2>{hi ? 'इसके बाद अभ्यास करें' : 'Continue with a timed test'}</h2>{subjectChapters[0] ? <a class="button" href={testPath(subjectChapters[0])}>{hi ? 'अध्याय परीक्षा' : 'Take a chapter test'} →</a> : settings.series && <a class="button" href={settings.series}>{hi ? 'परीक्षा देखें' : 'Browse tests'} →</a>}</section>}
+  </div>}
+  <aside class="analytics" data-analytics hidden>
+    <p>{hi ? 'क्या आप उपयोग आँकड़े साझा करना चाहते हैं?' : 'Share optional usage analytics?'}</p>
+    <button type="button" data-analytics-yes>{hi ? 'अनुमति दें' : 'Allow'}</button><button type="button" data-analytics-no>{hi ? 'अभी नहीं' : 'Decline'}</button>
+  </aside>
+</Layout>

@@ -1,0 +1,103 @@
+{
+  "practice": [
+    {
+      "id": "p-1",
+      "prompt": "What is a zero of x − 7?",
+      "choices": [
+        "−7",
+        "0",
+        "7",
+        "1"
+      ],
+      "correct": 2,
+      "explanation": "At x = 7, the value 7 − 7 equals zero."
+    },
+    {
+      "id": "p-2",
+      "prompt": "What is the degree of 3x³ − 2x + 5?",
+      "choices": [
+        "1",
+        "2",
+        "3",
+        "5"
+      ],
+      "correct": 2,
+      "explanation": "The highest nonzero power is 3."
+    },
+    {
+      "id": "p-3",
+      "prompt": "Which pair are the zeroes of x² − 9?",
+      "choices": [
+        "3 and −3",
+        "9 and −9",
+        "3 and 0",
+        "−9 and 0"
+      ],
+      "correct": 0,
+      "explanation": "x² − 9 factors into (x − 3)(x + 3)."
+    },
+    {
+      "id": "p-4",
+      "prompt": "What is the sum of the zeroes of x² − 6x + 8?",
+      "choices": [
+        "−6",
+        "6",
+        "8",
+        "−8"
+      ],
+      "correct": 1,
+      "explanation": "The sum is −b/a = −(−6)/1 = 6."
+    },
+    {
+      "id": "p-5",
+      "prompt": "What is the product of the zeroes of 2x² + 3x − 5?",
+      "choices": [
+        "5/2",
+        "3/2",
+        "−3/2",
+        "−5/2"
+      ],
+      "correct": 3,
+      "explanation": "The product is c/a = −5/2."
+    }
+  ],
+  "timed": [
+    {
+      "id": "t-1",
+      "prompt": "Which polynomial has 3 and −2 as its zeroes?",
+      "choices": [
+        "x² + x − 6",
+        "x² − x − 6",
+        "x² − 5x + 6",
+        "x² + 5x + 6"
+      ],
+      "correct": 1,
+      "explanation": "(x − 3)(x + 2) expands to x² − x − 6."
+    },
+    {
+      "id": "t-2",
+      "prompt": "If 2 is a zero of x² + kx − 8, what is k?",
+      "choices": [
+        "−2",
+        "1",
+        "2",
+        "4"
+      ],
+      "correct": 2,
+      "explanation": "4 + 2k − 8 = 0, so 2k = 4."
+    },
+    {
+      "id": "t-3",
+      "prompt": "What is the product of the zeroes of 4x² − x − 3?",
+      "choices": [
+        "3/4",
+        "−3/4",
+        "1/4",
+        "−1/4"
+      ],
+      "correct": 1,
+      "explanation": "Divide the constant term −3 by the leading coefficient 4."
+    }
+  ],
+  "minutes": 3
+}

@@ -1,0 +1,79 @@
+{
+  "practice": [
+    {
+      "id": "p-1",
+      "prompt": "What is the HCF of 12 and 18?",
+      "choices": [
+        "2",
+        "3",
+        "6",
+        "12"
+      ],
+      "correct": 2,
+      "explanation": "Both have factors 2 and 3, whose product is 6."
+    },
+    {
+      "id": "p-2",
+      "prompt": "Which is prime?",
+      "choices": [
+        "21",
+        "25",
+        "29",
+        "39"
+      ],
+      "correct": 2,
+      "explanation": "29 has no divisors between 2 and its square root."
+    },
+    {
+      "id": "p-3",
+      "prompt": "What is the LCM of 4 and 6?",
+      "choices": [
+        "2",
+        "10",
+        "12",
+        "24"
+      ],
+      "correct": 2,
+      "explanation": "12 is the first positive multiple shared by both numbers."
+    },
+    {
+      "id": "p-4",
+      "prompt": "Which is irrational?",
+      "choices": [
+        "3/5",
+        "√2",
+        "0.25",
+        "−2"
+      ],
+      "correct": 1,
+      "explanation": "The square root of 2 cannot be written as a ratio of integers."
+    },
+    {
+      "id": "p-5",
+      "prompt": "How many distinct prime factors does 30 have?",
+      "choices": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct": 2,
+      "explanation": "30 = 2 × 3 × 5."
+    }
+  ],
+  "timed": [
+    {
+      "id": "t-1",
+      "prompt": "What is the HCF of 24 and 40?",
+      "choices": [
+        "4",
+        "6",
+        "8",
+        "12"
+      ],
+      "correct": 2,
+      "explanation": "24 = 8 × 3 and 40 = 8 × 5, with 3 and 5 coprime."
+    }
+  ],
+  "minutes": 3
+}

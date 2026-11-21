@@ -1,0 +1,85 @@
+---
+import 'katex/dist/katex.min.css';
+import '@fontsource/noto-sans-devanagari/devanagari-400.css';
+import '../styles/site.css';
+import { SEARCH_CONSOLE_VERIFICATION } from 'astro:env/server';
+import { classPath, localPath, settings } from '../lib/catalog';
+import type { Page } from '../lib/routes';
+
+interface Props { page: Page; twin?: Page; schema?: object; practiceHref?: string; }
+const { page, twin, schema, practiceHref } = Astro.props;
+const hi = page.locale === 'hi';
+const url = (path: string) => new URL(path, Astro.site).href;
+const classLabel = page.type === 'resource' || page.type === 'chapter' ? (hi ? `कक्षा ${page.grade}` : `Class ${page.grade}`) : '';
+const title = page.type === 'home'
+  ? (hi ? 'Shiksha.buzz | CBSE अध्ययन पुस्तकालय' : 'Shiksha.buzz | CBSE Maths & Science study library')
+  : [page.title, classLabel, 'Shiksha.buzz'].filter(Boolean).join(' | ');
+const search = localPath(page.locale, '/search/');
+const crumbSchema = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: page.crumbs.map((crumb, index) => ({ '@type': 'ListItem', position: index + 1, name: crumb.label, item: url(crumb.path) })) };
+const jsonLd = JSON.stringify(schema ? [crumbSchema, schema] : crumbSchema).replace(/</g, '\\u003c');
+const alternateLanguage = hi ? 'English' : 'हिन्दी';
+---
+<!doctype html>
+<html lang={page.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={page.description} data-pagefind-meta="description[content]" />
+    <meta name="theme-color" content="#f6f7fb" />
+    {!page.index && <meta name="robots" content="noindex, follow" />}
+    {SEARCH_CONSOLE_VERIFICATION && <meta name="google-site-verification" content={SEARCH_CONSOLE_VERIFICATION} />}
+    <title>{title}</title>
+    <link rel="canonical" href={url(page.path)} />
+    {page.index && twin?.index && <link rel="alternate" hreflang={page.locale} href={url(page.path)} />}
+    {page.index && twin?.index && <link rel="alternate" hreflang={twin.locale} href={url(twin.path)} />}
+    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/study.webmanifest" />
+    <script type="application/ld+json" is:inline set:html={jsonLd}></script>
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem('shiksha-theme');
+        const large = localStorage.getItem('shiksha-large') === 'true';
+        if (theme) document.documentElement.dataset.theme = theme;
+        if (large) document.documentElement.dataset.large = 'true';
+      } catch {}
+    </script>
+  </head>
+  <body data-page={page.type} data-report-email={settings.reportEmail}>
+    <a class="skip" href="#main">{hi ? 'मुख्य सामग्री पर जाएँ' : 'Skip to content'}</a>
+    <header class="top">
+      <div class="wrap top-inner">
+        <a class="brand" href={localPath(page.locale, '/')}><img src="/mark.svg" width="36" height="36" alt="" /><span>shiksha<span class="brand-dot">.buzz</span></span></a>
+        <nav class="top-nav" aria-label={hi ? 'मुख्य नेविगेशन' : 'Main navigation'}>
+          <a href={classPath(10, page.locale)}>{hi ? 'कक्षा 10' : 'Class 10'}</a>
+          <a href={classPath(9, page.locale)}>{hi ? 'कक्षा 9' : 'Class 9'}</a>
+          <a href={search}>{hi ? 'खोजें' : 'Search'}</a>
+        </nav>
+        <div class="preferences">
+          {twin && <a class="icon-button language" lang={twin.locale} href={twin.path}>{alternateLanguage}</a>}
+          <button type="button" class="icon-button" data-theme-toggle aria-label={hi ? 'डार्क मोड' : 'Dark mode'} aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20.8 15.2a8.7 8.7 0 0 1-12-12A8.7 8.7 0 1 0 20.8 15.2Z"/></svg></button>
+          <button type="button" class="icon-button" data-size-toggle aria-label={hi ? 'बड़ा फ़ॉन्ट' : 'Larger text'} aria-pressed="false">Aa</button>
+        </div>
+      </div>
+    </header>
+    {page.crumbs.length > 1 && <nav class:list={['wrap', 'breadcrumbs', { 'compact-crumbs': page.type === 'resource' }]} aria-label={hi ? 'पृष्ठ पथ' : 'Breadcrumb'} data-pagefind-ignore>
+      <ol>{page.crumbs.map((crumb, i) => <li>{i === page.crumbs.length - 1 ? <span aria-current="page">{crumb.label}</span> : <a href={crumb.path}>{crumb.label}</a>}</li>)}</ol>
+    </nav>}
+    <main id="main" tabindex="-1" data-pagefind-body={page.offline && page.type !== 'offline' ? true : undefined}>
+      <slot />
+    </main>
+    <footer class="footer" data-pagefind-ignore>
+      <div class="wrap footer-inner">
+        <a class="brand" href={localPath(page.locale, '/')}><img src="/mark.svg" width="27" height="27" alt="" /><span>shiksha<span class="brand-dot">.buzz</span></span></a>
+        <a href={settings.curriculum}>{hi ? 'CBSE पाठ्यक्रम' : 'CBSE curriculum'} ↗</a>
+        <span>{hi ? 'अध्ययन पुस्तकालय' : 'CBSE study library'}</span>
+      </div>
+    </footer>
+    <nav class="mobile-bar" aria-label={hi ? 'त्वरित लिंक' : 'Quick actions'}>
+      <a href={practiceHref ?? `${classPath(10, page.locale)}`}>{practiceHref ? (hi ? 'अध्याय का अभ्यास' : 'Practice this chapter') : (hi ? 'कक्षा 10 पढ़ें' : 'Study Class 10')}</a>
+      <a href={search}>{hi ? 'खोजें' : 'Search'}</a>
+    </nav>
+    <script>
+      import '../lib/browser';
+    </script>
+  </body>
+</html>
