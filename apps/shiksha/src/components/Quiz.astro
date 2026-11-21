@@ -1,0 +1,126 @@
+---
+import type { Question } from '../lib/catalog';
+interface Props { questions: Question[]; hi: boolean; chapterPath: string; minutes?: number; }
+const { questions, hi, chapterPath, minutes } = Astro.props;
+const timed = minutes !== undefined;
+const labels = hi ? {
+  correct: 'सही उत्तर', wrong: 'गलत उत्तर', unanswered: 'उत्तर नहीं दिया', score: 'स्कोर', answered: 'उत्तर दिए', submitted: 'परीक्षा पूरी हुई', expired: 'समय समाप्त', finish: 'परीक्षा जमा करें'
+} : {
+  correct: 'Correct', wrong: 'Incorrect', unanswered: 'Unanswered', score: 'Score', answered: 'Answered', submitted: 'Test submitted', expired: 'Time is up', finish: 'Submit test'
+};
+---
+<study-quiz data-minutes={minutes} data-chapter={chapterPath} data-labels={JSON.stringify(labels)}>
+  {timed && <div class="test-controls">
+    <p>{minutes} {hi ? 'मिनट' : 'minutes'} · {questions.length} {hi ? 'प्रश्न' : 'questions'}</p>
+    <button class="button" type="button" data-start>{hi ? 'परीक्षा शुरू करें' : 'Start timed test'} <span aria-hidden="true">→</span></button>
+  </div>}
+  <noscript><p>{hi ? 'अभ्यास के लिए JavaScript चालू करें।' : 'Enable JavaScript for scoring and timed tests.'}</p></noscript>
+  <div class="scoreboard" data-scoreboard hidden={timed}>
+    <div><span data-score aria-live="polite">{labels.score} 0 / {questions.length}</span><progress value="0" max={questions.length} aria-label={labels.answered}></progress></div>
+    {timed && <span data-clock role="timer" aria-label={hi ? 'बचा समय' : 'Time remaining'}></span>}
+  </div>
+  <form hidden={timed}>
+    {questions.map((question, index) => <fieldset class="question" data-report-question={question.prompt} data-correct={question.correct} id={question.id}>
+      <legend><h3><span class="question-number">{String(index + 1).padStart(2, '0')}</span>{question.prompt}</h3></legend>
+      <div class="choices">
+        {question.choices.map((choice, choiceIndex) => <label class="choice"><input type="radio" name={question.id} value={choiceIndex} /><span>{choice}</span></label>)}
+      </div>
+      <div class="feedback" data-feedback hidden aria-live="polite"><strong data-verdict></strong><p>{question.explanation}</p></div>
+    </fieldset>)}
+    {timed && <button class="button" type="submit">{labels.finish}</button>}
+  </form>
+</study-quiz>
+<script>
+  class StudyQuiz extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      this.dataset.ready = 'true';
+      const form = this.querySelector('form');
+      const fields = [...this.querySelectorAll<HTMLFieldSetElement>('fieldset')];
+      const score = this.querySelector<HTMLElement>('[data-score]');
+      const progress = this.querySelector('progress');
+      const scoreboard = this.querySelector<HTMLElement>('[data-scoreboard]');
+      const timer = this.querySelector<HTMLElement>('[data-clock]');
+      const start = this.querySelector<HTMLButtonElement>('[data-start]');
+      const messages = JSON.parse(this.dataset.labels ?? '{}');
+      const minutes = Number(this.dataset.minutes);
+      const timed = Number.isFinite(minutes) && minutes > 0;
+      if (!form || !score || !progress || !scoreboard) return;
+      let deadline = 0;
+      let interval: number | undefined;
+      let submitted = false;
+
+      const selected = (field: HTMLFieldSetElement) => field.querySelector<HTMLInputElement>('input:checked');
+      const correct = (field: HTMLFieldSetElement) => selected(field)?.value === field.dataset.correct;
+      const answered = () => fields.filter(selected).length;
+      const storeProgress = () => {
+        try { localStorage.setItem(`shiksha-complete:${this.dataset.chapter}`, 'true'); } catch {}
+      };
+      const updateProgress = () => {
+        progress.value = answered();
+        score.textContent = timed
+          ? `${messages.answered} ${answered()} / ${fields.length}`
+          : `${messages.score} ${fields.filter(correct).length} / ${fields.length}`;
+      };
+      const reveal = (field: HTMLFieldSetElement) => {
+        field.disabled = true;
+        const answer = selected(field);
+        for (const input of field.querySelectorAll('input')) {
+          if (input.value === field.dataset.correct) input.closest('label')?.classList.add('right');
+          else if (input.checked) input.closest('label')?.classList.add('wrong');
+        }
+        const verdict = field.querySelector('[data-verdict]');
+        if (verdict) verdict.textContent = !answer ? messages.unanswered : correct(field) ? messages.correct : messages.wrong;
+        const feedback = field.querySelector<HTMLElement>('[data-feedback]');
+        if (feedback) feedback.hidden = false;
+      };
+      const finish = (expired: boolean) => {
+        if (submitted) return;
+        submitted = true;
+        if (interval !== undefined) window.clearInterval(interval);
+        fields.forEach(reveal);
+        const submit = form.querySelector<HTMLButtonElement>('button[type=submit]');
+        if (submit) submit.disabled = true;
+        score.textContent = `${expired ? messages.expired : messages.submitted} · ${messages.score} ${fields.filter(correct).length} / ${fields.length}`;
+        score.tabIndex = -1;
+        score.focus();
+        storeProgress();
+      };
+      const tick = () => {
+        const seconds = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+        if (timer) timer.textContent = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+        if (seconds === 0) finish(true);
+      };
+
+      form.addEventListener('change', (event) => {
+        const input = event.target;
+        if (!(input instanceof HTMLInputElement) || submitted) return;
+        if (timed && deadline && Date.now() >= deadline) {
+          input.checked = false;
+          finish(true);
+          return;
+        }
+        const field = input.closest('fieldset');
+        if (!timed && field) reveal(field);
+        updateProgress();
+        if (!timed && answered() === fields.length) storeProgress();
+      });
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (timed && deadline) finish(Date.now() >= deadline);
+      });
+      start?.addEventListener('click', () => {
+        deadline = Date.now() + minutes * 60_000;
+        const controls = start.closest<HTMLElement>('.test-controls');
+        if (controls) controls.hidden = true;
+        scoreboard.hidden = false;
+        form.hidden = false;
+        updateProgress();
+        fields[0]?.querySelector('input')?.focus();
+        interval = window.setInterval(tick, 250);
+        tick();
+      }, { once: true });
+    }
+  }
+  if (!customElements.get('study-quiz')) customElements.define('study-quiz', StudyQuiz);
+</script>

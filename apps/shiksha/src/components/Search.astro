@@ -1,0 +1,72 @@
+---
+import { localPath, type Locale } from '../lib/catalog';
+const { locale } = Astro.props as { locale: Locale };
+const hi = locale === 'hi';
+---
+<section class="wrap reading section-page" data-search data-locale={locale} data-empty={hi ? 'कोई परिणाम नहीं मिला।' : 'No matching lessons found.'} data-failed={hi ? 'खोज अभी उपलब्ध नहीं है।' : 'Search is available on the built site. Browse classes from the home page.'}>
+  <h1>{hi ? 'अध्ययन पुस्तकालय में खोजें' : 'Search the study library'}</h1>
+  <form class="standalone-search" action={localPath(locale, '/search/')} role="search">
+    <label class="sr-only" for="library-query">{hi ? 'खोज शब्द' : 'Search terms'}</label>
+    <input id="library-query" name="q" type="search" placeholder={hi ? 'अध्याय या विषय' : 'Chapter or topic'} maxlength="120" required />
+    <button type="submit" class="button">{hi ? 'खोजें' : 'Search'}</button>
+  </form>
+  <noscript><p>{hi ? 'खोज के लिए JavaScript चालू करें।' : 'Enable JavaScript to search. Class and chapter links work without it.'}</p></noscript>
+  <p data-search-status role="status"></p>
+  <ul class="search-results" data-results></ul>
+</section>
+<script>
+  const section = document.querySelector<HTMLElement>('[data-search]');
+  const form = section?.querySelector('form');
+  const input = form?.querySelector('input');
+  const status = section?.querySelector('[data-search-status]');
+  const results = section?.querySelector('[data-results]');
+  const address = '/pagefind/pagefind.js';
+  type Hit = { data: () => Promise<{ url: string; excerpt: string; meta: { title?: string; description?: string } }> };
+  let index: Promise<{ search: (query: string) => Promise<{ results: Hit[] }> }> | undefined;
+  let revision = 0;
+
+  async function run(query: string) {
+    if (!section || !status || !results) return;
+    const request = ++revision;
+    status.textContent = '';
+    results.replaceChildren();
+    if (!query.trim()) return;
+    try {
+      index ??= import(/* @vite-ignore */ address).then(async (pagefind) => {
+        await pagefind.options({ language: section.dataset.locale });
+        await pagefind.init();
+        return pagefind;
+      }).catch((error) => { index = undefined; throw error; });
+      const pagefind = await index;
+      const hits = await pagefind.search(query);
+      const entries = await Promise.all(hits.results.slice(0, 20).map((hit) => hit.data()));
+      if (request !== revision) return;
+      for (const entry of entries) {
+        const path = new URL(entry.url, location.href);
+        if (path.origin !== location.origin) continue;
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = path.href;
+        link.textContent = entry.meta.title ?? path.pathname;
+        const excerpt = document.createElement('p');
+        excerpt.textContent = entry.meta.description || new DOMParser().parseFromString(entry.excerpt, 'text/html').body.textContent;
+        item.append(link, excerpt);
+        results.append(item);
+      }
+      if (!results.children.length) status.textContent = section.dataset.empty ?? '';
+    } catch {
+      if (request === revision) status.textContent = section.dataset.failed ?? '';
+    }
+  }
+
+  if (input) {
+    input.value = (new URLSearchParams(location.search).get('q') ?? '').slice(0, 120);
+    void run(input.value);
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const params = new URLSearchParams({ q: input.value.trim() });
+      history.replaceState(null, '', `?${params}`);
+      void run(input.value);
+    });
+  }
+</script>

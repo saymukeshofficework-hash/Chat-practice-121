@@ -1,0 +1,79 @@
+{
+  "practice": [
+    {
+      "id": "p-1",
+      "prompt": "Where is the angle of incidence measured from?",
+      "choices": [
+        "Mirror surface",
+        "The normal",
+        "Reflected ray",
+        "The horizontal"
+      ],
+      "correct": 1,
+      "explanation": "The normal is perpendicular to the surface."
+    },
+    {
+      "id": "p-2",
+      "prompt": "An incidence angle of 25° produces which reflection angle?",
+      "choices": [
+        "0°",
+        "25°",
+        "50°",
+        "65°"
+      ],
+      "correct": 1,
+      "explanation": "The law of reflection gives equal angles."
+    },
+    {
+      "id": "p-3",
+      "prompt": "What does light typically do as it enters glass from air at an angle?",
+      "choices": [
+        "Bends toward the normal",
+        "Bends away from the normal",
+        "Stops",
+        "Reverses along its path"
+      ],
+      "correct": 0,
+      "explanation": "Light slows on entering glass and bends toward the normal."
+    },
+    {
+      "id": "p-4",
+      "prompt": "Which image does a plane mirror form?",
+      "choices": [
+        "Real and upside-down",
+        "Virtual and upright",
+        "Real and enlarged",
+        "Virtual and upside-down"
+      ],
+      "correct": 1,
+      "explanation": "Reflected rays appear to originate behind the mirror."
+    },
+    {
+      "id": "p-5",
+      "prompt": "Which unit describes the power of a lens?",
+      "choices": [
+        "Watt",
+        "Metre",
+        "Dioptre",
+        "Pascal"
+      ],
+      "correct": 2,
+      "explanation": "Lens power is measured in dioptres."
+    }
+  ],
+  "timed": [
+    {
+      "id": "t-1",
+      "prompt": "A ray makes 20° with a mirror surface. What is its reflection angle?",
+      "choices": [
+        "20°",
+        "40°",
+        "70°",
+        "90°"
+      ],
+      "correct": 2,
+      "explanation": "The normal is perpendicular to the mirror, so the incidence and reflection angles are 70°."
+    }
+  ],
+  "minutes": 3
+}

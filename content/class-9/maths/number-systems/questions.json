@@ -1,0 +1,79 @@
+{
+  "practice": [
+    {
+      "id": "p-1",
+      "prompt": "Which is rational?",
+      "choices": [
+        "√2",
+        "√3",
+        "7/9",
+        "π"
+      ],
+      "correct": 2,
+      "explanation": "7/9 is a ratio of two integers."
+    },
+    {
+      "id": "p-2",
+      "prompt": "Which is irrational?",
+      "choices": [
+        "√5",
+        "0.4",
+        "−5",
+        "1/6"
+      ],
+      "correct": 0,
+      "explanation": "5 is not a perfect square."
+    },
+    {
+      "id": "p-3",
+      "prompt": "Which decimal expansion is rational?",
+      "choices": [
+        "Non-repeating and infinite",
+        "Repeating and infinite",
+        "All infinite expansions are irrational",
+        "Only whole numbers"
+      ],
+      "correct": 1,
+      "explanation": "A repeating decimal can be written as a fraction."
+    },
+    {
+      "id": "p-4",
+      "prompt": "What is √49?",
+      "choices": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correct": 2,
+      "explanation": "7 × 7 = 49."
+    },
+    {
+      "id": "p-5",
+      "prompt": "Which number lies between 1/4 and 3/4?",
+      "choices": [
+        "1/2",
+        "1",
+        "0",
+        "4/5"
+      ],
+      "correct": 0,
+      "explanation": "1/2 = 2/4."
+    }
+  ],
+  "timed": [
+    {
+      "id": "t-1",
+      "prompt": "Which fraction equals 0.375?",
+      "choices": [
+        "3/5",
+        "3/8",
+        "5/8",
+        "1/3"
+      ],
+      "correct": 1,
+      "explanation": "375/1000 simplifies to 3/8."
+    }
+  ],
+  "minutes": 3
+}

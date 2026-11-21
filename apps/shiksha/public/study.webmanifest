@@ -1,0 +1,11 @@
+{
+  "id": "/",
+  "name": "Shiksha.buzz Study Library",
+  "short_name": "Shiksha.buzz",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#1b216a",
+  "background_color": "#f6f7fb",
+  "icons": [{ "src": "/mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
